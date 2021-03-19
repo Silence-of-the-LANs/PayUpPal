@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const PORT = process.env.PORT || 1000;
+const PORT = process.env.PORT || 4000;
 const app = express();
 
 // logging middleware
