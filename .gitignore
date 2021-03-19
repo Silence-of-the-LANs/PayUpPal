@@ -4,4 +4,4 @@ public/bundle.js
 public/bundle.js.map
 .DS_Store
 npm-debug.log
-google-secrets.json
+google-vision-keys.json
