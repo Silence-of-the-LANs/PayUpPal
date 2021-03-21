@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import bootstrap from 'bootstrap';
+// import * as FormData from 'form-data';
 
 const TommyPractice = (props) => {
   const [file, setFile] = useState('');
@@ -11,17 +13,14 @@ const TommyPractice = (props) => {
   };
   const onClick = async (e) => {
     e.preventDefault();
+    console.log('e.target', e.target);
     const formData = new FormData();
     formData.append('file', file);
     console.log(file);
     console.log(formData);
     try {
-      const res = await axios.post('/api/testGoogle', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setUploaded(res.data);
+      const res = await axios.post('/api/testGoogle', formData);
+      // setUploaded(res.data);
     } catch (err) {
       console.log(err);
     }
