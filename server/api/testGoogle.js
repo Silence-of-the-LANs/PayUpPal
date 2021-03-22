@@ -11,7 +11,6 @@ const { AWS_BUCKET_NAME } =
 
 // Creates a client
 
-console.log(GOOGLE_CONFIDENTIAL_KEY || 'not found');
 const client = new vision.ImageAnnotatorClient({
   keyFilename:
     './google-vision-keys.json' ||
