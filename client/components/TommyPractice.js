@@ -8,8 +8,12 @@ const TommyPractice = (props) => {
   const [fileName, setFilename] = useState('Choose File');
   const [uploadedFile, setUploadedFile] = useState([]);
   const onChange = (e) => {
+    console.log('e.target', e.target);
+    console.log('e.target.files', e.target.files);
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
+    // console.log('File state', e.target.files[0];
+    // console.log('FileName', fileName);
   };
   const onClick = async (e) => {
     e.preventDefault();
@@ -19,8 +23,9 @@ const TommyPractice = (props) => {
     console.log(file);
     console.log(formData);
     try {
-      const res = await axios.post('/api/testGoogle', formData);
-      // setUploaded(res.data);
+      const res = await axios.post('/api/testGoogle/test', formData);
+      // const res = await axios.get('/api/testGoogle/test');
+      setUploadedFile(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -28,12 +33,13 @@ const TommyPractice = (props) => {
   return (
     <div>
       <h4>React Hooks Uploader</h4>
-      <div className='input-group mb-3'>
+      <form className='input-group mb-3'>
         <input
           type='file'
           className='form-control'
           id='inputGroupFile02'
           onChange={onChange}
+          name='file'
         />
         <button
           type='submit'
@@ -43,7 +49,7 @@ const TommyPractice = (props) => {
         >
           Upload
         </button>
-      </div>
+      </form>
       {uploadedFile &&
         uploadedFile.map((text) => {
           return <p>{text}</p>;
