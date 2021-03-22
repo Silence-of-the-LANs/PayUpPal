@@ -3,7 +3,11 @@ const vision = require('@google-cloud/vision');
 // const { Storage } = require('@google-cloud/storage');
 const multer = require('multer');
 const AWS = require('aws-sdk');
-const { AWS_ID, AWS_SECRET, AWS_BUCKET_NAME } = require('../../secrets');
+// const { AWS_ID, AWS_SECRET, AWS_BUCKET_NAME } = require('../../secrets');
+const { AWS_ID } = require('../../secrets') || process.env.AWS_ID;
+const { AWS_SECRET } = require('../../secrets') || process.env.AWS_SECRET;
+const { AWS_BUCKET_NAME } =
+  require('../../secrets') || process.env.AWS_BUCKET_NAME;
 
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
@@ -70,7 +74,6 @@ const textSameLine = (text, targetLine) => {
 router.post('/test', upload, async (req, res, next) => {
   try {
     // ex: req.file.original name -> receipt1.jpg || splits fileName into arr
-    console.log('req.file', req.file);
     let file = req.file.originalname.split('.');
     // fileType = jpg
     const fileType = file[file.length - 1];
