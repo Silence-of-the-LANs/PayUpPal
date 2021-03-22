@@ -3,14 +3,9 @@ const vision = require('@google-cloud/vision');
 // const { Storage } = require('@google-cloud/storage');
 const multer = require('multer');
 const AWS = require('aws-sdk');
-// const { AWS_ID, AWS_SECRET, AWS_BUCKET_NAME } = require('../../secrets');
-const { AWS_ID } = require('../../secrets') || process.env.AWS_ID;
-const { AWS_SECRET } = require('../../secrets') || process.env.AWS_SECRET;
-const { AWS_BUCKET_NAME } =
-  require('../../secrets') || process.env.AWS_BUCKET_NAME;
+const { AWS_ID, AWS_SECRET, AWS_BUCKET_NAME } = require('../../secrets');
 
 // Creates a client
-
 const client = new vision.ImageAnnotatorClient({
   keyFilename:
     './google-vision-keys.json' ||
@@ -18,8 +13,8 @@ const client = new vision.ImageAnnotatorClient({
 });
 
 const s3 = new AWS.S3({
-  accessKeyId: AWS_ID,
-  secretAccessKey: AWS_SECRET,
+  accessKeyId: process.env.AWS_ID || AWS_ID,
+  secretAccessKey: process.env.AWS_SECRET || AWS_SECRET,
 });
 
 const storage = multer.memoryStorage({
@@ -43,7 +38,7 @@ router.post('/', upload, async (req, res, next) => {
     const fileName = file[0];
     // params for S3 upload, need ACL to be 'public-read' to make URL public
     const params = {
-      Bucket: AWS_BUCKET_NAME,
+      Bucket: process.env.AWS_BUCKET_NAME || AWS_BUCKET_NAME,
       Key: fileName + `.${fileType}`,
       Body: req.file.buffer,
       ContentType: req.file.mimetype,
