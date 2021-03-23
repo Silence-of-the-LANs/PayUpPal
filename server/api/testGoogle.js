@@ -5,24 +5,30 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const { checkIfItem } = require('./helperFunctions');
 
-let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
+let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME, GOOGLE_KEY;
 
 if (process.env.NODE_ENV !== 'production') {
   const awsObject = require('../../secrets');
+  const googleJSON = require('../../google-vision-keys.json');
   AWS_ID = awsObject.AWS_ID;
   AWS_SECRET = awsObject.AWS_SECRET;
   AWS_BUCKET_NAME = awsObject.AWS_BUCKET_NAME;
+  GOOGLE_KEY = googleJSON;
 } else {
   AWS_ID = process.env.AWS_ID;
   AWS_SECRET = process.env.AWS_SECRET;
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+  GOOGLE_KEY = JSON.parse(process.env.GOOGLE_CONFIDENTIAL_KEY);
 }
 
 // Creates a client
+// const client = new vision.ImageAnnotatorClient({
+//   keyFilename:
+//     './google-vision-keys.json' ||
+//     JSON.parse(process.env.GOOGLE_CONFIDENTIAL_KEY),
+// });
 const client = new vision.ImageAnnotatorClient({
-  keyFilename:
-    './google-vision-keys.json' ||
-    JSON.parse(process.env.GOOGLE_CONFIDENTIAL_KEY),
+  keyFilename: GOOGLE_KEY,
 });
 
 const s3 = new AWS.S3({
