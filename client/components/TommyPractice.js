@@ -50,9 +50,18 @@ const TommyPractice = (props) => {
           Upload
         </button>
       </form>
-      {uploadedFile &&
-        uploadedFile.map((text) => {
-          return <p>{text}</p>;
+      {uploadedFile.items &&
+        uploadedFile.items.map((text) => {
+          return (
+            <div>
+              <span>
+                <p>Quantity: {text.quantity}</p>
+                <p>Description: {text.description}</p>
+                <p>PricePerItem: {text.pricePerItem}</p>
+                <p>TotalPrice: {text.totalPrice}</p>
+              </span>
+            </div>
+          );
         })}
     </div>
   );
