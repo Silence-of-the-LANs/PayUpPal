@@ -38,8 +38,9 @@ if (process.env.NODE_ENV !== 'production') {
 // console.log(typeof GOOGLE_CONFIDENTIAL_KEY);
 // console.log(GOOGLE_CONFIDENTIAL_KEY);
 // Creates a client
+
 const client = new vision.ImageAnnotatorClient({
-  credentials: GOOG_KEY,
+  credentials: JSON.parse(GOOG_KEY),
 });
 
 const s3 = new AWS.S3({
