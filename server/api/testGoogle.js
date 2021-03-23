@@ -9,11 +9,11 @@ let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME, GOOGLE_KEY;
 
 if (process.env.NODE_ENV !== 'production') {
   const awsObject = require('../../secrets');
-  const googleJSON = require('../../google-vision-keys.json');
+  // const googleJSON = require('../../google-vision-keys.json');
   AWS_ID = awsObject.AWS_ID;
   AWS_SECRET = awsObject.AWS_SECRET;
   AWS_BUCKET_NAME = awsObject.AWS_BUCKET_NAME;
-  GOOGLE_KEY = googleJSON;
+  GOOGLE_KEY = './google-vision-keys.json';
 } else {
   AWS_ID = process.env.AWS_ID;
   AWS_SECRET = process.env.AWS_SECRET;
