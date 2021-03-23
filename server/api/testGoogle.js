@@ -35,7 +35,7 @@ console.log(GOOGLE_CONFIDENTIAL_KEY);
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
   keyFilename:
-    './google-vision-keys.json' || JSON.parse(GOOGLE_CONFIDENTIAL_KEY),
+    JSON.parse(GOOGLE_CONFIDENTIAL_KEY) || './google-vision-keys.json',
 });
 
 const s3 = new AWS.S3({
