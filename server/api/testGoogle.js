@@ -4,11 +4,19 @@ const vision = require('@google-cloud/vision');
 const multer = require('multer');
 const AWS = require('aws-sdk');
 const { checkIfItem } = require('./helperFunctions');
-// const { AWS_ID, AWS_SECRET, AWS_BUCKET_NAME } = require('../../secrets');
-const { AWS_ID } = require('../../secrets') || process.env.AWS_ID;
-const { AWS_SECRET } = require('../../secrets') || process.env.AWS_SECRET;
-const { AWS_BUCKET_NAME } =
-  require('../../secrets') || process.env.AWS_BUCKET_NAME;
+
+let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
+
+if (process.env.NODE_ENV !== 'production') {
+  const awsObject = require('../../secrets');
+  AWS_ID = awsObject.AWS_ID;
+  AWS_SECRET = awsObject.AWS_SECRET;
+  AWS_BUCKET_NAME = awsObject.AWS_BUCKET_NAME;
+} else {
+  AWS_ID = process.env.AWS_ID;
+  AWS_SECRET = process.env.AWS_SECRET;
+  AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+}
 
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
