@@ -16,8 +16,11 @@ if (process.env.NODE_ENV !== 'production') {
 } else {
   console.log('PRODUCTION BLOCK');
   AWS_ID = process.env.AWS_ID;
+  console.log(AWS_ID);
   AWS_SECRET = process.env.AWS_SECRET;
+  console.log(AWS_SECRET);
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+  console.log(AWS_BUCKET_NAME);
 }
 
 // Creates a client
