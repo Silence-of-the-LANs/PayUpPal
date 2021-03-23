@@ -23,11 +23,14 @@ if (process.env.NODE_ENV !== 'production') {
   console.log(AWS_BUCKET_NAME);
 }
 
+console.log('IM UPDATED');
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
-  keyFilename:
-    './google-vision-keys.json' ||
-    JSON.parse(process.env.GOOGLE_CONFIDENTIAL_KEY),
+  keyFilename: JSON.parse(
+    Buffer.from(process.env.GOOGLE_CONFIDENTIAL_KEY, 'base64').toString(
+      'ascii'
+    ) || './google-vision-keys.json'
+  ),
 });
 
 const s3 = new AWS.S3({
