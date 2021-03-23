@@ -19,16 +19,16 @@ if (process.env.NODE_ENV !== 'production') {
   AWS_SECRET = process.env.AWS_SECRET;
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
   GOOGLE_CONFIDENTIAL_KEY = {
-    type: process.env.TYPE,
-    project_id: process.env.PROJECT_ID,
-    private_key_id: process.env.PRIVATE_KEY_ID,
-    private_key: process.env.PRIVATE_KEY,
+    // type: process.env.TYPE,
+    // project_id: process.env.PROJECT_ID,
+    // private_key_id: process.env.PRIVATE_KEY_ID,
     client_email: process.env.CLIENT_EMAIL,
-    client_id: process.env.CLIENT_ID,
-    auth_uri: process.env.AUTH_URI,
-    token_uri: process.env.TOKEN_URI,
-    auth_provider_x509_cert_url: process.env.AUTH_PROVIDER,
-    client_x509_cert_url: process.env.CLIENT_CERT,
+    private_key: process.env.PRIVATE_KEY,
+    // client_id: process.env.CLIENT_ID,
+    // auth_uri: process.env.AUTH_URI,
+    // token_uri: process.env.TOKEN_URI,
+    // auth_provider_x509_cert_url: process.env.AUTH_PROVIDER,
+    // client_x509_cert_url: process.env.CLIENT_CERT,
   };
 }
 console.log(GOOGLE_CONFIDENTIAL_KEY);
