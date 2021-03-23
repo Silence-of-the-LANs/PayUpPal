@@ -6,7 +6,7 @@ const AWS = require('aws-sdk');
 const { checkIfItem } = require('./helperFunctions');
 
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
-let GOOGLE_CONFIDENTIAL_KEY = {};
+let credentials = {};
 
 if (process.env.NODE_ENV !== 'production') {
   const awsObject = require('../../secrets');
@@ -18,7 +18,8 @@ if (process.env.NODE_ENV !== 'production') {
   AWS_ID = process.env.AWS_ID;
   AWS_SECRET = process.env.AWS_SECRET;
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
-  GOOGLE_CONFIDENTIAL_KEY = {
+
+  credentials = {
     type: process.env.TYPE,
     project_id: process.env.PROJECT_ID,
     private_key_id: process.env.PRIVATE_KEY_ID,
@@ -31,11 +32,9 @@ if (process.env.NODE_ENV !== 'production') {
     client_x509_cert_url: process.env.CLIENT_CERT,
   };
 }
-console.log(GOOGLE_CONFIDENTIAL_KEY);
+console.log(credentials);
 // Creates a client
-const client = new vision.ImageAnnotatorClient({
-  keyFilename: GOOGLE_CONFIDENTIAL_KEY || './google-vision-keys.json',
-});
+const client = new vision.ImageAnnotatorClient(credentials);
 
 const s3 = new AWS.S3({
   accessKeyId: AWS_ID,
