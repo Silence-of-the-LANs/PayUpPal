@@ -6,9 +6,9 @@ const AWS = require('aws-sdk');
 const { checkIfItem } = require('./helperFunctions');
 
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
+let GOOGLE_CONFIDENTIAL_KEY = {};
 
 if (process.env.NODE_ENV !== 'production') {
-  console.log('NON-PROD BLOCK');
   const awsObject = require('../../secrets');
   AWS_ID = awsObject.AWS_ID;
   AWS_SECRET = awsObject.AWS_SECRET;
@@ -16,21 +16,26 @@ if (process.env.NODE_ENV !== 'production') {
 } else {
   console.log('PRODUCTION BLOCK');
   AWS_ID = process.env.AWS_ID;
-  console.log(AWS_ID);
   AWS_SECRET = process.env.AWS_SECRET;
-  console.log(AWS_SECRET);
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
-  console.log(AWS_BUCKET_NAME);
+  GOOGLE_CONFIDENTIAL_KEY = {
+    type: process.env.TYPE,
+    project_id: process.env.PROJECT_ID,
+    private_key_id: process.env.PRIVATE_KEY_ID,
+    private_key: process.env.PRIVATE_KEY,
+    client_email: process.env.CLIENT_EMAIL,
+    client_id: process.env.CLIENT_ID,
+    auth_uri: process.env.AUTH_URI,
+    token_uri: process.env.TOKEN_URI,
+    auth_provider_x509_cert_url: process.env.AUTH_PROVIDER,
+    client_x509_cert_url: process.env.CLIENT_CERT,
+  };
 }
-
-console.log('IM UPDATED');
+console.log(GOOGLE_CONFIDENTIAL_KEY);
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
-  keyFilename: JSON.parse(
-    Buffer.from(process.env.GOOGLE_CONFIDENTIAL_KEY, 'base64').toString(
-      'ascii'
-    ) || './google-vision-keys.json'
-  ),
+  keyFilename:
+    './google-vision-keys.json' || JSON.parse(GOOGLE_CONFIDENTIAL_KEY),
 });
 
 const s3 = new AWS.S3({
