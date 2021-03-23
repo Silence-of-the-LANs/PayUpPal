@@ -8,11 +8,13 @@ const { checkIfItem } = require('./helperFunctions');
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
 
 if (process.env.NODE_ENV !== 'production') {
+  console.log('NON-PROD BLOCK');
   const awsObject = require('../../secrets');
   AWS_ID = awsObject.AWS_ID;
   AWS_SECRET = awsObject.AWS_SECRET;
   AWS_BUCKET_NAME = awsObject.AWS_BUCKET_NAME;
 } else {
+  console.log('PRODUCTION BLOCK');
   AWS_ID = process.env.AWS_ID;
   AWS_SECRET = process.env.AWS_SECRET;
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
