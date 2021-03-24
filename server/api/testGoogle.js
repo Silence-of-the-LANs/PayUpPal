@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
   AWS_ID = awsObject.AWS_ID;
   AWS_SECRET = awsObject.AWS_SECRET;
   AWS_BUCKET_NAME = awsObject.AWS_BUCKET_NAME;
-  // GOOG_KEY = JSON.stringify('./google-vision-keys.json');
+  GOOG_KEY = JSON.stringify(require('../../google-vision-keys.json'));
 } else {
   console.log('PRODUCTION BLOCK');
   AWS_ID = process.env.AWS_ID;
@@ -39,18 +39,18 @@ if (process.env.NODE_ENV !== 'production') {
 // console.log(GOOGLE_CONFIDENTIAL_KEY);
 // Creates a client
 
-const checkCredentials = () => {
-  if (process.env.NODE_ENV !== 'production') {
-    return { keyFilename: './google-vision-keys.json' };
-  }
-  return { credentials: JSON.parse(GOOG_KEY) };
-};
+// const checkCredentials = () => {
+//   if (process.env.NODE_ENV !== 'production') {
+//     return { keyFilename: './google-vision-keys.json' };
+//   }
+//   return { credentials: JSON.parse(GOOG_KEY) };
+// };
 
 const client = new vision.ImageAnnotatorClient(
   // credentials: process.env.GOOG_KEY
   //   ? process.env.GOOG_KEY
   //   : './google-vision-keys.json',
-  checkCredentials()
+  { credentials: GOOG_KEY }
 );
 
 const s3 = new AWS.S3({
