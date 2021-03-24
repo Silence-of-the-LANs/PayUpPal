@@ -6,7 +6,6 @@ const AWS = require('aws-sdk');
 const { checkIfItem } = require('./helperFunctions');
 
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
-let GOOGLE_CONFIDENTIAL_KEY = {};
 let GOOG_KEY;
 
 if (process.env.NODE_ENV !== 'production') {
