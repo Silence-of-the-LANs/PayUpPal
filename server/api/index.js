@@ -19,6 +19,8 @@ const router = require('express').Router();
 // error-handling endware!
 
 router.use('/testGoogle', require('./testGoogle'));
+router.use('/friends', require('./friends'));
+router.use('/debts', require('./debts'));
 
 router.use((req, res, next) => {
   const err = new Error('API route not found!');
