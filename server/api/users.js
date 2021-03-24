@@ -16,7 +16,8 @@ router.get('/:userId', async (req, res, next) => {
 // api/users/
 router.post('/', async (req, res, next) => {
   try {
-    const user = await User.Create(req.body);
+    console.log(req.body);
+    const user = await User.create(req.body);
     res.json(user);
   } catch (err) {
     next(err);
