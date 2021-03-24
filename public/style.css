@@ -2,3 +2,8 @@
   color: white;
   background-color: rgb(73, 164, 248);
 }
+
+.paid {
+  text-decoration: line-through;
+  text-decoration-style: double;
+}
