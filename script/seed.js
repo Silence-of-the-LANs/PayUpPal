@@ -9,15 +9,29 @@ const seed = async () => {
 
     await db.sync({ force: true });
 
+    // populate friends into the database
     await Promise.all(
       listOfFriends.map((friend) => {
         return Friend.create(friend);
       })
     );
 
+    // populate debts into the databsae
     await Promise.all(
       listOfDebts.map((debt) => {
         return Debt.create(debt);
+      })
+    );
+
+    // randomize friend-debt associations
+    // randomize student-campus associations except for the last student returned from our database call
+    const allDebts = await Debt.findAll();
+
+    await Promise.all(
+      allDebts.map((debt) => {
+        return debt.setFriend(
+          Math.floor(Math.random() * listOfFriends.length + 1)
+        );
       })
     );
 
