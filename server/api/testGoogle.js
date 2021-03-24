@@ -20,7 +20,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Creates a client
 
-console.log(GOOGLE_CONFIDENTIAL_KEY || 'not found');
 const client = new vision.ImageAnnotatorClient({
   keyFilename:
     './google-vision-keys.json' ||
