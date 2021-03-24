@@ -23,7 +23,9 @@ router.post('/', async (req, res, next) => {
   }
 });
 
-router.put('/', async (req, res, next) => {
+// UPDATE single user
+// api/users/userId
+router.put('/:userId', async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const { userId } = req.params;
