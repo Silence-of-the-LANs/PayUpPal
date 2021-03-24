@@ -192,7 +192,7 @@ router.post('/test', upload, async (req, res, next) => {
       return joinLines;
     });
     const itemList = checkIfItem(textByLines);
-    res.send(textBounds);
+    res.send(itemList);
   } catch (err) {
     console.log(err);
   }
