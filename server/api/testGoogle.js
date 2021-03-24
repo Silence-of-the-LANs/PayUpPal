@@ -18,6 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
   AWS_BUCKET_NAME = process.env.AWS_BUCKET_NAME;
   GOOG_KEY = process.env.GOOG_KEY;
 }
+
 // Creates a client
 const client = new vision.ImageAnnotatorClient({
   credentials: JSON.parse(GOOG_KEY),
