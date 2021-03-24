@@ -9,6 +9,7 @@ Debt.belongsTo(Friend);
 Friend.hasMany(Debt);
 
 module.exports = {
+  User,
   Debt,
   Friend,
 };
