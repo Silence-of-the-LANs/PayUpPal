@@ -50,18 +50,20 @@ const TommyPractice = (props) => {
           Upload
         </button>
       </form>
-      {uploadedFile &&
-        uploadedFile.map((text) => {
+      {uploadedFile.items &&
+        uploadedFile.items.map((text) => {
           return (
             <div>
-              <p>description: {text.description}</p>
+              {/* <p>{text}</p> */}
+              {/* <p>description: {text.description}</p>
               <p>minX: {text.minX}</p>
               <p>minY: {text.minY}</p>
-              <p>maxY: {text.maxY}</p>
-              {/* <p>Quantity: {text.quantity}</p>
-                <p>Description: {text.description}</p>
-                <p>PricePerItem: {text.pricePerItem}</p>
-                <p>TotalPrice: {text.totalPrice}</p> */}
+              <p>maxY: {text.maxY}</p> */}
+              <p>
+                Quantity: {text.quantity} Description: {text.description}
+                <br /> PricePerItem: {text.pricePerItem} TotalPrice:{' '}
+                {text.totalPrice}
+              </p>
             </div>
           );
         })}
