@@ -16,7 +16,6 @@ router.get('/:userId', async (req, res, next) => {
 // api/users/
 router.post('/', async (req, res, next) => {
   try {
-    console.log(req.body);
     const user = await User.create(req.body);
     res.json(user);
   } catch (err) {
@@ -28,16 +27,18 @@ router.post('/', async (req, res, next) => {
 // api/users/userId
 router.put('/:userId', async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, paypalLink } = req.body;
     const { userId } = req.params;
-
+    console.log(`User ID: ${userId} Email: ${email}`);
+    console.log(req.body);
     const salt = User.generateSalt();
     const hashedPw = User.encryptPassword(password, salt);
 
     await User.update(
-      { email, salt, password: hashedPw },
+      { email, salt, paypalLink, password: hashedPw },
       { where: { id: userId } }
     );
+
     res.status(204).end();
   } catch (err) {
     next(err);
