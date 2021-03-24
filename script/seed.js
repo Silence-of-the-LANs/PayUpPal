@@ -24,7 +24,6 @@ const seed = async () => {
     );
 
     // randomize friend-debt associations
-    // randomize student-campus associations except for the last student returned from our database call
     const allDebts = await Debt.findAll();
 
     await Promise.all(
