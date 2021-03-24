@@ -5,6 +5,7 @@ const db = require('../db');
 const User = db.define('user', {
   email: {
     type: Sequelize.STRING,
+    allowNull: false,
     validate: {
       isEmail: true,
     },
@@ -27,6 +28,12 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING,
+  },
+  paypalLink: {
+    type: Sequelize.TEXT,
+    validate: {
+      isUrl: true,
+    },
   },
 });
 
