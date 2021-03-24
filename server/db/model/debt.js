@@ -9,7 +9,6 @@ const Debt = db.define('debt', {
   balance: {
     type: Sequelize.INTEGER,
     validate: {
-      allowNull: false,
       notEmpty: true,
     },
   },

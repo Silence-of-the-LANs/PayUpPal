@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const db = require('../db');
 
 const Friend = db.define('friends', {
-  alias: {
+  name: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
@@ -16,7 +16,7 @@ const Friend = db.define('friends', {
     },
   },
   phone: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.BIGINT,
     validate: {
       isInt: true,
       isNumeric: true,

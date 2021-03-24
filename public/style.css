@@ -1,9 +1,4 @@
-/* main {
-  width: 100vw !important;
-  height: 100vh !important;
-  background-color: yellow;
+.list-heading {
+  color: white;
+  background-color: rgb(73, 164, 248);
 }
-
-p {
-  background-color: orange;
-} */

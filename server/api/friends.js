@@ -2,9 +2,9 @@ const { Friend } = require('../db/model/index');
 const router = require('express').Router();
 
 // api/friends/displayFriends route
-router.post('/displayFriends', async (req, res, next) => {
+router.get('/displayFriends', async (req, res, next) => {
   try {
-    // const userId = req.session.user? ... need to fetch user.. are we going to use session to manage user sessions?
+    // const userId = req.session.user
 
     const friends = await Friend.findAll({
       where: {
@@ -24,7 +24,7 @@ router.post('/addFriend', async (req, res, next) => {
     const alias = req.body.alias;
     const email = req.body.email;
     const phone = req.body.phone;
-    // const userId = req.session.user? ... need to fetch user.. are we going to use session to manage user sessions?
+    // const userId = req.session.user
 
     const [createdFriend] = await Friend.findOrCreate({
       where: {
@@ -44,7 +44,7 @@ router.post('/addFriend', async (req, res, next) => {
 // api/friends/removeFriend/:friendId route
 router.delete('/removeFriend/:friendId', async (req, res, next) => {
   try {
-    // const userId = req.session.user? ... need to fetch user.. are we going to use session to manage user sessions?
+    // const userId = req.session.user
 
     const removedFriend = await Friend.destroy({
       where: {
