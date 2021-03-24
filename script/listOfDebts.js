@@ -25,6 +25,18 @@ const listOfDebts = [
     paid: false,
     balance: 876,
   },
+  {
+    paid: false,
+    balance: 1924,
+  },
+  {
+    paid: false,
+    balance: 2021,
+  },
+  {
+    paid: false,
+    balance: 3001,
+  },
 ];
 
 module.exports = listOfDebts;
