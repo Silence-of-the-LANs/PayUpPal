@@ -24,13 +24,6 @@ const client = new vision.ImageAnnotatorClient({
   credentials: JSON.parse(GOOG_KEY),
 });
 
-// const checkCredentials = () => {
-//   if (process.env.NODE_ENV !== 'production') {
-//     return { keyFilename: './google-vision-keys.json' };
-//   }
-//   return { credentials: JSON.parse(GOOG_KEY) };
-// };
-
 const s3 = new AWS.S3({
   accessKeyId: AWS_ID,
   secretAccessKey: AWS_SECRET,
@@ -170,7 +163,7 @@ router.post('/test', upload, async (req, res, next) => {
       return joinLines;
     });
     const itemList = checkIfItem(textByLines);
-    res.send(textBounds);
+    res.send(itemList);
   } catch (err) {
     console.log(err);
   }
