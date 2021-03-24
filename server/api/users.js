@@ -29,8 +29,6 @@ router.put('/:userId', async (req, res, next) => {
   try {
     const { email, password, paypalLink } = req.body;
     const { userId } = req.params;
-    console.log(`User ID: ${userId} Email: ${email}`);
-    console.log(req.body);
     const salt = User.generateSalt();
     const hashedPw = User.encryptPassword(password, salt);
 
