@@ -10,6 +10,7 @@ router.get('/displayFriends', async (req, res, next) => {
       where: {
         // userId: userId,
       },
+      order: [['name', 'asc']],
     });
 
     res.json(friends);
