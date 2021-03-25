@@ -57,9 +57,9 @@ router.post('/logout', (req, res) => {
 });
 
 router.get('/me', async (req, res) => {
-  const userId = req.user.id;
-  const loggedInUser = await User.findByPk(userId);
-  res.json(loggedInUser);
+  // Since passport attaches the session user to the request object, we can
+  // just respond with that to get the logged-in user
+  res.json(req.user);
 });
 
 module.exports = router;
