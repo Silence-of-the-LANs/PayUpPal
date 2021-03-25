@@ -42,3 +42,23 @@
 .friends-container {
   margin: 5vw;
 }
+
+.border {
+  border: solid 2px black;
+}
+/*
+       {debts.length > 0
+          ? debts.map((debt) => (
+              <div key={debt.id} className={debt.paid ? 'paid' : ''}>
+                {debt.friend.name} owes {debt.balance / 100}
+                <button>Send Reminder</button>
+                <button
+                  onClick={async () =>
+                    setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
+                  }
+                >
+                  Mark as Paid
+                </button>
+              </div>
+            ))
+          : 'Loading debts...'} */
