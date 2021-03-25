@@ -49,4 +49,17 @@ router.post('/signup', async (req, res, next) => {
   }
 });
 
+router.post('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  // This will redirect the user to the home page after logging out
+  res.redirect('/');
+});
+
+router.get('/me', async (req, res) => {
+  const userId = req.user.id;
+  const loggedInUser = await User.findByPk(userId);
+  res.json(loggedInUser);
+});
+
 module.exports = router;
