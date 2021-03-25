@@ -38,37 +38,6 @@ const storage = multer.memoryStorage({
 // file is referenced in our upload component. <form name='image'>
 const upload = multer({ storage }).single('file');
 
-// api/testGoogle
-router.post('/', upload, async (req, res, next) => {
-  try {
-    // ex: req.file.original name -> receipt1.jpg || splits fileName into arr
-
-    let file = req.file.originalname.split('.');
-    // fileType = jpg
-    const fileType = file[file.length - 1];
-    // fileName = receipt1
-    const fileName = file[0];
-    // params for S3 upload, need ACL to be 'public-read' to make URL public
-    const params = {
-      Bucket: AWS_BUCKET_NAME,
-      Key: fileName + `.${fileType}`,
-      Body: req.file.buffer,
-      ContentType: req.file.mimetype,
-      ACL: 'public-read',
-    };
-    // uploads the image onto S3 bucket
-    const data = await s3.upload(params).promise();
-    const arr = [];
-    const [result] = await client.textDetection(data.Location);
-    const detections = result.textAnnotations;
-    detections.forEach((text) => arr.push(text));
-    const newArr = arr[0].description.split('\n');
-    res.send(newArr);
-  } catch (err) {
-    next(err);
-  }
-});
-
 const textSameLine = (text, targetLine) => {
   if (
     Math.abs(text.minY - targetLine.minY < 10) ||
@@ -79,7 +48,8 @@ const textSameLine = (text, targetLine) => {
   return false;
 };
 
-router.post('/test', upload, async (req, res, next) => {
+// api/testGoogle
+router.post('/', upload, async (req, res, next) => {
   try {
     // ex: req.file.original name -> receipt1.jpg || splits fileName into arr
     let file = req.file.originalname.split('.');
@@ -163,6 +133,7 @@ router.post('/test', upload, async (req, res, next) => {
       return joinLines;
     });
     const itemList = checkIfItem(textByLines);
+    console.log(itemList);
     res.send(itemList);
   } catch (err) {
     console.log(err);

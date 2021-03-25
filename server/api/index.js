@@ -18,7 +18,7 @@ const router = require('express').Router();
 // middleware will generate a 404, and send it to your
 // error-handling endware!
 
-router.use('/testGoogle', require('./testGoogle'));
+router.use('/receipts', require('./receipts'));
 router.use('/friends', require('./friends'));
 router.use('/debts', require('./debts'));
 

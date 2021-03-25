@@ -52,7 +52,15 @@ const convertToArrObj = (itemArr) => {
   });
 
   const filterItemArr = itemArr.filter((line) => {
-    if (/tax/i.test(line) || /total/i.test(line) || /%/.test(line)) {
+    if (
+      /tax/i.test(line) ||
+      /total/i.test(line) ||
+      /%/i.test(line) ||
+      /description/i.test(line) ||
+      /food/i.test(line) ||
+      /visa/i.test(line) ||
+      /change/i.test(line)
+    ) {
       return false;
     } else {
       return true;
@@ -89,7 +97,13 @@ const convertToArrObj = (itemArr) => {
     }
     return obj;
   });
-  const includeAll = { items: newItemArrObj, miscItems };
+  const filterEmptyValues = newItemArrObj.filter((item) => {
+    if (item.description && item.totalPrice) {
+      return true;
+    }
+    return false;
+  });
+  const includeAll = { items: filterEmptyValues, miscItems };
   return includeAll;
 };
 

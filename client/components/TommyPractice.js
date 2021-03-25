@@ -17,17 +17,16 @@ const TommyPractice = (props) => {
   };
   const onClick = async (e) => {
     e.preventDefault();
-    console.log('e.target', e.target);
-    const formData = new FormData();
-    formData.append('file', file);
-    console.log(file);
-    console.log(formData);
-    try {
-      const res = await axios.post('/api/testGoogle/test', formData);
-      // const res = await axios.get('/api/testGoogle/test');
-      setUploadedFile(res.data);
-    } catch (err) {
-      console.log(err);
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const res = await axios.post('/api/receipts', formData);
+        // const res = await axios.get('/api/testGoogle/test');
+        setUploadedFile(res.data);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   return (
@@ -65,6 +64,14 @@ const TommyPractice = (props) => {
                 {text.totalPrice}
               </p>
             </div>
+          );
+        })}
+      {uploadedFile.miscItems &&
+        Object.keys(uploadedFile.miscItems).map((item) => {
+          return (
+            <p>
+              {item} {uploadedFile.miscItems[item]}
+            </p>
           );
         })}
     </div>
