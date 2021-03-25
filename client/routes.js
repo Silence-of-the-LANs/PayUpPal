@@ -16,9 +16,9 @@ const Routes = () => {
       <Route path='/viewfriends' component={ViewFriends} />
       <Route exact path='/scanreceipt' component={ScanReceipt} />
       <Route exact path='/editreceipt' component={EditReceipt} />
-      <Route path='/' component={TommyPractice} />
       <Route path='/managefriends' component={ManageFriends} />
       <Route path='/viewdebts' component={ViewDebts} />
+      <Route path='/' component={TommyPractice} />
     </Switch>
   );
 };

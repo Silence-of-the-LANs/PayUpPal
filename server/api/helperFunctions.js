@@ -59,7 +59,8 @@ const convertToArrObj = (itemArr) => {
       /description/i.test(line) ||
       /food/i.test(line) ||
       /visa/i.test(line) ||
-      /change/i.test(line)
+      /change/i.test(line) ||
+      /cash/i.test(line)
     ) {
       return false;
     } else {
