@@ -63,12 +63,12 @@ const ViewDebts = () => {
           return (
             <div className='border'>
               <p>
-                {borrower.friendName} - {calcTotalOwed(debtsOwedByFriend)}
+                {borrower.friendName} - ${calcTotalOwed(debtsOwedByFriend)}
               </p>
               {debtsOwedByFriend.map((debt) => (
                 <div>
                   <p className={debt.paid ? 'paid' : ''}>
-                    {debt.id} - {debt.balance}
+                    {debt.id} - ${debt.balance}
                   </p>
                   <button>Send Reminder</button>
                   <button
