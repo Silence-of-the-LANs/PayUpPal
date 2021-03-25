@@ -4,11 +4,35 @@ const session = require('express-session');
 // of just saving it to memory in the server. This allows us to maintain the
 // session information even if the server is re-deployed or restarted
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const passport = require('passport');
 const db = require('./db');
 const sessionStore = new SequelizeStore({ db });
 const path = require('path');
 const PORT = process.env.PORT || 4000;
 const app = express();
+
+// This serializes the user (converts the information provided to a format
+// that can be added to the session object). In this case we are only
+// serializing the user ID
+// This is only done once per session
+passport.serializeUser((user, done) => {
+  try {
+    done(null, user.id);
+  } catch (err) {
+    done(err);
+  }
+});
+
+// Any time we want to access the information, we need to deserialize it to
+// conver the serialized information back to a more readable form
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await db.model.user.findByPk(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
 
 // logging middleware
 // Only use logging middleware when not running tests
@@ -41,6 +65,13 @@ app.use(
     store: sessionStore,
   })
 );
+
+// These next two calls must come after app.use(session()) to ensure that the
+// login is restored in the correct order
+// Initializes the passport
+app.use(passport.initialize());
+// Session() alters the req object to reflect the user
+app.use(passport.session());
 
 app.use('/api', require('./api')); // include our routes!
 
