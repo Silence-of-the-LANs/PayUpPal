@@ -3,7 +3,6 @@
   background-color: rgb(73, 164, 248);
 }
 
-
 .MuiGrid-spacing-xs-8 {
   margin: 0px auto 5px auto;
   width: 100%;
@@ -29,6 +28,7 @@
 
 .item-header {
   display: table-header-group;
+}
 
 .paid {
   text-decoration: line-through;
@@ -41,5 +41,4 @@
 
 .friends-container {
   margin: 5vw;
-
 }

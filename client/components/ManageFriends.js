@@ -7,6 +7,7 @@ const removeFriend = async (friendId) => {
   const { data } = await axios.delete(`api/friends/removeFriend/${friendId}`);
   return data;
 };
+
 const ManageFriends = () => {
   const [friends, setFriends] = useState([]);
 
@@ -18,6 +19,7 @@ const ManageFriends = () => {
 
     fetchFriends();
   }, []);
+  console.log('friendlist: ', friends);
 
   return (
     <div className='friends-wrapper'>
@@ -33,7 +35,7 @@ const ManageFriends = () => {
           </div>
         ))}
       </div>
-      <AddFriend />
+      <AddFriend currentFriends={friends} addToFriends={setFriends} />
     </div>
   );
 };
