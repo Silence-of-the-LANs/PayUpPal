@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import bootstrap from 'bootstrap';
 import axios from 'axios';
-// show friends from /api/friends/displayFriends route
 
 const ViewFriends = () => {
   const [friends, setFriends] = useState([]);

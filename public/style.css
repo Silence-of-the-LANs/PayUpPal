@@ -7,3 +7,11 @@
   text-decoration: line-through;
   text-decoration-style: double;
 }
+
+.friends-wrapper {
+  display: flex;
+}
+
+.friends-container {
+  margin: 5vw;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import bootstrap from 'bootstrap';
 
 const AddFriend = () => {
@@ -10,15 +11,15 @@ const AddFriend = () => {
 
   const dataInput = (event) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
-    console.log(friend);
   };
 
   const submitFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      // const { data } = await axios.post(,friend);
+      console.log('adding friend...');
+      const { data } = await axios.post('api/friends/addFriend', friend);
     } catch (err) {
-      console.err(err);
+      console.log(err);
     }
   };
 
