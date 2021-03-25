@@ -24,10 +24,28 @@ router.put('/login', async (req, res, next) => {
           'The username and/or password entered does not match the information in our records'
         );
     } else {
+      // Logs the user in
       req.login(user, (err) => (err ? next(err) : res.json(user)));
     }
   } catch (err) {
     next(err);
+  }
+});
+
+router.post('/signup', async (req, res, next) => {
+  try {
+    const user = await User.create(req.body);
+    req.login(user, (err) => (err ? next(err) : res.json(user)));
+  } catch (err) {
+    if (err.name === 'SequelizeUniqueConstraintError') {
+      res
+        .status(401)
+        .send(
+          'A user with username already exists. Please choose another username.'
+        );
+    } else {
+      next(err);
+    }
   }
 });
 
