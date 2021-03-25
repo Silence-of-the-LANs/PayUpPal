@@ -19,7 +19,7 @@ const AddFriend = (props) => {
     event.preventDefault();
     try {
       const { data } = await axios.post('api/friends/addFriend', friend);
-      props.addToFriends([...props.currentFriends, data]);
+      props.addToFriends(data);
       setFriend(initialState);
     } catch (err) {
       console.log(err);
