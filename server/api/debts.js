@@ -1,15 +1,14 @@
-const { Debt } = require('../db/model/index');
+const { Debt, Friend } = require('../db/model/index');
 const router = require('express').Router();
 
 // api/debts/displayDebts route
 router.get('/displayDebts', async (req, res, next) => {
   try {
-    // const userId = req.session.user
+    const userId = 3; // replace with req.session.user and add if condition in case req.session.user is not defined
 
     const debts = await Debt.findAll({
-      where: {
-        // userId: userId,
-      },
+      where: { userId: userId },
+      include: [{ model: Friend }],
     });
 
     res.json(debts);
@@ -18,45 +17,30 @@ router.get('/displayDebts', async (req, res, next) => {
   }
 });
 
-// // api/friends/addFriend route
-// router.post('/addFriend', async (req, res, next) => {
-//   try {
-//     const alias = req.body.alias;
-//     const email = req.body.email;
-//     const phone = req.body.phone;
-//     // const userId = req.session.user
+// api/debts/markPaid/:debtId route
+router.put('/markPaid/:debtId', async (req, res, next) => {
+  try {
+    // const userId = req.session.user
 
-//     const [createdFriend] = await Friend.findOrCreate({
-//       where: {
-//         alias: alias,
-//         email: email,
-//         phone: phone,
-//         // userId: userId,
-//       },
-//     });
+    const debtId = parseInt(req.params.debtId);
 
-//     res.json(createdFriend);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    const debt = await Debt.findByPk(debtId);
 
-// // api/friends/removeFriend/:friendId route
-// router.delete('/removeFriend/:friendId', async (req, res, next) => {
-//   try {
-//     // const userId = req.session.user
+    await debt.update({
+      paid: !debt.paid,
+    });
 
-//     const removedFriend = await Friend.destroy({
-//       where: {
-//         id: req.params.friendId,
-//         // userId: userId,
-//       },
-//     });
+    const updatedDebts = await Debt.findAll({
+      //   where: {
+      //     // userId: userId,
+      //   },
+      //   include: [{ model: Friend }],
+    });
 
-//     res.json(removedFriend);
-//   } catch (err) {
-//     next(err);
-//   }
-// });
+    res.json(updatedDebts);
+  } catch (err) {
+    next(err);
+  }
+});
 
 module.exports = router;

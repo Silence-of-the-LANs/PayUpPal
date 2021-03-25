@@ -1,13 +1,21 @@
 const db = require('../server/db/db');
-const { Friend, Debt } = require('../server/db/model/index');
+const { User, Friend, Debt } = require('../server/db/model/index');
 const listOfDebts = require('./listOfDebts');
 const listOfFriends = require('./listOfFriends');
+const listOfUsers = require('./listOfUsers');
 
 const seed = async () => {
   try {
     console.log('database is seeding');
 
     await db.sync({ force: true });
+
+    // populate users into the database
+    await Promise.all(
+      listOfUsers.map((user) => {
+        return User.create(user);
+      })
+    );
 
     // populate friends into the database
     await Promise.all(
@@ -20,17 +28,6 @@ const seed = async () => {
     await Promise.all(
       listOfDebts.map((debt) => {
         return Debt.create(debt);
-      })
-    );
-
-    // randomize friend-debt associations
-    const allDebts = await Debt.findAll();
-
-    await Promise.all(
-      allDebts.map((debt) => {
-        return debt.setFriend(
-          Math.floor(Math.random() * listOfFriends.length + 1)
-        );
       })
     );
 
