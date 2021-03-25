@@ -21,14 +21,14 @@ router.get('/displayFriends', async (req, res, next) => {
 // api/friends/addFriend route
 router.post('/addFriend', async (req, res, next) => {
   try {
-    const alias = req.body.alias;
+    const name = req.body.name;
     const email = req.body.email;
     const phone = req.body.phone;
     // const userId = req.session.user
 
     const [createdFriend] = await Friend.findOrCreate({
       where: {
-        alias: alias,
+        name: name,
         email: email,
         phone: phone,
         // userId: userId,
@@ -53,7 +53,13 @@ router.delete('/removeFriend/:friendId', async (req, res, next) => {
       },
     });
 
-    res.json(removedFriend);
+    const updatedFriends = await Friend.findAll({
+      where: {
+        // userId: userId,
+      },
+    });
+
+    res.json(updatedFriends);
   } catch (err) {
     next(err);
   }
