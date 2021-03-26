@@ -124,29 +124,5 @@ const ViewDebts = () => {
     </div>
   );
 };
-//   return (
-//     <div>
-//       <h2>You are owed a total of: ${totalOwed / 100}</h2>
-//       <div>
-//         {/* for each borrower in our list of borrowers... */}
-//         {listOfBorrowers.map((borrower) => {
-//           let debtsOwedByFriend = debts.filter(
-//             (balance) => balance.friendId === borrower.friendId
-//           );
-//           return (
-//             <div className='border' key={borrower.friendId}>
-//               <p>
-//                 {borrower.friendName} - $
-//                 {(calcTotalOwed(debtsOwedByFriend) / 100).toFixed(2)}
-//               </p>
-//               {/* list out the debts for each borrower */}
-//
-//             </div>
-//           );
-//         })}
-//       </div>
-//     </div>
-//   );
-// };
 
 export default ViewDebts;
