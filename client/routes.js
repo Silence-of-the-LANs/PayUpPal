@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import {
   AddFriend,
   EditReceipt,
+  Home,
   Login,
   ManageFriends,
   ScanReceipt,
@@ -15,7 +16,7 @@ import {
 const Routes = () => {
   return (
     <Switch>
-      {/* <Route path='/home' component={Home} /> */}
+      <Route path='/home' component={Home} />
       <Route path='/addfriend' component={AddFriend} />
       <Route path='/viewfriends' component={ViewFriends} />
       <Route exact path='/scanreceipt' component={ScanReceipt} />
@@ -24,7 +25,7 @@ const Routes = () => {
       <Route path='/login' component={Login} />
       <Route path='/managefriends' component={ManageFriends} />
       <Route path='/viewdebts' component={ViewDebts} />
-      <Route path='/' component={TommyPractice} />
+      <Route path='/' component={Home} />
     </Switch>
   );
 };
