@@ -81,6 +81,7 @@ const ViewDebts = () => {
 
   return (
     <div className={classes.root}>
+      <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
       {listOfBorrowers.map((borrower) => {
         let debtsOwedByFriend = debts.filter(
           (balance) => balance.friendId === borrower.friendId
@@ -102,7 +103,8 @@ const ViewDebts = () => {
                 {debtsOwedByFriend.map((debt) => (
                   <li key={debt.id}>
                     <span className={debt.paid ? 'paid' : ''}>
-                      Event Name - ${(debt.balance / 100).toFixed(2)}
+                      Event Name - Total Owed: $
+                      {(debt.balance / 100).toFixed(2)}
                     </span>{' '}
                     <button>Send Reminder</button>
                     <button
