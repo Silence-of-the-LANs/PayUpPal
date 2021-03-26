@@ -106,7 +106,7 @@ const ViewDebts = () => {
                       Event Name - Total Owed: $
                       {(debt.balance / 100).toFixed(2)}
                     </span>{' '}
-                    <button>Send Reminder</button>
+                    <button>Send Reminder (WIP)</button>
                     <button
                       onClick={async () =>
                         setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
