@@ -18,7 +18,6 @@ const checkIfItem = (textByLines) => {
   // helper function to convert itemArr into an array of objects
   // with quantity, description, and price per item
   let newArrObj = convertToArrObj(itemArr);
-  console.log('newArrObj', newArrObj);
   return newArrObj;
 };
 

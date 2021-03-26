@@ -1,8 +1,11 @@
 import React, { useReducer, useState, useContext } from 'react';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
+import axios from 'axios';
+import { useHistory } from 'react-router';
 
 const EditReceipt = () => {
+  const history = useHistory();
   // grab receiptData from store
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
   // if tax is read on our receipt, set as state, otherwise 0
@@ -13,6 +16,7 @@ const EditReceipt = () => {
   const [tip, setTip] = useState(
     receiptDataState.miscItems ? receiptDataState.miscItems.tip : 0
   );
+  const [eventInput, setEventInput] = useState('');
   // adds an empty item to our item list
   const addItem = () => {
     let newItem = {
@@ -23,7 +27,32 @@ const EditReceipt = () => {
     };
     dispatch({ type: 'ADD_ITEM', newItem });
   };
-  const submitReceipt = () => {};
+  const submitReceipt = (e) => {
+    e.preventDefault();
+    let newTip;
+    let newTax;
+    if (isNaN(tax)) {
+      newTax = 0;
+    } else {
+      newTax = tax;
+    }
+    if (isNaN(tip)) {
+      newTip = 0;
+    } else {
+      newTip = tip;
+    }
+    // receiptData has items, misc items, imageUrl, and imageName
+    let editReceiptUserData = {
+      ...receiptDataState,
+      eventName: eventInput,
+      tax: newTax,
+      tip: newTip,
+      total,
+    };
+    let { data } = axios.post('/api/receipts/submit', editReceiptUserData);
+    // add data to view history component
+    // history.push('/receiptsubmit')
+  };
   // finds subtotal based off sum of totalPrice
   const subTotal = receiptDataState.items
     ? parseFloat(
@@ -52,10 +81,15 @@ const EditReceipt = () => {
     <div style={{ border: 'solid black' }}>
       <div>
         <h2>Edit Receipt</h2>
-        <input type='text' placeholder='Label this event here...'></input>
+        <input
+          type='text'
+          placeholder='Label this event here...'
+          onChange={(e) => setEventInput(e.target.value)}
+        ></input>
         <button type='button' onClick={addItem}>
           Add Item
         </button>
+        <button type='button'>Image</button>
         {receiptDataState.items && (
           <table>
             <tr className='item-header'>
@@ -96,7 +130,7 @@ const EditReceipt = () => {
           />
         </label>
         <label>Total: ${total.toFixed(2)}</label>
-        <button type='submit' onSubmit={submitReceipt}>
+        <button type='submit' onClick={submitReceipt}>
           Submit Receipt
         </button>
       </div>

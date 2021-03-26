@@ -97,7 +97,7 @@ const ScanReceipt = () => {
       formData.append('file', file);
       try {
         // send formData on as our request
-        const { data } = await axios.post('/api/receipts', formData);
+        const { data } = await axios.post('/api/receipts/upload', formData);
         // dispatch data onto our store
         dispatch({ type: 'GET_ITEMS', itemsInfo: data });
         // direct user to edit receipt page
