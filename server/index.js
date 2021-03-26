@@ -73,6 +73,8 @@ app.use(passport.initialize());
 // Session() alters the req object to reflect the user
 app.use(passport.session());
 
+// auth and api routes
+app.use('/auth', require('./auth'));
 app.use('/api', require('./api')); // include our routes!
 
 app.get('*', (req, res) => {
