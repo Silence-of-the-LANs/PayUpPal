@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://localhost:4000/editreceipt -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="manifest" href="http://localhost:4000/manifest.json">
+    <link rel="apple-touch-icon" href="http://localhost:4000/logo192.png">
+    <title>PayUpPal</title>
+    <script defer="" src="./PayUpPal_files/bundle.js"></script>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="app"></div>
+    <link rel="stylesheet" href="./PayUpPal_files/style.css">
+    <link href="./PayUpPal_files/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="./PayUpPal_files/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener(`load`, function () {
+          navigator.serviceWorker.register('serviceWorker.js').then(
+            function (registration) {
+              // Registration was successful
+
+              console.log(
+                'ServiceWorker registration successful with scope: ',
+                registration.scope
+              );
+            },
+            function (err) {
+              // Registration failed :(
+              console.log('ServiceWorker registration failed: ', err);
+            }
+          );
+        });
+      }
+    </script>
+  
+
+</body></html>

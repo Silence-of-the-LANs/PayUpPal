@@ -18,6 +18,7 @@ const checkIfItem = (textByLines) => {
   // helper function to convert itemArr into an array of objects
   // with quantity, description, and price per item
   let newArrObj = convertToArrObj(itemArr);
+  console.log('newArrObj', newArrObj);
   return newArrObj;
 };
 
@@ -59,7 +60,8 @@ const convertToArrObj = (itemArr) => {
       /description/i.test(line) ||
       /food/i.test(line) ||
       /visa/i.test(line) ||
-      /change/i.test(line)
+      /change/i.test(line) ||
+      /cash/i.test(line)
     ) {
       return false;
     } else {
@@ -71,16 +73,21 @@ const convertToArrObj = (itemArr) => {
     let obj = {};
     let splitLine = line.split(' ');
     if (!isNaN(splitLine[0])) {
+      parseInt();
       obj.quantity = Number(splitLine[0]);
       obj.description = splitLine.slice(1, splitLine.length - 1).join(' ');
       if (splitLine[splitLine.length - 1][0] === '$') {
         obj.pricePerItem =
           Number(splitLine[splitLine.length - 1].slice(1)) / obj.quantity;
-        obj.totalPrice = Number(splitLine[splitLine.length - 1].slice(1));
+
+        obj.totalPrice = parseInt(
+          Number(splitLine[splitLine.length - 1].slice(1))
+        );
       } else {
         obj.pricePerItem =
           Number(splitLine[splitLine.length - 1]) / obj.quantity;
-        obj.totalPrice = Number(splitLine[splitLine.length - 1]);
+
+        obj.totalPrice = parseInt(Number(splitLine[splitLine.length - 1]));
       }
     } else {
       obj.quantity = 1;

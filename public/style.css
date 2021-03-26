@@ -3,29 +3,6 @@
   background-color: rgb(73, 164, 248);
 }
 
-.MuiGrid-spacing-xs-8 {
-  margin: 0px auto 5px auto;
-  width: 100%;
-}
-
-.MuiDropzonePreviewList-image {
-  height: 40vh;
-  max-width: 35vh;
-}
-
-.MuiDropzoneArea-root {
-  height: 50vh;
-}
-
-.MuiDropzoneArea-icon {
-  display: none;
-}
-
-/* .item-input {
-  display: inline-block;
-  flex-direction: row;
-} */
-
 .item-header {
   display: table-header-group;
 }
@@ -42,24 +19,10 @@
 
 .friends-container {
   margin: 5vw;
+
 }
 
 .border {
   border: solid 2px black;
 }
-/*
-       {debts.length > 0
-          ? debts.map((debt) => (
-              <div key={debt.id} className={debt.paid ? 'paid' : ''}>
-                {debt.friend.name} owes {debt.balance / 100}
-                <button>Send Reminder</button>
-                <button
-                  onClick={async () =>
-                    setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
-                  }
-                >
-                  Mark as Paid
-                </button>
-              </div>
-            ))
-          : 'Loading debts...'} */
+
