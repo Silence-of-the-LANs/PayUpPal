@@ -1,13 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import AddFriend from './components/AddFriend';
-import ManageFriends from './components/ManageFriends';
-import ViewFriends from './components/ViewFriends';
-import ScanReceipt from './components/ScanReceipt';
-import TommyPractice from './components/TommyPractice';
-import EditReceipt from './components/EditReceipt';
-import ViewDebts from './components/ViewDebts';
-import Signup from './components/Signup';
+import {
+  AddFriend,
+  EditReceipt,
+  ManageFriends,
+  ScanReceipt,
+  Signup,
+  TommyPractice,
+  ViewDebts,
+  ViewFriends,
+} from './components';
 
 const Routes = () => {
   return (
@@ -18,9 +20,9 @@ const Routes = () => {
       <Route exact path='/scanreceipt' component={ScanReceipt} />
       <Route exact path='/editreceipt' component={EditReceipt} />
       <Route path='/signup' component={Signup} />
-      <Route path='/' component={TommyPractice} />
       <Route path='/managefriends' component={ManageFriends} />
       <Route path='/viewdebts' component={ViewDebts} />
+      <Route path='/' component={TommyPractice} />
     </Switch>
   );
 };
