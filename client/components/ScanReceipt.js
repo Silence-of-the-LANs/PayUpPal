@@ -1,5 +1,8 @@
+
+
+
 import React, { useState, useEffect, useContext } from 'react';
-import { DropzoneArea } from 'material-ui-dropzone';
+
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import { ReceiptDataContext } from '../Store';
@@ -50,7 +53,7 @@ const ScanReceipt = () => {
   const [tempImageUrl, setTempImageUrl] = useState({});
   const inputfield = React.useRef(null);
   const uploadField = React.useRef(null);
-  const [receiptData, setReceiptData] = useContext(ReceiptDataContext);
+  const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
   const history = useHistory();
   const handleFileDrop = (file) => {
     console.log(file);
@@ -86,9 +89,8 @@ const ScanReceipt = () => {
       const formData = new FormData();
       formData.append('file', file);
       try {
-        const res = await axios.post('/api/receipts', formData);
-        setReceiptData(res.data);
-        console.log(receiptData);
+        const { data } = await axios.post('/api/receipts', formData);
+        dispatch({ type: 'GET_ITEMS', itemsInfo: data });
         history.push('/editreceipt');
       } catch (err) {
         console.log(err);

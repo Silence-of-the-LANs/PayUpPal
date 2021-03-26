@@ -10,6 +10,7 @@ router.get('/displayFriends', async (req, res, next) => {
       where: {
         // userId: userId,
       },
+      order: [['name', 'asc']],
     });
 
     res.json(friends);
@@ -26,7 +27,7 @@ router.post('/addFriend', async (req, res, next) => {
     const phone = req.body.phone;
     // const userId = req.session.user
 
-    const [createdFriend] = await Friend.findOrCreate({
+    await Friend.findOrCreate({
       where: {
         name: name,
         email: email,
@@ -35,7 +36,14 @@ router.post('/addFriend', async (req, res, next) => {
       },
     });
 
-    res.json(createdFriend);
+    const updatedFriends = await Friend.findAll({
+      where: {
+        // userId: userId,
+      },
+      order: [['name', 'asc']],
+    });
+
+    res.json(updatedFriends);
   } catch (err) {
     next(err);
   }
@@ -46,7 +54,7 @@ router.delete('/removeFriend/:friendId', async (req, res, next) => {
   try {
     // const userId = req.session.user
 
-    const removedFriend = await Friend.destroy({
+    await Friend.destroy({
       where: {
         id: req.params.friendId,
         // userId: userId,
@@ -57,6 +65,7 @@ router.delete('/removeFriend/:friendId', async (req, res, next) => {
       where: {
         // userId: userId,
       },
+      order: [['name', 'asc']],
     });
 
     res.json(updatedFriends);

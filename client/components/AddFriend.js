@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import bootstrap from 'bootstrap';
 
-const AddFriend = () => {
-  const [friend, setFriend] = useState({
-    name: '',
-    email: '',
-    phone: '',
-  });
+const initialState = {
+  name: '',
+  email: '',
+  phone: '',
+};
+
+const AddFriend = (props) => {
+  const [friend, setFriend] = useState(initialState);
 
   const dataInput = (event) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
@@ -16,8 +18,9 @@ const AddFriend = () => {
   const submitFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      console.log('adding friend...');
       const { data } = await axios.post('api/friends/addFriend', friend);
+      props.addToFriends(data);
+      setFriend(initialState);
     } catch (err) {
       console.log(err);
     }
