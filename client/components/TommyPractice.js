@@ -12,8 +12,6 @@ const TommyPractice = (props) => {
     console.log('e.target.files', e.target.files);
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
-    // console.log('File state', e.target.files[0];
-    // console.log('FileName', fileName);
   };
   const onClick = async (e) => {
     e.preventDefault();
@@ -21,8 +19,7 @@ const TommyPractice = (props) => {
       const formData = new FormData();
       formData.append('file', file);
       try {
-        const res = await axios.post('/api/receipts', formData);
-        // const res = await axios.get('/api/testGoogle/test');
+        const res = await axios.post('/api/receipts/upload', formData);
         setUploadedFile(res.data);
       } catch (err) {
         console.log(err);

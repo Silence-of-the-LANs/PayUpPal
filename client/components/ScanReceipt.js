@@ -1,12 +1,7 @@
-
-
-
 import React, { useState, useEffect, useContext } from 'react';
-
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import { ReceiptDataContext } from '../Store';
-// import * as FormData from 'form-data';
 
 const divStyle = {
   // width: '100vw',
@@ -51,26 +46,36 @@ const ScanReceipt = () => {
   const [file, setFile] = useState('');
   const [fileName, setFilename] = useState('Choose File');
   const [tempImageUrl, setTempImageUrl] = useState({});
+  // inputfield is ref used for drag & drop
   const inputfield = React.useRef(null);
+  // uploadField is ref used for click & upload
+  // ref gives access to manipulate the HTML element directly
   const uploadField = React.useRef(null);
+  // receiptDataState is the store
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
+  // history used to push user to editReceipt page
   const history = useHistory();
+  // handles after file has been dropped
   const handleFileDrop = (file) => {
     console.log(file);
+    // creates a temp URL to preview image
     setTempImageUrl(URL.createObjectURL(file[0]));
     setFile(file[0]);
     setFilename(file[0].name);
   };
+  // handles user uploading a file
   const handleFileUpload = (e) => {
     console.log(file);
     setTempImageUrl(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
   };
+  // handles the dragging event motion
   const handleDrag = (e) => {
     e.preventDefault();
     e.stopPropagation();
   };
+  // handles the user dropping a file
   const handleDrop = (e) => {
     e.preventDefault();
     e.stopPropagation();
@@ -80,17 +85,22 @@ const ScanReceipt = () => {
   };
   const onClick = () => {
     // `current` points to the mounted file input element
+    // upload on click is referenced
     uploadField.current.click();
   };
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(file);
     if (file) {
+      // formData creates an empty file obj, we can append our file to formData
       const formData = new FormData();
       formData.append('file', file);
       try {
+        // send formData on as our request
         const { data } = await axios.post('/api/receipts', formData);
+        // dispatch data onto our store
         dispatch({ type: 'GET_ITEMS', itemsInfo: data });
+        // direct user to edit receipt page
         history.push('/editreceipt');
       } catch (err) {
         console.log(err);
@@ -100,8 +110,8 @@ const ScanReceipt = () => {
   return (
     <div style={divStyle}>
       <h2 style={headerStyle}>Scan Receipt</h2>
-      {/* <DropzoneArea /> */}
       <div
+        // ref is used as a reference to manipulate dom in our functions
         id='drag-drop'
         ref={inputfield}
         style={dragDrop}
@@ -112,6 +122,7 @@ const ScanReceipt = () => {
           Drag and drop an image or click to upload!
         </h6>
         <input
+          // ref is used as a reference to manipulate dom in our functions
           type='file'
           ref={uploadField}
           style={{ display: 'none' }}

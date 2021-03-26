@@ -3,13 +3,17 @@ import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
 
 const EditReceipt = () => {
+  // grab receiptData from store
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
+  // if tax is read on our receipt, set as state, otherwise 0
   const [tax, setTax] = useState(
     receiptDataState.miscItems ? receiptDataState.miscItems.tax : 0
   );
+  // if tip is read on our receipt, set as state, otherwise 0
   const [tip, setTip] = useState(
     receiptDataState.miscItems ? receiptDataState.miscItems.tip : 0
   );
+  // adds an empty item to our item list
   const addItem = () => {
     let newItem = {
       quantity: 1,
@@ -20,6 +24,7 @@ const EditReceipt = () => {
     dispatch({ type: 'ADD_ITEM', newItem });
   };
   const submitReceipt = () => {};
+  // finds subtotal based off sum of totalPrice
   const subTotal = receiptDataState.items
     ? parseFloat(
         receiptDataState.items
@@ -29,9 +34,12 @@ const EditReceipt = () => {
           .toFixed(2)
       )
     : 0;
+  // finds sum of subtotal, tip, tax
   let total = parseFloat(
     [subTotal, tax, tip]
       .reduce((a, b) => {
+        // if tax or tip inpt is empty, it will return total will return Nan
+        // assign tax or tip to 0 if NaN
         if (isNaN(b)) {
           b = 0;
           return a + b;
@@ -57,6 +65,7 @@ const EditReceipt = () => {
               <th>Price Per Item</th>
               <th>Item total</th>
             </tr>
+            {/* maps thru each indivial item */}
             {receiptDataState.items.map((item, index) => {
               return <IndividualItem item={item} itemIndex={index} />;
             })}
@@ -64,6 +73,7 @@ const EditReceipt = () => {
         )}
       </div>
       <div id='misc-form'>
+        {/* if receiptData exists show subTotal */}
         <label>Subtotal: {receiptDataState.items && subTotal}</label>
         <label>
           Tax:{' '}
@@ -73,7 +83,6 @@ const EditReceipt = () => {
             value={tax}
             step='0.01'
             onChange={(e) => setTax(parseFloat(e.target.value))}
-            // onChange={changeTax}
           />
         </label>
         <label>
@@ -84,10 +93,9 @@ const EditReceipt = () => {
             value={tip}
             step='0.01'
             onChange={(e) => setTip(parseFloat(e.target.value))}
-            // onChange={changeTip}
           />
         </label>
-        <label>Total: {total}</label>
+        <label>Total: ${total.toFixed(2)}</label>
         <button type='submit' onSubmit={submitReceipt}>
           Submit Receipt
         </button>

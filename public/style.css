@@ -24,3 +24,8 @@
 .border {
   border: solid 2px black;
 }
+
+#misc-form {
+  display: flex;
+  flex-direction: column;
+}
