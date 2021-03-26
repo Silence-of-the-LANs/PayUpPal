@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import bootstrap from 'bootstrap';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const markPaid = async (debtId) => {
   const { data } = await axios.put(`api/debts/markPaid/${debtId}`);
   return data;
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+}));
 
 const calcTotalOwed = (balances) => {
   return balances.reduce((total, balance) => {
@@ -21,6 +37,8 @@ const calcTotalOwed = (balances) => {
 const ViewDebts = () => {
   const [debts, setDebts] = useState([]);
   const [totalOwed, setTotalOwed] = useState(0);
+
+  const classes = useStyles();
 
   useEffect(() => {
     // initial data fetch of debts
@@ -62,42 +80,71 @@ const ViewDebts = () => {
   });
 
   return (
-    <div>
-      <h2>You are owed a grand total of: ${totalOwed / 100}</h2>
-      <div>
-        {/* for each borrower in our list of borrowers... */}
-        {listOfBorrowers.map((borrower) => {
-          let debtsOwedByFriend = debts.filter(
-            (balance) => balance.friendId === borrower.friendId
-          );
-          return (
-            <div className='border' key={borrower.friendId}>
-              <p>
-                {borrower.friendName} - Total Owed: $
+    <div className={classes.root}>
+      {listOfBorrowers.map((borrower) => {
+        let debtsOwedByFriend = debts.filter(
+          (balance) => balance.friendId === borrower.friendId
+        );
+        return (
+          <Accordion key={borrower.friendId}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+            >
+              <Typography className={classes.heading}>
+                {borrower.friendName} - $
                 {(calcTotalOwed(debtsOwedByFriend) / 100).toFixed(2)}
-              </p>
-              {/* list out the debts for each borrower */}
-              {debtsOwedByFriend.map((debt) => (
-                <div key={debt.id}>
-                  <span className={debt.paid ? 'paid' : ''}>
-                    EventName - ${(debt.balance / 100).toFixed(2)}
-                  </span>
-                  <button>Send Reminder</button>
-                  <button
-                    onClick={async () =>
-                      setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
-                    }
-                  >
-                    Mark as Paid
-                  </button>
-                </div>
-              ))}
-            </div>
-          );
-        })}
-      </div>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <ul>
+                {debtsOwedByFriend.map((debt) => (
+                  <li key={debt.id}>
+                    <span className={debt.paid ? 'paid' : ''}>
+                      Event Name - ${(debt.balance / 100).toFixed(2)}
+                    </span>{' '}
+                    <button>Send Reminder</button>
+                    <button
+                      onClick={async () =>
+                        setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
+                      }
+                    >
+                      Mark as Paid
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </div>
   );
 };
+//   return (
+//     <div>
+//       <h2>You are owed a total of: ${totalOwed / 100}</h2>
+//       <div>
+//         {/* for each borrower in our list of borrowers... */}
+//         {listOfBorrowers.map((borrower) => {
+//           let debtsOwedByFriend = debts.filter(
+//             (balance) => balance.friendId === borrower.friendId
+//           );
+//           return (
+//             <div className='border' key={borrower.friendId}>
+//               <p>
+//                 {borrower.friendName} - $
+//                 {(calcTotalOwed(debtsOwedByFriend) / 100).toFixed(2)}
+//               </p>
+//               {/* list out the debts for each borrower */}
+//
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// };
 
 export default ViewDebts;
