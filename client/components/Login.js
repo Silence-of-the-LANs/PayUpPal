@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -52,6 +53,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
+  async function Submit(evt) {
+    // Prevent the default action of refreshing the page
+    evt.preventDefault();
+    console.log(data);
+    const formData = {
+      email: data.email,
+      password: data.password,
+    };
+    const response = await axios.put('auth/login', formData);
+
+    // Clear the inputs after the button is pressed
+    setData({
+      email: '',
+      password: '',
+    });
+  }
+  const handleChange = (evt) => {
+    evt.persist();
+    setData({ ...data, [evt.target.name]: evt.target.value });
+  };
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -63,16 +88,19 @@ export default function Login() {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={Submit}>
           <TextField
             variant='outlined'
             margin='normal'
             required
             fullWidth
             id='username'
-            label='Username'
-            name='username'
-            autoComplete='username'
+            label='Email'
+            name='email'
+            onChange={handleChange}
+            autoComplete='email'
+            type='email'
+            value={data.email}
             autoFocus
           />
           <TextField
@@ -81,10 +109,12 @@ export default function Login() {
             required
             fullWidth
             name='password'
+            onChange={handleChange}
             label='Password'
             type='password'
+            value={data.password}
             id='password'
-            autoComplete='current-password'
+            autoComplete='password'
           />
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}

@@ -27,7 +27,8 @@ passport.serializeUser((user, done) => {
 // conver the serialized information back to a more readable form
 passport.deserializeUser(async (id, done) => {
   try {
-    const user = await db.model.user.findByPk(id);
+    // console.log('DB is', db);
+    const user = await db.models.user.findByPk(id);
     done(null, user);
   } catch (err) {
     done(err);
@@ -73,6 +74,8 @@ app.use(passport.initialize());
 // Session() alters the req object to reflect the user
 app.use(passport.session());
 
+// auth and api routes
+app.use('/auth', require('./auth'));
 app.use('/api', require('./api')); // include our routes!
 
 app.get('*', (req, res) => {
