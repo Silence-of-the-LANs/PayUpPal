@@ -1,5 +1,8 @@
-import React, { useState, useContext } from 'react';
-import { DropzoneArea } from 'material-ui-dropzone';
+
+
+
+import React, { useState, useEffect, useContext } from 'react';
+
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import { ReceiptDataContext } from '../Store';

@@ -3,11 +3,6 @@
   background-color: rgb(73, 164, 248);
 }
 
-#misc-form {
-  display: flex;
-  flex-direction: column;
-}
-
 .item-header {
   display: table-header-group;
 }
@@ -15,6 +10,7 @@
 .paid {
   text-decoration: line-through;
   text-decoration-style: double;
+  color: lightgray;
 }
 
 .friends-wrapper {
@@ -23,4 +19,10 @@
 
 .friends-container {
   margin: 5vw;
+
 }
+
+.border {
+  border: solid 2px black;
+}
+
