@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
   const classes = useStyles();
   const [data, setData] = useState({
-    username: '',
+    email: '',
     password: '',
     confirmPassword: '',
   });
@@ -60,7 +60,6 @@ export default function Signup() {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
     const formData = {
-      username: data.username,
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
@@ -68,13 +67,13 @@ export default function Signup() {
     if (formData.confirmPassword !== formData.password) {
       alert('Your passwords do not match');
     }
-    console.log(`Your username is: ${formData.username}`);
+    console.log(`Your email is: ${formData.email}`);
     console.log(`Your password is: ${formData.password}`);
     console.log(`Your password confirmation is: ${formData.confirmPassword}`);
 
     // Clear the inputs after the button is pressed
     setData({
-      username: '',
+      email: '',
       password: '',
       confirmPassword: '',
     });
@@ -95,19 +94,6 @@ export default function Signup() {
         </Typography>
         {/* We need to add the onSubmit event listener here */}
         <form className={classes.form} noValidate onSubmit={Submit}>
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            id='username'
-            label='Username'
-            name='username'
-            onChange={handleChange}
-            value={data.username}
-            autoComplete='username'
-            autoFocus
-          />
           <TextField
             variant='outlined'
             margin='normal'
