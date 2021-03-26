@@ -33,6 +33,7 @@
 .paid {
   text-decoration: line-through;
   text-decoration-style: double;
+  color: lightgray;
 }
 
 .friends-wrapper {
