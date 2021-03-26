@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User } = require('../db/model');
 
 router.put('/login', async (req, res, next) => {
+  console.log('This is the login route');
   try {
     const user = await User.findOne({
       where: { email: req.body.email },

@@ -8,7 +8,6 @@ import {
   ManageFriends,
   ScanReceipt,
   Signup,
-  TommyPractice,
   ViewDebts,
   ViewFriends,
 } from './components';
