@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import {
   AddFriend,
   EditReceipt,
+  Login,
   ManageFriends,
   ScanReceipt,
   Signup,
@@ -20,6 +21,7 @@ const Routes = () => {
       <Route exact path='/scanreceipt' component={ScanReceipt} />
       <Route exact path='/editreceipt' component={EditReceipt} />
       <Route path='/signup' component={Signup} />
+      <Route path='/login' component={Login} />
       <Route path='/managefriends' component={ManageFriends} />
       <Route path='/viewdebts' component={ViewDebts} />
       <Route path='/' component={TommyPractice} />
