@@ -2,13 +2,17 @@ import React, { useState, useContext, useEffect } from 'react';
 import { ReceiptDataContext } from '../Store';
 
 const IndividualItem = (props) => {
+  // grab receipt data from store
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
 
+  // grab each item and index from parent prop
   const { item, itemIndex } = props;
+  // set quantity, description, pricePerItem, and totalPrice to state
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
   const [pricePerItem, setPricePerItem] = useState(item.pricePerItem);
   const [totalPrice, setTotalPrice] = useState(item.totalPrice);
+  // event handlers for each change of users' input
   const changePricePerItem = (e) => {
     setPricePerItem(e.target.value);
     setTotalPrice(parseFloat((e.target.value * quantity).toFixed(2)));
@@ -41,6 +45,7 @@ const IndividualItem = (props) => {
     };
     dispatch({ type: 'EDIT_ITEM', updatedItem });
   };
+  // dispatches updated description for individual item to store
   const editDescription = (e) => {
     setDescription(e.target.value);
     dispatch({
