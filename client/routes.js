@@ -7,6 +7,7 @@ import ScanReceipt from './components/ScanReceipt';
 import TommyPractice from './components/TommyPractice';
 import EditReceipt from './components/EditReceipt';
 import ViewDebts from './components/ViewDebts';
+import Signup from './components/Signup';
 
 const Routes = () => {
   return (
@@ -16,6 +17,7 @@ const Routes = () => {
       <Route path='/viewfriends' component={ViewFriends} />
       <Route exact path='/scanreceipt' component={ScanReceipt} />
       <Route exact path='/editreceipt' component={EditReceipt} />
+      <Route path='/signup' component={Signup} />
       <Route path='/' component={TommyPractice} />
       <Route path='/managefriends' component={ManageFriends} />
       <Route path='/viewdebts' component={ViewDebts} />
