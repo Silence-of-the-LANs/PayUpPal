@@ -24,3 +24,7 @@
 .border {
   border: solid 2px black;
 }
+
+.MuiSvgIcon-root {
+  fill: white;
+}
