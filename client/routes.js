@@ -10,6 +10,7 @@ import {
   Signup,
   ViewDebts,
   ViewFriends,
+  DrawerMenu,
 } from './components';
 
 const Routes = () => {
@@ -22,8 +23,8 @@ const Routes = () => {
       <Route exact path='/editreceipt' component={EditReceipt} />
       <Route path='/signup' component={Signup} />
       <Route path='/login' component={Login} />
-      <Route path='/managefriends' component={ManageFriends} />
-      <Route path='/viewdebts' component={ViewDebts} />
+      <Route exact path='/managefriends' component={ManageFriends} />
+      <Route exact path='/viewdebts' component={ViewDebts} />
       <Route path='/' component={Home} />
     </Switch>
   );

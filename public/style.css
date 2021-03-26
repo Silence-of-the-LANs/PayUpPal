@@ -24,3 +24,12 @@
 .border {
   border: solid 2px black;
 }
+
+.MuiSvgIcon-root {
+  fill: white;
+}
+
+#misc-form {
+  display: flex;
+  flex-direction: column;
+}

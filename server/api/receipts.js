@@ -4,6 +4,7 @@ const vision = require('@google-cloud/vision');
 const multer = require('multer');
 const AWS = require('aws-sdk');
 const { checkIfItem } = require('./helperFunctions');
+const { Receipt, Item, User } = require('../db/model/index');
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
 let GOOG_KEY;
 if (process.env.NODE_ENV !== 'production') {
@@ -48,8 +49,8 @@ const textSameLine = (text, targetLine) => {
   return false;
 };
 
-// api/testGoogle
-router.post('/', upload, async (req, res, next) => {
+// api/receipt/upload
+router.post('/upload', upload, async (req, res, next) => {
   try {
     // ex: req.file.original name -> receipt1.jpg || splits fileName into arr
     let file = req.file.originalname.split('.');
@@ -137,10 +138,51 @@ router.post('/', upload, async (req, res, next) => {
     const itemList = checkIfItem(textByLines);
 
     console.log(itemList);
-    res.send(itemList);
+    res.send({ ...itemList, imageUrl: data.Location, imageName: data.key });
   } catch (err) {
     console.log(err);
   }
 });
 
+router.post('/submit', async (req, res, next) => {
+  try {
+    // const user = User.findByPk(req.session.user)
+    const {
+      items,
+      miscItems,
+      imageUrl,
+      imageName,
+      eventName,
+      tax,
+      tip,
+      total,
+    } = req.body;
+    // const date = new Date();
+    const newReceipt = await Receipt.create({
+      imageUrl,
+      eventName,
+      tax: tax * 100,
+      tip: tip * 100,
+      total: total * 100,
+      // date,
+    });
+    // await user.setReceipt(newReceipt);
+    await Promise.all(
+      items.map(async (singleItem) => {
+        const { quantity, description, pricePerItem } = singleItem;
+        const newItem = await Item.create({
+          quantity,
+          description,
+          pricePerItem: pricePerItem * 100,
+        });
+        await newReceipt.addItem(newItem);
+        return newItem;
+      })
+    );
+
+    console.log('req.body', req.body);
+  } catch (err) {
+    next(err);
+  }
+});
 module.exports = router;

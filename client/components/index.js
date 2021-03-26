@@ -14,3 +14,4 @@ export { default as Signup } from './Signup';
 export { default as TommyPractice } from './TommyPractice';
 export { default as ViewDebts } from './ViewDebts';
 export { default as ViewFriends } from './ViewFriends';
+export { default as DrawerMenu } from './DrawerMenu';

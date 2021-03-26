@@ -1,8 +1,11 @@
 import React, { useState, useReducer } from 'react';
 
+// create a context (similar to when components call connect on redux))
 export const ReceiptDataContext = React.createContext({});
 // export const FinalizedReceiptDataContext = React.createContext([]);
 export const receiptDataReducer = (state = {}, action) => {
+  // need to declare all variables, switch cases are all in the same local env
+  // so i can't declare multiple times
   let quantity;
   let pricePerItem;
   let totalPrice;
@@ -19,7 +22,9 @@ export const receiptDataReducer = (state = {}, action) => {
       description = action.updatedItem.description;
       itemIndex = action.updatedItem.itemIndex;
       let itemDescription = { quantity, description, pricePerItem, totalPrice };
+      // makes a copy of item list
       newItemList = state.items;
+      // pinpoints the index we are changing, and replace it with new itemDescription
       newItemList[itemIndex] = itemDescription;
       return { ...state, items: newItemList };
     case 'EDIT_DESCRIPTION':
@@ -45,9 +50,10 @@ export const receiptDataReducer = (state = {}, action) => {
 };
 
 const Store = ({ children }) => {
-  // itemList presents is the global state for items
+  // similar to mapState & mapProps
   const [receiptDataState, dispatch] = useReducer(receiptDataReducer, {});
   return (
+    // ReceiptDataContext gives all components access to receiptDataState
     <ReceiptDataContext.Provider value={[receiptDataState, dispatch]}>
       {children}
     </ReceiptDataContext.Provider>
