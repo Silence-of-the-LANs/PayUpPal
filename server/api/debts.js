@@ -9,6 +9,7 @@ router.get('/displayDebts', async (req, res, next) => {
     const debts = await Debt.findAll({
       where: { userId: userId },
       include: [{ model: Friend }],
+      order: [['id', 'desc']],
     });
 
     res.json(debts);

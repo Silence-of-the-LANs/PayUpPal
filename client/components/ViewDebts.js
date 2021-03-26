@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import bootstrap from 'bootstrap';
 import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const markPaid = async (debtId) => {
   const { data } = await axios.put(`api/debts/markPaid/${debtId}`);
   return data;
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+  },
+  heading: {
+    fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
+}));
 
 const calcTotalOwed = (balances) => {
   return balances.reduce((total, balance) => {
@@ -22,10 +38,12 @@ const ViewDebts = () => {
   const [debts, setDebts] = useState([]);
   const [totalOwed, setTotalOwed] = useState(0);
 
+  const classes = useStyles();
+
   useEffect(() => {
+    // initial data fetch of debts
     const fetchDebts = async () => {
       let { data } = await axios.get('api/debts/displayDebts');
-
       const total = calcTotalOwed(data);
 
       setDebts(data);
@@ -35,30 +53,100 @@ const ViewDebts = () => {
     fetchDebts();
   }, [totalOwed]);
 
-  console.log(debts);
+  // get a unique list of borrowers
+  const listOfBorrowers = [];
+  const listOfBorrowerIds = [];
+
+  debts.forEach((balanceObj) => {
+    // if a borrower is not on the list of borrowers, add them to the list of borrowers
+    if (!listOfBorrowerIds.includes(balanceObj.friendId)) {
+      listOfBorrowerIds.push(balanceObj.friendId);
+      listOfBorrowers.push({
+        friendId: balanceObj.friendId,
+        friendName: balanceObj.friend.name,
+      });
+    }
+  });
+
+  // sort the list of borrowers by name
+  listOfBorrowers.sort((friendOne, friendTwo) => {
+    if (friendOne.friendName > friendTwo.friendName) {
+      return 1;
+    } else if (friendOne.friendName < friendTwo.friendName) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
 
   return (
-    <div>
-      <h2>You are owed a total of: ${totalOwed / 100}</h2>
-      <ul>
-        {debts.length > 0
-          ? debts.map((debt) => (
-              <div key={debt.id} className={debt.paid ? 'paid' : ''}>
-                {debt.friend.name} owes {debt.balance / 100}
-                <button>Send Reminder</button>
-                <button
-                  onClick={async () =>
-                    setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
-                  }
-                >
-                  Mark as Paid
-                </button>
-              </div>
-            ))
-          : 'Loading debts...'}
-      </ul>
+    <div className={classes.root}>
+      <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
+      {listOfBorrowers.map((borrower) => {
+        let debtsOwedByFriend = debts.filter(
+          (balance) => balance.friendId === borrower.friendId
+        );
+        return (
+          <Accordion key={borrower.friendId}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+            >
+              <Typography className={classes.heading}>
+                {borrower.friendName} - $
+                {(calcTotalOwed(debtsOwedByFriend) / 100).toFixed(2)}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <ul>
+                {debtsOwedByFriend.map((debt) => (
+                  <li key={debt.id}>
+                    <span className={debt.paid ? 'paid' : ''}>
+                      Event Name - Total Owed: $
+                      {(debt.balance / 100).toFixed(2)}
+                    </span>{' '}
+                    <button>Send Reminder</button>
+                    <button
+                      onClick={async () =>
+                        setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
+                      }
+                    >
+                      Mark as Paid
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </div>
   );
 };
+//   return (
+//     <div>
+//       <h2>You are owed a total of: ${totalOwed / 100}</h2>
+//       <div>
+//         {/* for each borrower in our list of borrowers... */}
+//         {listOfBorrowers.map((borrower) => {
+//           let debtsOwedByFriend = debts.filter(
+//             (balance) => balance.friendId === borrower.friendId
+//           );
+//           return (
+//             <div className='border' key={borrower.friendId}>
+//               <p>
+//                 {borrower.friendName} - $
+//                 {(calcTotalOwed(debtsOwedByFriend) / 100).toFixed(2)}
+//               </p>
+//               {/* list out the debts for each borrower */}
+//
+//             </div>
+//           );
+//         })}
+//       </div>
+//     </div>
+//   );
+// };
 
 export default ViewDebts;
