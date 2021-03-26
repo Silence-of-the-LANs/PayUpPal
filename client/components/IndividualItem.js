@@ -11,22 +11,22 @@ const IndividualItem = (props) => {
   const [totalPrice, setTotalPrice] = useState(item.totalPrice);
   const changePricePerItem = (e) => {
     setPricePerItem(e.target.value);
-    setTotalPrice(e.target.value * quantity);
+    setTotalPrice(parseFloat((e.target.value * quantity).toFixed(2)));
     let PPI = e.target.value;
-    let TP = e.target.value * quantity;
+    let TP = parseFloat((e.target.value * quantity).toFixed(2));
     updateItem(PPI, TP, quantity);
   };
   const changeTotalPrice = (e) => {
     setTotalPrice(e.target.value);
-    setPricePerItem(e.target.value / quantity);
-    let PPI = e.target.value / quantity;
+    setPricePerItem(parseFloat((e.target.value / quantity).toFixed(2)));
+    let PPI = parseFloat((e.target.value / quantity).toFixed(2));
     let TP = e.target.value;
     updateItem(PPI, TP, quantity);
   };
   const changeQuantity = (e) => {
     setQuantity(e.target.value);
-    setTotalPrice(pricePerItem * e.target.value);
-    let TP = pricePerItem * e.target.value;
+    setTotalPrice(parseFloat((pricePerItem * e.target.value).toFixed(2)));
+    let TP = parseFloat((pricePerItem * e.target.value).toFixed(2));
     let quant = e.target.value;
     updateItem(pricePerItem, TP, quant);
   };

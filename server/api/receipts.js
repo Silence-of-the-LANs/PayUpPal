@@ -79,6 +79,7 @@ router.post('/', upload, async (req, res, next) => {
       obj.maxY = text.boundingPoly.vertices[3].y;
       return obj;
     });
+
     // sort minY values from lowest to highest
     let sortByY = textBounds
       .sort((a, b) => {
@@ -132,7 +133,9 @@ router.post('/', upload, async (req, res, next) => {
         .join(' ');
       return joinLines;
     });
+
     const itemList = checkIfItem(textByLines);
+
     console.log(itemList);
     res.send(itemList);
   } catch (err) {

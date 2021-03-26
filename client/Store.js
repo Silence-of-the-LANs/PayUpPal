@@ -35,6 +35,9 @@ export const receiptDataReducer = (state = {}, action) => {
       });
       return { ...state, items: newItemList };
     case 'ADD_ITEM':
+      if (!state.items) {
+        return { ...state, items: [action.newItem] };
+      }
       return { ...state, items: [...state.items, action.newItem] };
     default:
       return state;

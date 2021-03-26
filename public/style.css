@@ -3,32 +3,14 @@
   background-color: rgb(73, 164, 248);
 }
 
-
-.MuiGrid-spacing-xs-8 {
-  margin: 0px auto 5px auto;
-  width: 100%;
+#misc-form {
+  display: flex;
+  flex-direction: column;
 }
-
-.MuiDropzonePreviewList-image {
-  height: 40vh;
-  max-width: 35vh;
-}
-
-.MuiDropzoneArea-root {
-  height: 50vh;
-}
-
-.MuiDropzoneArea-icon {
-  display: none;
-}
-
-/* .item-input {
-  display: inline-block;
-  flex-direction: row;
-} */
 
 .item-header {
   display: table-header-group;
+}
 
 .paid {
   text-decoration: line-through;
@@ -41,5 +23,4 @@
 
 .friends-container {
   margin: 5vw;
-
 }
