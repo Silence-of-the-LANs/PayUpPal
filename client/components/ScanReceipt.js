@@ -137,6 +137,9 @@ const ScanReceipt = () => {
       <button onClick={onSubmit} style={submitStyle}>
         Submit Image
       </button>
+      <div>
+        Submitting receipt... <img src='loading-spinner.gif' />
+      </div>
     </div>
   );
 };

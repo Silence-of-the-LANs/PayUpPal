@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../Store';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -52,6 +53,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login() {
+  const [user, setUser] = useContext(UserContext);
   const classes = useStyles();
   const [data, setData] = useState({
     email: '',
@@ -66,7 +68,10 @@ export default function Login() {
       password: data.password,
     };
     const response = await axios.put('auth/login', formData);
-
+    // if response is successful, load user data into store
+    if (response.status === 200) {
+      setUser(response.data);
+    }
     // Clear the inputs after the button is pressed
     setData({
       email: '',
