@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import { ReceiptDataContext } from '../Store';
+import { store } from 'react-notifications-component';
 
 const divStyle = {
   // width: '100vw',
@@ -46,6 +47,7 @@ const ScanReceipt = () => {
   const [file, setFile] = useState('');
   const [fileName, setFilename] = useState('Choose File');
   const [tempImageUrl, setTempImageUrl] = useState({});
+  const [isLoading, setLoading] = useState(false);
   // inputfield is ref used for drag & drop
   const inputfield = React.useRef(null);
   // uploadField is ref used for click & upload
@@ -57,15 +59,39 @@ const ScanReceipt = () => {
   const history = useHistory();
   // handles after file has been dropped
   const handleFileDrop = (file) => {
-    console.log(file);
     // creates a temp URL to preview image
+    store.addNotification({
+      title: '',
+      message: `${file[0].name} added to staging area`,
+      type: 'success',
+      insert: 'bottom',
+      container: 'bottom-left',
+      animationIn: ['animate__animated', 'animate__fadeIn'],
+      animationOut: ['animate__animated', 'animate__fadeOut'],
+      dismiss: {
+        duration: 2000,
+        onScreen: true,
+      },
+    });
     setTempImageUrl(URL.createObjectURL(file[0]));
     setFile(file[0]);
     setFilename(file[0].name);
   };
   // handles user uploading a file
   const handleFileUpload = (e) => {
-    console.log(file);
+    store.addNotification({
+      title: '',
+      message: `${e.target.files[0].name} added to staging area`,
+      type: 'success',
+      insert: 'bottom',
+      container: 'bottom-left',
+      animationIn: ['animate__animated', 'animate__fadeIn'],
+      animationOut: ['animate__animated', 'animate__fadeOut'],
+      dismiss: {
+        duration: 2000,
+        onScreen: true,
+      },
+    });
     setTempImageUrl(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
@@ -96,6 +122,7 @@ const ScanReceipt = () => {
       const formData = new FormData();
       formData.append('file', file);
       try {
+        setLoading(true);
         // send formData on as our request
         const { data } = await axios.post('/api/receipts/upload', formData);
         // dispatch data onto our store
@@ -137,6 +164,17 @@ const ScanReceipt = () => {
       <button onClick={onSubmit} style={submitStyle}>
         Submit Image
       </button>
+      {isLoading && (
+        <div>
+          Reading receipt...{' '}
+          <img
+            src='loading-spinner.gif'
+            width='50vw'
+            height='50vh'
+            alt='Reading image...'
+          />
+        </div>
+      )}
     </div>
   );
 };

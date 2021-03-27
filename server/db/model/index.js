@@ -10,6 +10,9 @@ Friend.belongsTo(User);
 Debt.belongsTo(Friend);
 Friend.hasMany(Debt);
 
+User.hasMany(Receipt);
+Receipt.belongsTo(User);
+
 Item.belongsTo(Receipt);
 Receipt.hasMany(Item);
 

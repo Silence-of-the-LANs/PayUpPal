@@ -146,7 +146,7 @@ router.post('/upload', upload, async (req, res, next) => {
 
 router.post('/submit', async (req, res, next) => {
   try {
-    // const user = User.findByPk(req.session.user)
+    const user = User.findByPk(req.session.user);
     const {
       items,
       miscItems,
@@ -166,7 +166,7 @@ router.post('/submit', async (req, res, next) => {
       total: total * 100,
       // date,
     });
-    // await user.setReceipt(newReceipt);
+    await user.setReceipt(newReceipt);
     await Promise.all(
       items.map(async (singleItem) => {
         const { quantity, description, pricePerItem } = singleItem;

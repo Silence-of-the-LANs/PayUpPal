@@ -86,9 +86,7 @@ const EditReceipt = () => {
           placeholder='Label this event here...'
           onChange={(e) => setEventInput(e.target.value)}
         ></input>
-        <button type='button' onClick={addItem}>
-          Add Item
-        </button>
+
         <button type='button'>Image</button>
         {receiptDataState.items && (
           <table>
@@ -107,6 +105,9 @@ const EditReceipt = () => {
         )}
       </div>
       <div id='misc-form'>
+        <button type='button' onClick={addItem}>
+          Add Item
+        </button>
         {/* if receiptData exists show subTotal */}
         <label>Subtotal: {receiptDataState.items && subTotal}</label>
         <label>
