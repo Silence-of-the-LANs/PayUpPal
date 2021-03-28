@@ -1,8 +1,11 @@
 import React, { useReducer, useState, useContext } from 'react';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
+import AddFriend from './AddFriend';
+import FriendList from './SelectFriends';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import Modal from '@material-ui/core/Modal';
 
 const EditReceipt = () => {
   const history = useHistory();
@@ -17,6 +20,10 @@ const EditReceipt = () => {
     receiptDataState.miscItems ? receiptDataState.miscItems.tip : 0
   );
   const [eventInput, setEventInput] = useState('');
+
+  const [openSelect, setOpenSelect] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
+
   // adds an empty item to our item list
   const addItem = () => {
     let newItem = {
@@ -77,6 +84,14 @@ const EditReceipt = () => {
       }, 0)
       .toFixed(2)
   );
+
+  const closeAddModal = () => {
+    setOpenAdd(false);
+  };
+  const closeSelectModal = () => {
+    setOpenSelect(false);
+  };
+
   return (
     <div style={{ border: 'solid black' }}>
       <div>
@@ -90,6 +105,40 @@ const EditReceipt = () => {
           Add Item
         </button>
         <button type='button'>Image</button>
+        <button
+          type='button'
+          onClick={() => {
+            setOpenAdd(true);
+          }}
+        >
+          Add Friend
+        </button>
+        <Modal
+          open={openAdd}
+          onClose={closeAddModal}
+          aria-labelledby='Add a friend'
+          aria-describedby='Add a new friend to your friend list'
+        >
+          <AddFriend closeAddModal={closeAddModal} />
+        </Modal>
+        <button
+          type='button'
+          onClick={() => {
+            setOpenSelect(true);
+          }}
+        >
+          Select Friends
+        </button>
+        <Modal
+          open={openSelect}
+          onClose={() => {
+            setOpenSelect(false);
+          }}
+          aria-labelledby='Select Friend(s)'
+          aria-describedby='Select your friends to add'
+        >
+          <FriendList closeSelectModal={closeSelectModal} />
+        </Modal>
         {receiptDataState.items && (
           <table>
             <tr className='item-header'>

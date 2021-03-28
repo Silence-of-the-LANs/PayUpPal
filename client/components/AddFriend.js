@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import bootstrap from 'bootstrap';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    backgroundColor: 'lightgray',
+    padding: '1rem',
+  },
+}));
 
 const initialState = {
   name: '',
@@ -9,6 +18,8 @@ const initialState = {
 };
 
 const AddFriend = (props) => {
+  const classes = useStyles();
+  const { closeAddModal } = props;
   const [friend, setFriend] = useState(initialState);
 
   const dataInput = (event) => {
@@ -31,7 +42,7 @@ const AddFriend = (props) => {
   };
 
   return (
-    <div>
+    <div className={classes.root}>
       <form className='form-inline'>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
@@ -81,6 +92,13 @@ const AddFriend = (props) => {
           onClick={submitFriendInfo}
         >
           ADD
+        </button>
+        <button
+          type='submit'
+          className='btn btn-primary'
+          onClick={closeAddModal}
+        >
+          CLOSE
         </button>
       </form>
     </div>
