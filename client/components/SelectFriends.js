@@ -55,9 +55,9 @@ const useStyles = makeStyles((theme) => ({
 const SelectFriends = (props) => {
   const classes = useStyles();
   const { closeSelectModal } = props;
-  const checkList = {};
+  const checkedFriends = [];
   const [friends, setFriends] = useState([]);
-  const [selectedFriends, setSelectedFriends] = useState(checkList);
+  const [selectedFriends, setSelectedFriends] = useState(checkedFriends);
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -67,32 +67,27 @@ const SelectFriends = (props) => {
 
     fetchFriends();
 
-    setSelectedFriends(checkList);
+    setSelectedFriends(checkedFriends);
   }, [friends.length]);
 
   const handleChange = (event) => {
-    if (selectedFriends.hasOwnProperty([event.target.name])) {
-      setSelectedFriends({
-        ...selectedFriends,
-        [event.target.name]: {
-          id: event.target.id,
-          name: event.target.name,
-          checked: !selectedFriends[event.target.name].checked,
-        },
-      });
+    const isChecked = selectedFriends.some(
+      (friend) => friend.id === event.target.id
+    );
+
+    if (isChecked) {
+      setSelectedFriends(
+        selectedFriends.filter((friend) => friend.id !== event.target.id)
+      );
     } else {
-      setSelectedFriends({
+      setSelectedFriends([
         ...selectedFriends,
-        [event.target.name]: {
-          id: event.target.id,
-          name: event.target.name,
-          checked: true,
-        },
-      });
+        { id: event.target.id, name: event.target.name },
+      ]);
     }
   };
 
-  console.log(selectedFriends);
+  console.log('selectedFriends: ', selectedFriends);
 
   return (
     <div className={classes.root}>
@@ -120,12 +115,9 @@ const SelectFriends = (props) => {
                   id={friend.id.toString()}
                   checkedIcon={<span className={classes.checkedIcon} />}
                   icon={<span className={classes.icon} />}
-                  checked={
-                    selectedFriends[friend.name] &&
-                    selectedFriends[friend.name].checked
-                      ? true
-                      : false
-                  }
+                  checked={selectedFriends.some(
+                    (selectedFriend) => selectedFriend.id == friend.id
+                  )}
                   onChange={handleChange}
                   name={friend.name}
                 />
