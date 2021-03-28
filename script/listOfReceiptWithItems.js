@@ -1,6 +1,7 @@
 const receipt1 = {
   eventName: 'test event',
   imageUrl: 'https://payuppal-bucket.s3.amazonaws.com/receipt1.jpeg',
+  date: '2020-03-20',
   tax: 778,
   tip: 0,
   total: 8753,

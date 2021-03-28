@@ -167,12 +167,7 @@ const ScanReceipt = () => {
       {isLoading && (
         <div>
           Reading receipt...{' '}
-          <img
-            src='loading-spinner.gif'
-            width='50vw'
-            height='50vh'
-            alt='Reading image...'
-          />
+          <img src='loading-spinner.gif' width='50vw' height='50vh' />
         </div>
       )}
     </div>

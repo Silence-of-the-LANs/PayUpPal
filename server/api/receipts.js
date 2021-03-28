@@ -165,6 +165,7 @@ router.post('/submit', async (req, res, next) => {
     const {
       items,
       miscItems,
+      date,
       imageUrl,
       imageName,
       eventName,
@@ -176,9 +177,10 @@ router.post('/submit', async (req, res, next) => {
     const newReceipt = await Receipt.create({
       imageUrl,
       eventName,
-      tax: tax * 100,
-      tip: tip * 100,
-      total: total * 100,
+      date,
+      tax: parseInt(tax * 100),
+      tip: parseInt(tip * 100),
+      total: parseInt(total * 100),
       // date,
     });
     await user.addReceipt(newReceipt);
@@ -188,7 +190,7 @@ router.post('/submit', async (req, res, next) => {
         const newItem = await Item.create({
           quantity,
           description,
-          pricePerItem: pricePerItem * 100,
+          pricePerItem: parseInt(pricePerItem * 100),
         });
         await newReceipt.addItem(newItem);
         return newItem;
