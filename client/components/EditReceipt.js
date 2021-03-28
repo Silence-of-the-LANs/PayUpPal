@@ -10,7 +10,7 @@ import Modal from '@material-ui/core/Modal';
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
-  const [pool, setPool] = useState(null);
+  const [pool, setPool] = useState([]);
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
   // if tax is read on our receipt, set as state, otherwise 0
   const [tax, setTax] = useState(
@@ -90,14 +90,8 @@ const EditReceipt = () => {
     setOpenAdd(false);
   };
   const closeSelectModal = (friendPoolData) => {
-    console.log('trigger');
     setOpenSelect(false);
-
-    // turn object into array so we can use array methods, then also filter out the friends that were initially selected (either on purpose or by accident) and then were unselected by the user
-    const filteredPoolData = Object.values(friendPoolData).filter(
-      (friend) => friend.checked
-    );
-    setPool(filteredPoolData);
+    setPool(friendPoolData);
   };
   console.log('pool: ', pool);
   return (
@@ -147,6 +141,14 @@ const EditReceipt = () => {
         >
           <FriendList closeSelectModal={closeSelectModal} />
         </Modal>
+        <div>
+          Friends selected:{' '}
+          {pool.map((friend, index) => (
+            <span>
+              {index === pool.length - 1 ? friend.name : friend.name + ', '}
+            </span>
+          ))}
+        </div>
         {receiptDataState.items && (
           <table>
             <tr className='item-header'>
