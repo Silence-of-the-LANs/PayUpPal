@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../App';
+import { useHistory } from 'react-router';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -53,25 +55,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login() {
   const classes = useStyles();
+  const history = useHistory();
   const [data, setData] = useState({
     email: '',
     password: '',
   });
+  const { user, setUser } = useContext(UserContext);
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
-    console.log(data);
     const formData = {
       email: data.email,
       password: data.password,
     };
     const response = await axios.put('auth/login', formData);
 
+    const newUser = { userId: response.data.id };
+    setUser(newUser);
     // Clear the inputs after the button is pressed
     setData({
       email: '',
       password: '',
     });
+    history.push('/');
   }
   const handleChange = (evt) => {
     evt.persist();

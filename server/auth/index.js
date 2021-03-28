@@ -26,6 +26,7 @@ router.put('/login', async (req, res, next) => {
         );
     } else {
       // Logs the user in
+      // console.log('The session info is', req.session.passport.user);
       req.login(user, (err) => (err ? next(err) : res.json(user)));
     }
   } catch (err) {

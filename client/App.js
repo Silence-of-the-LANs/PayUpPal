@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Routes from './routes';
 import { Navbar } from './components';
 import TommyPractice from '../client/components/TommyPractice';
 
+export const UserContext = React.createContext({});
+
 const App = () => {
+  const [user, setUser] = useState({ userId: '' });
   return (
-    <div>
+    <UserContext.Provider value={{ user, setUser }}>
       <Navbar />
       <Routes />
       {/* <TommyPractice /> */}
-    </div>
+    </UserContext.Provider>
   );
 };
 
