@@ -48,6 +48,21 @@ const textSameLine = (text, targetLine) => {
   }
   return false;
 };
+router.get('/user:id', async (req, res, next) => {
+  try {
+    const receiptHistory = await Receipt.findAll({
+      where: {
+        userId: req.params.id,
+      },
+      include: {
+        model: Item,
+      },
+    });
+    res.send(receiptHistory);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // api/receipt/upload
 router.post('/upload', upload, async (req, res, next) => {
@@ -146,7 +161,7 @@ router.post('/upload', upload, async (req, res, next) => {
 
 router.post('/submit', async (req, res, next) => {
   try {
-    const user = User.findByPk(req.session.user);
+    const user = await User.findByPk(req.user.id);
     const {
       items,
       miscItems,
@@ -166,7 +181,7 @@ router.post('/submit', async (req, res, next) => {
       total: total * 100,
       // date,
     });
-    await user.setReceipt(newReceipt);
+    await user.addReceipt(newReceipt);
     await Promise.all(
       items.map(async (singleItem) => {
         const { quantity, description, pricePerItem } = singleItem;
