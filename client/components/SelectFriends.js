@@ -65,11 +65,6 @@ const SelectFriends = (props) => {
       setFriends(data);
     };
 
-    // create initial state for checklist
-    // friends.forEach((friend) => {
-    //   checkList[friend.name] = false;
-    // });
-
     fetchFriends();
 
     setSelectedFriends(checkList);
@@ -81,13 +76,18 @@ const SelectFriends = (props) => {
         ...selectedFriends,
         [event.target.name]: {
           id: event.target.id,
+          name: event.target.name,
           checked: !selectedFriends[event.target.name].checked,
         },
       });
     } else {
       setSelectedFriends({
         ...selectedFriends,
-        [event.target.name]: { id: event.target.id, checked: true },
+        [event.target.name]: {
+          id: event.target.id,
+          name: event.target.name,
+          checked: true,
+        },
       });
     }
   };
@@ -102,9 +102,9 @@ const SelectFriends = (props) => {
           <button
             type='submit'
             className='btn btn-primary'
-            onClick={closeSelectModal}
+            onClick={() => closeSelectModal(selectedFriends)}
           >
-            CLOSE
+            CONFIRM
           </button>
         </FormLabel>
         <FormHelperText>
