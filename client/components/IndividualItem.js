@@ -6,7 +6,7 @@ const IndividualItem = (props) => {
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
 
   // grab each item and index from parent prop
-  const { item, itemIndex } = props;
+  const { item, itemIndex, splitEvenly } = props;
   // set quantity, description, pricePerItem, and totalPrice to state
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
@@ -91,6 +91,11 @@ const IndividualItem = (props) => {
           onChange={changeTotalPrice}
         />
       </td>
+      {!splitEvenly && (
+        <td>
+          <input type='text' />
+        </td>
+      )}
     </tr>
   );
 };

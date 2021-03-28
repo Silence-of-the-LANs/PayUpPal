@@ -160,10 +160,17 @@ const EditReceipt = () => {
               <th>Description</th>
               <th>Price Per Item</th>
               <th>Item total</th>
+              {!splitEvenly && <th>Allocated</th>}
             </tr>
             {/* maps thru each indivial item */}
             {receiptDataState.items.map((item, index) => {
-              return <IndividualItem item={item} itemIndex={index} />;
+              return (
+                <IndividualItem
+                  item={item}
+                  itemIndex={index}
+                  splitEvenly={splitEvenly}
+                />
+              );
             })}
           </table>
         )}
