@@ -91,6 +91,12 @@ app.use((err, req, res, next) => {
 // Perform a sync so that our session table gets created
 sessionStore.sync();
 
+// Checking session issue for diagnostic purposes
+app.use((req, res, next) => {
+  console.log('SESSION -->', req.session);
+  next();
+});
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });

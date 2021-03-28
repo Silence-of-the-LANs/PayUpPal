@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { User } = require('../db/model');
 
 router.put('/login', async (req, res, next) => {
-  console.log('This is the login route');
   try {
     const user = await User.findOne({
       where: { email: req.body.email },
@@ -18,7 +17,7 @@ router.put('/login', async (req, res, next) => {
           'The username and/or password entered does not match the information in our records'
         );
     } else if (!user.correctPassword(req.body.password)) {
-      console.log(`The password for user ${req.body.email} was inccorect`);
+      console.log(`The password for user ${req.body.email} was incorrect`);
       res
         .status(401)
         .send(
@@ -26,7 +25,6 @@ router.put('/login', async (req, res, next) => {
         );
     } else {
       // Logs the user in
-      // console.log('The session info is', req.session.passport.user);
       req.login(user, (err) => (err ? next(err) : res.json(user)));
     }
   } catch (err) {
@@ -54,8 +52,7 @@ router.post('/signup', async (req, res, next) => {
 router.post('/logout', (req, res) => {
   req.logout();
   req.session.destroy();
-  // This will redirect the user to the home page after logging out
-  res.redirect('/');
+  res.json(req.body.session);
 });
 
 router.get('/me', async (req, res) => {

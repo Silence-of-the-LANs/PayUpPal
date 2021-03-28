@@ -16,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
-  console.log('The user is', user.userId);
   return (
     <Grid container direction='column' align='center'>
       <Grid
@@ -27,7 +26,7 @@ const Home = () => {
         display='flex'
         justify='center'
       >
-        {user.userId === '' ? (
+        {!user.userId ? (
           <Typography variant='h2'>You Are Not Logged In</Typography>
         ) : (
           <Typography variant='h2'>You Are Logged In</Typography>

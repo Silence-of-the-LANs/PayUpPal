@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../App';
+import { useHistory } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -24,6 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
+  const { user, setUser } = useContext(UserContext);
+  const history = useHistory();
+  async function Logout() {
+    const response = await axios.post('auth/logout');
+    setUser({ userId: response.data });
+    history.push('/');
+  }
 
   return (
     <div className={classes.root}>
@@ -35,12 +45,20 @@ export default function Navbar() {
               PayUpPal
             </Link>
           </Typography>
-          <Button color='inherit' component={RouterLink} to={'/signup'}>
-            Signup
-          </Button>
-          <Button color='inherit' component={RouterLink} to={'/login'}>
-            Login
-          </Button>
+          {!user.userId ? (
+            <>
+              <Button color='inherit' component={RouterLink} to={'/signup'}>
+                Signup
+              </Button>
+              <Button color='inherit' component={RouterLink} to={'/login'}>
+                Login
+              </Button>
+            </>
+          ) : (
+            <Button color='inherit' onClick={Logout}>
+              Logout
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>
