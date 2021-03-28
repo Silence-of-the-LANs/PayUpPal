@@ -10,6 +10,7 @@ import Modal from '@material-ui/core/Modal';
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
+  const [pool, setPool] = useState();
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
   // if tax is read on our receipt, set as state, otherwise 0
   const [tax, setTax] = useState(
@@ -137,7 +138,7 @@ const EditReceipt = () => {
           aria-labelledby='Select Friend(s)'
           aria-describedby='Select your friends to add'
         >
-          <FriendList closeSelectModal={closeSelectModal} />
+          <FriendList closeSelectModal={closeSelectModal} addToPool={setPool} />
         </Modal>
         {receiptDataState.items && (
           <table>

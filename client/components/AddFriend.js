@@ -43,7 +43,7 @@ const AddFriend = (props) => {
 
   return (
     <div className={classes.root}>
-      <form className='form-inline'>
+      <form className='form-inline' onSubmit={submitFriendInfo}>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
             Name
@@ -86,15 +86,11 @@ const AddFriend = (props) => {
             onChange={dataInput}
           />
         </div>
-        <button
-          type='submit'
-          className='btn btn-primary'
-          onClick={submitFriendInfo}
-        >
+        <button type='submit' className='btn btn-primary'>
           ADD
         </button>
         <button
-          type='submit'
+          type='button'
           className='btn btn-primary'
           onClick={closeAddModal}
         >
