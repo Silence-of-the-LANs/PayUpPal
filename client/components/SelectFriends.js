@@ -1,22 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import bootstrap from 'bootstrap';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Checkbox from '@material-ui/core/Checkbox';
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+
+const icon = <CheckBoxOutlineBlankIcon fontSize='medium' />;
+const checkedIcon = <CheckBoxIcon fontSize='medium' />;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    backgroundColor: 'lightgray',
-    padding: '1rem',
-  },
-  formControl: {
-    margin: theme.spacing(3),
+    backgroundColor: 'white',
   },
   checkedIcon: {
     backgroundColor: '#137cbd',
@@ -54,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectFriends = (props) => {
   const classes = useStyles();
-  const { closeSelectModal } = props;
+  const { closeSelectModal, updatePool } = props;
   const checkedFriends = [];
   const [friends, setFriends] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState(checkedFriends);
@@ -70,64 +66,44 @@ const SelectFriends = (props) => {
     setSelectedFriends(checkedFriends);
   }, [friends.length]);
 
-  const handleChange = (event) => {
-    const isChecked = selectedFriends.some(
-      (friend) => friend.id === event.target.id
-    );
-
-    if (isChecked) {
-      setSelectedFriends(
-        selectedFriends.filter((friend) => friend.id !== event.target.id)
-      );
-    } else {
-      setSelectedFriends([
-        ...selectedFriends,
-        { id: event.target.id, name: event.target.name },
-      ]);
-    }
+  const handleChange = (event, value) => {
+    setSelectedFriends(value);
+    updatePool(value);
   };
 
-  console.log('selectedFriends: ', selectedFriends);
-
   return (
-    <div className={classes.root}>
-      <FormControl component='fieldset'>
-        <FormLabel component='legend' className={classes.formControl}>
-          Select Friends
-          <button
-            type='submit'
-            className='btn btn-primary'
-            onClick={() => closeSelectModal(selectedFriends)}
-          >
-            CONFIRM
-          </button>
-        </FormLabel>
-        <FormHelperText>
-          Select friends that are part of this bill
-        </FormHelperText>
-        <FormGroup>
-          {friends.map((friend) => (
-            <FormControlLabel
-              className={classes.formControl.root}
-              key={friend.id}
-              control={
-                <Checkbox
-                  id={friend.id.toString()}
-                  checkedIcon={<span className={classes.checkedIcon} />}
-                  icon={<span className={classes.icon} />}
-                  checked={selectedFriends.some(
-                    (selectedFriend) => selectedFriend.id == friend.id
-                  )}
-                  onChange={handleChange}
-                  name={friend.name}
-                />
-              }
-              label={friend.name}
-            />
-          ))}
-        </FormGroup>
-      </FormControl>
-    </div>
+    <Autocomplete
+      className={classes.root}
+      noOptionsText='Please add some friends...'
+      multiple
+      onChange={handleChange}
+      id='autocomplete'
+      options={friends}
+      disableCloseOnSelect
+      getOptionLabel={(option) => option.name}
+      renderOption={(option, state) => (
+        <React.Fragment>
+          <Checkbox
+            checkedIcon={<span className={classes.checkedIcon} />}
+            icon={<span className={classes.icon} />}
+            checked={state.selected}
+            onChange={() => {
+              console.log('changing');
+            }}
+          />
+          {option.name}
+        </React.Fragment>
+      )}
+      style={{ width: 500 }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          variant='outlined'
+          label='Friends List'
+          placeholder='Select friends...'
+        />
+      )}
+    />
   );
 };
 

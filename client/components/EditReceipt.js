@@ -6,6 +6,7 @@ import FriendList from './SelectFriends';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import Modal from '@material-ui/core/Modal';
+import { Switch } from '@material-ui/core';
 
 const EditReceipt = () => {
   const history = useHistory();
@@ -21,7 +22,7 @@ const EditReceipt = () => {
     receiptDataState.miscItems ? receiptDataState.miscItems.tip : 0
   );
   const [eventInput, setEventInput] = useState('');
-
+  const [splitEvenly, setSplitEvenly] = useState(true);
   const [openSelect, setOpenSelect] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
 
@@ -89,10 +90,11 @@ const EditReceipt = () => {
   const closeAddModal = () => {
     setOpenAdd(false);
   };
-  const closeSelectModal = (friendPoolData) => {
-    setOpenSelect(false);
-    setPool(friendPoolData);
+
+  const toggleSwitch = () => {
+    setSplitEvenly(!splitEvenly);
   };
+
   console.log('pool: ', pool);
   return (
     <div style={{ border: 'solid black' }}>
@@ -131,6 +133,7 @@ const EditReceipt = () => {
         >
           Select Friends
         </button>
+        <Switch checked={splitEvenly} onChange={toggleSwitch} /> Split Evenly
         <Modal
           open={openSelect}
           onClose={() => {
@@ -139,7 +142,7 @@ const EditReceipt = () => {
           aria-labelledby='Select Friend(s)'
           aria-describedby='Select your friends to add'
         >
-          <FriendList closeSelectModal={closeSelectModal} />
+          <FriendList updatePool={setPool} />
         </Modal>
         <div>
           Friends selected:{' '}
