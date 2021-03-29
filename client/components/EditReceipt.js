@@ -244,7 +244,11 @@ const EditReceipt = () => {
           />
         </label>
         <label>Total: ${total.toFixed(2)}</label>
-        <button type='submit' onClick={submitReceipt}>
+        <button
+          type='submit'
+          disabled={pool.length < 1}
+          onClick={submitReceipt}
+        >
           Submit Receipt
         </button>
       </div>
