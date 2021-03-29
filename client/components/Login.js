@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { useHistory } from 'react-router';
 import { UserContext } from '../Store';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
@@ -55,32 +56,35 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const [user, setUser] = useContext(UserContext);
   const classes = useStyles();
-  const [data, setData] = useState({
+  const history = useHistory();
+  const [formInfo, setFormInfo] = useState({
     email: '',
     password: '',
   });
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
-    console.log(data);
-    const formData = {
-      email: data.email,
-      password: data.password,
+    const formInfoToSubmit = {
+      email: formInfo.email,
+      password: formInfo.password,
     };
-    const response = await axios.put('auth/login', formData);
+
+    const response = await axios.put('auth/login', formInfoToSubmit);
     // if response is successful, load user data into store
     if (response.status === 200) {
       setUser(response.data);
     }
+
     // Clear the inputs after the button is pressed
-    setData({
+    setFormInfo({
       email: '',
       password: '',
     });
+    history.push('/');
   }
   const handleChange = (evt) => {
     evt.persist();
-    setData({ ...data, [evt.target.name]: evt.target.value });
+    setFormInfo({ ...formInfo, [evt.target.name]: evt.target.value });
   };
 
   return (
@@ -105,7 +109,7 @@ export default function Login() {
             onChange={handleChange}
             autoComplete='email'
             type='email'
-            value={data.email}
+            value={formInfo.email}
             autoFocus
           />
           <TextField
@@ -117,7 +121,7 @@ export default function Login() {
             onChange={handleChange}
             label='Password'
             type='password'
-            value={data.password}
+            value={formInfo.password}
             id='password'
             autoComplete='password'
           />

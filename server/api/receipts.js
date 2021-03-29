@@ -5,9 +5,10 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const sharp = require('sharp');
 const { checkIfItem } = require('./helperFunctions');
-const { Receipt, Item, User } = require('../db/model/index');
+const { Receipt, Item, User, Debt } = require('../db/model/index');
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
 let GOOG_KEY;
+
 if (process.env.NODE_ENV !== 'production') {
   const awsObject = require('../../secrets');
   AWS_ID = awsObject.AWS_ID;
@@ -92,7 +93,7 @@ router.post('/upload', upload, async (req, res, next) => {
     };
     // uploads the image onto S3 bucket
     const data = await s3.upload(params).promise();
-    console.log(data);
+
     const [result] = await client.textDetection(data.Location);
     const detections = result.textAnnotations;
     // create simplied data object
@@ -161,6 +162,7 @@ router.post('/upload', upload, async (req, res, next) => {
     console.log(textByLines);
 
     const itemList = checkIfItem(textByLines);
+
     res.send({ ...itemList, imageUrl: data.Location, imageName: data.key });
   } catch (err) {
     console.log(err);
@@ -181,6 +183,7 @@ router.post('/submit', async (req, res, next) => {
       tip,
       total,
     } = req.body;
+
     const newReceipt = await Receipt.create({
       imageUrl,
       eventName,
@@ -191,20 +194,40 @@ router.post('/submit', async (req, res, next) => {
       // date,
     });
     await user.addReceipt(newReceipt);
+
     await Promise.all(
       items.map(async (singleItem) => {
-        const { quantity, description, pricePerItem } = singleItem;
+        const {
+          quantity,
+          description,
+          pricePerItem,
+          totalPrice,
+          friends,
+        } = singleItem;
+
         const newItem = await Item.create({
           quantity,
           description,
           pricePerItem: parseInt(pricePerItem * 100),
         });
+
+        await Promise.all(
+          friends.map(async (friend) => {
+            const newDebt = await Debt.create({
+              paid: false,
+              balance: parseInt(totalPrice * 100) / friends.length,
+              friendId: friend.id,
+              userId: user.id,
+              itemId: newItem.id,
+              receiptId: newReceipt.id,
+            });
+          })
+        );
+
         await newReceipt.addItem(newItem);
         return newItem;
       })
     );
-
-    console.log('req.body', req.body);
   } catch (err) {
     next(err);
   }

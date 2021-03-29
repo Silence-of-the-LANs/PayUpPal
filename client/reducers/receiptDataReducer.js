@@ -45,6 +45,11 @@ export default (state = {}, action) => {
       newItemList = state.items;
       newItemList[index].friends = action.friends;
       return { ...state, items: [...state.items, newItemList] };
+    case 'ASSIGN_FRIEND':
+      newItemList = state.items;
+      newItemList[action.itemIndex].friends = action.friends;
+      console.log('should have friends: ', newItemList[action.itemIndex]);
+      return { ...state, items: newItemList };
     default:
       return state;
   }

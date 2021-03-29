@@ -106,6 +106,12 @@ const IndividualItem = (props) => {
   const deleteItem = () => {
     dispatch({ type: 'DELETE_ITEM', itemIndex });
   };
+
+  const assignFriends = (event, value) => {
+    console.log('assigning');
+    dispatch({ type: 'ASSIGN_FRIEND', itemIndex, friends: value });
+  };
+
   return (
     <tr className='item-input'>
       <button type='button' onClick={deleteItem}>
@@ -145,7 +151,7 @@ const IndividualItem = (props) => {
           className={classes.root}
           noOptionsText='Please add some friends...'
           multiple
-          // onChange={}
+          onChange={assignFriends}
           id='autocomplete'
           options={pool}
           disableCloseOnSelect
