@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { UserContext } from '../App';
+import { useHistory } from 'react-router';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -52,38 +54,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Signup() {
   const classes = useStyles();
-  const [data, setData] = useState({
+  const history = useHistory();
+  const [formInfo, setFormInfo] = useState({
     email: '',
     password: '',
     confirmPassword: '',
   });
+  const { user, setUser } = useContext(UserContext);
+  console.log('The user outside the loop is:', user);
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
-    const formData = {
-      email: data.email,
-      password: data.password,
-      confirmPassword: data.confirmPassword,
+    const formInfoToSubmit = {
+      email: formInfo.email,
+      password: formInfo.password,
+      confirmPassword: formInfo.confirmPassword,
     };
-    if (formData.confirmPassword !== formData.password) {
-      alert('Your passwords do not match');
-    } else {
-      const { data } = await axios.post('auth/signup', formData);
-    }
-    console.log(`Your email is: ${formData.email}`);
-    console.log(`Your password is: ${formData.password}`);
-    console.log(`Your password confirmation is: ${formData.confirmPassword}`);
-
+    await axios.post('auth/signup', formInfoToSubmit);
+    const { data } = await axios.get('auth/me');
+    console.log('The user id is:', data.id);
+    const loggedinUser = data.id;
+    setUser(loggedinUser);
+    console.log('The user after after being set is', user);
     // Clear the inputs after the button is pressed
-    setData({
+    setFormInfo({
       email: '',
       password: '',
       confirmPassword: '',
     });
+    history.push('/');
   }
   const handleChange = (evt) => {
     evt.persist();
-    setData({ ...data, [evt.target.name]: evt.target.value });
+    setFormInfo({ ...formInfo, [evt.target.name]: evt.target.value });
   };
   return (
     <Container component='main' maxWidth='xs'>
@@ -106,7 +109,7 @@ export default function Signup() {
             onChange={handleChange}
             label='Email'
             type='email'
-            value={data.email}
+            value={formInfo.email}
             id='email'
           />
           <TextField
@@ -118,7 +121,7 @@ export default function Signup() {
             onChange={handleChange}
             label='Password'
             type='password'
-            value={data.password}
+            value={formInfo.password}
             id='password'
             autoComplete='current-password'
           />
@@ -131,7 +134,7 @@ export default function Signup() {
             onChange={handleChange}
             label='Confirm Password'
             type='password'
-            value={data.confirmPassword}
+            value={formInfo.confirmPassword}
             id='confirmPassword'
             autoComplete='current-password'
           />

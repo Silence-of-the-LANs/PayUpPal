@@ -34,8 +34,16 @@ router.put('/login', async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
   try {
-    const user = await User.create(req.body);
-    req.login(user, (err) => (err ? next(err) : res.json(user)));
+    console.log('The body in signup is', req.body);
+    if (req.body.password !== req.body.confirmPassword) {
+      console.log('The entered passwords do not match. Please try again.');
+      res
+        .status(401)
+        .send('The entered passwords do not match. Please try again.');
+    } else {
+      const user = await User.create(req.body);
+      req.login(user, (err) => (err ? next(err) : res.json(user)));
+    }
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
       res

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import axios from 'axios';
 import { UserContext } from '../App';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -16,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
+  console.log('The user at home is', user);
   return (
     <Grid container direction='column' align='center'>
       <Grid
@@ -26,7 +28,7 @@ const Home = () => {
         display='flex'
         justify='center'
       >
-        {!user.userId ? (
+        {!user ? (
           <Typography variant='h2'>You Are Not Logged In</Typography>
         ) : (
           <Typography variant='h2'>You Are Logged In</Typography>

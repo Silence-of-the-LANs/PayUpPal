@@ -28,9 +28,14 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
+  console.log('The user in the navbar is', user);
   const history = useHistory();
   async function Logout() {
+    const loggedinPerson = await axios.get('auth/me');
+    console.log('This person is logged in:', loggedinPerson);
     const response = await axios.post('auth/logout');
+    const loggedoutPerson = await axios.get('auth/me');
+    console.log('This person is logged out:', loggedoutPerson);
     setUser({ userId: response.data });
     history.push('/');
   }
@@ -45,7 +50,7 @@ export default function Navbar() {
               PayUpPal
             </Link>
           </Typography>
-          {!user.userId ? (
+          {!user ? (
             <>
               <Button color='inherit' component={RouterLink} to={'/signup'}>
                 Signup
