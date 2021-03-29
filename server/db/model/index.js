@@ -16,6 +16,12 @@ Receipt.hasMany(Item);
 Debt.belongsTo(User);
 User.hasMany(Debt);
 
+Debt.belongsTo(Item);
+Item.hasMany(Debt);
+
+Debt.belongsTo(Receipt);
+Receipt.hasMany(Debt);
+
 module.exports = {
   User,
   Debt,

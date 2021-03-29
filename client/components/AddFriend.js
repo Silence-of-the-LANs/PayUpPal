@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import bootstrap from 'bootstrap';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    backgroundColor: 'lightgray',
+    padding: '1rem',
+  },
+}));
 
 const initialState = {
   name: '',
@@ -9,6 +18,8 @@ const initialState = {
 };
 
 const AddFriend = (props) => {
+  const classes = useStyles();
+  const { closeAddModal } = props;
   const [friend, setFriend] = useState(initialState);
 
   const dataInput = (event) => {
@@ -19,7 +30,11 @@ const AddFriend = (props) => {
     event.preventDefault();
     try {
       const { data } = await axios.post('api/friends/addFriend', friend);
-      props.addToFriends(data);
+
+      if (props.addToFriends) {
+        props.addToFriends(data);
+      }
+
       setFriend(initialState);
     } catch (err) {
       console.log(err);
@@ -27,8 +42,8 @@ const AddFriend = (props) => {
   };
 
   return (
-    <div>
-      <form className='form-inline'>
+    <div className={classes.root}>
+      <form className='form-inline' onSubmit={submitFriendInfo}>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
             Name
@@ -71,12 +86,15 @@ const AddFriend = (props) => {
             onChange={dataInput}
           />
         </div>
-        <button
-          type='submit'
-          className='btn btn-primary'
-          onClick={submitFriendInfo}
-        >
+        <button type='submit' className='btn btn-primary'>
           ADD
+        </button>
+        <button
+          type='button'
+          className='btn btn-primary'
+          onClick={closeAddModal}
+        >
+          CLOSE
         </button>
       </form>
     </div>

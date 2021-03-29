@@ -9,8 +9,7 @@ import {
   ScanReceipt,
   Signup,
   ViewDebts,
-  ViewFriends,
-  DrawerMenu,
+  SelectFriends,
 } from './components';
 
 const Routes = () => {
@@ -18,7 +17,7 @@ const Routes = () => {
     <Switch>
       <Route path='/home' component={Home} />
       <Route path='/addfriend' component={AddFriend} />
-      <Route path='/viewfriends' component={ViewFriends} />
+      <Route path='/selectfriends' component={SelectFriends} />
       <Route exact path='/scanreceipt' component={ScanReceipt} />
       <Route exact path='/editreceipt' component={EditReceipt} />
       <Route path='/signup' component={Signup} />
