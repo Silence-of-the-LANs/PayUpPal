@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import axios from 'axios';
+// import { UserContext } from '../App';
+import { UserContext } from '../Store';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -14,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const [user, setUser] = useContext(UserContext);
+
   return (
     <Grid container direction='column' align='center'>
       <Grid
@@ -24,7 +29,11 @@ const Home = () => {
         display='flex'
         justify='center'
       >
-        <Typography variant='h2'>Welcome 2101-FSA-RM-WEB-FT!</Typography>
+        {!user ? (
+          <Typography variant='h2'>You Are Not Logged In</Typography>
+        ) : (
+          <Typography variant='h2'>You Are Logged In</Typography>
+        )}
       </Grid>
     </Grid>
   );

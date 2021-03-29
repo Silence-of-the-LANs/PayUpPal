@@ -50,7 +50,7 @@ export default function DrawerMenu() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <div>Welcome {user.email}</div>
+      {user ? <div>Welcome {user.email}</div> : <div>Welcome</div>}
       <Divider />
       <List>
         {[
