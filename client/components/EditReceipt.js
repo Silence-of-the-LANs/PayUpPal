@@ -169,6 +169,7 @@ const EditReceipt = () => {
                   item={item}
                   itemIndex={index}
                   splitEvenly={splitEvenly}
+                  pool={pool}
                 />
               );
             })}
