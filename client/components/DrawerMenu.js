@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../Store';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -27,6 +28,7 @@ export default function DrawerMenu() {
   const [state, setState] = React.useState({
     left: false,
   });
+  const [user, setUser] = useContext(UserContext);
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -48,7 +50,7 @@ export default function DrawerMenu() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <div>User Information</div>
+      <div>Welcome {user.email}</div>
       <Divider />
       <List>
         {[
@@ -57,6 +59,7 @@ export default function DrawerMenu() {
           { text: 'Edit Receipt', url: 'editreceipt' },
           { text: 'Manage Debts', url: 'viewdebts' },
           { text: 'Manage Friends', url: 'managefriends' },
+          { text: 'Receipt History', url: 'receipthistory' },
         ].map((listItemObj, index) => (
           <Link key={listItemObj.text} to={`/${listItemObj.url}`}>
             <ListItem button key={listItemObj.text}>

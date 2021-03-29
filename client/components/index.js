@@ -15,3 +15,4 @@ export { default as TommyPractice } from './TommyPractice';
 export { default as ViewDebts } from './ViewDebts';
 export { default as SelectFriends } from './SelectFriends';
 export { default as DrawerMenu } from './DrawerMenu';
+export { default as ReceiptHistory } from './ReceiptHistory';

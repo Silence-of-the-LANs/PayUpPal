@@ -4,6 +4,7 @@ const listOfUsers = [
   { email: 'gduckitt@gmail.com', password: 'abcdef' },
   { email: 'pmckiddin@gmail.com', password: 'abcdef' },
   { email: 'arisdale@gmail.com', password: 'abcdef' },
+  { email: 'tommy@email.com', password: '123' },
   // { email: 'bpuckett@gmail.com', password: 'abcdef' },
   // { email: 'bdionis@gmail.com', password: 'abcdef' },
   // { email: 'nventon@gmail.com', password: 'abcdef' },
