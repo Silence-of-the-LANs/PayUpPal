@@ -40,6 +40,7 @@ const storage = multer.memoryStorage({
 // file is referenced in our upload component. <form name='image'>
 const upload = multer({ storage }).single('file');
 
+// changed sameLine checker from absolute value to proportion
 const textSameLine = (text, targetLine) => {
   if (
     // Math.abs(text.minY - targetLine.minY < 10) &&
