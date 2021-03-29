@@ -11,7 +11,6 @@ export { default as ManageFriends } from './ManageFriends';
 export { default as Navbar } from './Navbar';
 export { default as ScanReceipt } from './ScanReceipt';
 export { default as Signup } from './Signup';
-export { default as TommyPractice } from './TommyPractice';
 export { default as ViewDebts } from './ViewDebts';
 export { default as SelectFriends } from './SelectFriends';
 export { default as DrawerMenu } from './DrawerMenu';

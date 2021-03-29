@@ -16,3 +16,18 @@
 #receipt-list {
   border: green solid;
 }
+
+.preview-image {
+  align-self: center;
+  width: 75vw;
+  height: 95%;
+}
+.preview-image-div {
+  display: flex;
+  flex-direction: column;
+}
+
+.ReactModal__Content--after-open {
+  width: 80vw;
+  height: 70%;
+}
