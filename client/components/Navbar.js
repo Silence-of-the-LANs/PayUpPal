@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { UserContext } from '../App';
+import { UserContext } from '../Store';
 import { useHistory } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
@@ -27,11 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar() {
   const classes = useStyles();
-  const { user, setUser } = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
   useEffect(() => {
     const loggedInStatus = async () => {
       const { data } = await axios.get('auth/me');
-      setUser(data.id);
+      setUser(data);
     };
     loggedInStatus();
   }, []);

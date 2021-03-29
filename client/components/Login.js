@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { UserContext } from '../App';
 import { useHistory } from 'react-router';
-// import { UserContext } from '../Store';
+import { UserContext } from '../Store';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -62,7 +61,6 @@ export default function Login() {
     email: '',
     password: '',
   });
-  // const { user, setUser } = useContext(UserContext);
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
@@ -71,19 +69,11 @@ export default function Login() {
       password: formInfo.password,
     };
 
-    await axios.put('auth/login', formInfoToSubmit);
-    const { data } = await axios.get('auth/me');
-    const loggedinUser = data.id;
-    setUser(loggedinUser);
-
-    // const newUser = { userId: response.data.id };
-    // setUser(loggedinUser);
-
-    // const response = await axios.put('auth/login', formData);
-    // // if response is successful, load user data into store
-    // if (response.status === 200) {
-    //   setUser(response.data);
-    // }
+    const response = await axios.put('auth/login', formInfoToSubmit);
+    // if response is successful, load user data into store
+    if (response.status === 200) {
+      setUser(response.data);
+    }
 
     // Clear the inputs after the button is pressed
     setFormInfo({

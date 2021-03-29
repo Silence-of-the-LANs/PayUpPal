@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { UserContext } from '../App';
+import React, { useContext, useState } from 'react';
+import { UserContext } from '../Store';
 import { useHistory } from 'react-router';
 import axios from 'axios';
 import Avatar from '@material-ui/core/Avatar';
@@ -60,8 +60,7 @@ export default function Signup() {
     password: '',
     confirmPassword: '',
   });
-  const { user, setUser } = useContext(UserContext);
-  console.log('The user outside the loop is:', user);
+  const [user, setUser] = useContext(UserContext);
 
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
@@ -73,8 +72,7 @@ export default function Signup() {
     };
     await axios.post('auth/signup', formInfoToSubmit);
     const { data } = await axios.get('auth/me');
-    const loggedinUser = data.id;
-    setUser(loggedinUser);
+    setUser(data);
     // Clear the inputs after the button is pressed
     setFormInfo({
       email: '',
@@ -87,7 +85,7 @@ export default function Signup() {
     evt.persist();
     setFormInfo({ ...formInfo, [evt.target.name]: evt.target.value });
   };
-  console.log('This is the user after set in Signup:', user);
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
