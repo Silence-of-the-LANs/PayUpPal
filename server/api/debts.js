@@ -4,7 +4,7 @@ const router = require('express').Router();
 // api/debts/displayDebts route
 router.get('/displayDebts', async (req, res, next) => {
   try {
-    const userId = 3; // replace with req.session.user and add if condition in case req.session.user is not defined
+    const userId = req.session.passport.user; // replace with req.session.user and add if condition in case req.session.user is not defined
 
     const debts = await Debt.findAll({
       where: { userId: userId },
@@ -21,7 +21,7 @@ router.get('/displayDebts', async (req, res, next) => {
 // api/debts/markPaid/:debtId route
 router.put('/markPaid/:debtId', async (req, res, next) => {
   try {
-    // const userId = req.session.user
+    const userId = req.session.passport.user;
 
     const debtId = parseInt(req.params.debtId);
 
@@ -32,10 +32,10 @@ router.put('/markPaid/:debtId', async (req, res, next) => {
     });
 
     const updatedDebts = await Debt.findAll({
-      //   where: {
-      //     // userId: userId,
-      //   },
-      //   include: [{ model: Friend }],
+      where: {
+        userId: userId,
+      },
+      include: [{ model: Friend }],
     });
 
     res.json(updatedDebts);
