@@ -1,14 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
-import Modal from 'react-modal';
+import {Modal as ReactModal} from 'react-modal';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
+import AddFriend from './AddFriend';
+import FriendList from './SelectFriends';
 import axios from 'axios';
 import { useHistory } from 'react-router';
+import Modal from '@material-ui/core/Modal';
+import { Switch } from '@material-ui/core';
 
 Modal.setAppElement('#app');
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
+  const [pool, setPool] = useState([]);
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
   // if tax is read on our receipt, set as state, otherwise 0
   const [tax, setTax] = useState(
@@ -19,6 +24,7 @@ const EditReceipt = () => {
     receiptDataState.miscItems ? receiptDataState.miscItems.tip : 0
   );
   const [eventInput, setEventInput] = useState('');
+
   const [dateInput, setDateInput] = useState('');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
@@ -31,6 +37,19 @@ const EditReceipt = () => {
       }, 1000);
     }
   });
+
+  const [splitEvenly, setSplitEvenly] = useState(true);
+  const [openSelect, setOpenSelect] = React.useState(false);
+  const [openAdd, setOpenAdd] = React.useState(false);
+ 
+  const closeAddModal = () => {
+    setOpenAdd(false);
+  };
+
+  const toggleSwitch = () => {
+    setSplitEvenly(!splitEvenly);
+  };
+
   // adds an empty item to our item list
   const addItem = () => {
     let newItem = {
@@ -90,7 +109,9 @@ const EditReceipt = () => {
       }, 0)
       .toFixed(2)
   );
-  return !successfulSubmit ? (
+
+  console.log('pool: ', pool);
+  return !successfulSubmit ? ( (
     <div style={{ border: 'solid black' }}>
       <div>
         <h2>Edit Receipt</h2>
@@ -118,7 +139,7 @@ const EditReceipt = () => {
         </div>
         <br />
         <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        <Modal
+        <ReactModal
           isOpen={modalIsOpen}
           // onAfterOpen={afterOpenModal}
           onRequestClose={() => setIsOpen(false)}
@@ -127,7 +148,50 @@ const EditReceipt = () => {
             <button onClick={() => setIsOpen(false)}>Close</button>
             <img src={receiptDataState.imageUrl} />
           </div>
+        </ReactModal>
+        <button
+          type='button'
+          onClick={() => {
+            setOpenAdd(true);
+          }}
+        >
+          Add Friend
+        </button>
+        <Modal
+          open={openAdd}
+          onClose={closeAddModal}
+          aria-labelledby='Add a friend'
+          aria-describedby='Add a new friend to your friend list'
+        >
+          <AddFriend closeAddModal={closeAddModal} />
         </Modal>
+        <button
+          type='button'
+          onClick={() => {
+            setOpenSelect(true);
+          }}
+        >
+          Select Friends
+        </button>
+        <Switch checked={splitEvenly} onChange={toggleSwitch} /> Split Evenly
+        <Modal
+          open={openSelect}
+          onClose={() => {
+            setOpenSelect(false);
+          }}
+          aria-labelledby='Select Friend(s)'
+          aria-describedby='Select your friends to add'
+        >
+          <FriendList updatePool={setPool} />
+        </Modal>
+        <div>
+          Friends selected:{' '}
+          {pool.map((friend, index) => (
+            <span>
+              {index === pool.length - 1 ? friend.name : friend.name + ', '}
+            </span>
+          ))}
+        </div>
         {receiptDataState.items && (
           <table>
             <tr className='item-header'>
@@ -136,10 +200,18 @@ const EditReceipt = () => {
               <th>Description</th>
               <th>Price Per Item</th>
               <th>Item total</th>
+              {!splitEvenly && <th>Allocated</th>}
             </tr>
             {/* maps thru each indivial item */}
             {receiptDataState.items.map((item, index) => {
-              return <IndividualItem item={item} itemIndex={index} />;
+              return (
+                <IndividualItem
+                  item={item}
+                  itemIndex={index}
+                  splitEvenly={splitEvenly}
+                  pool={pool}
+                />
+              );
             })}
           </table>
         )}
