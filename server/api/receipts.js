@@ -179,7 +179,6 @@ router.post('/submit', async (req, res, next) => {
       tip,
       total,
     } = req.body;
-    // const date = new Date();
     const newReceipt = await Receipt.create({
       imageUrl,
       eventName,

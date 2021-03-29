@@ -39,6 +39,12 @@ export default (state = {}, action) => {
         return { ...state, items: [action.newItem] };
       }
       return { ...state, items: [...state.items, action.newItem] };
+    case 'ADD_FRIENDS':
+      let index = action.index;
+      let friends = action.friends; // also with a balance
+      newItemList = state.items;
+      newItemList[index].friends = action.friends;
+      return { ...state, items: [...state.items, newItemList] };
     default:
       return state;
   }

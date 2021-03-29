@@ -27,5 +27,4 @@ module.exports = {
       },
     ],
   },
-  types: ['node'],
 };

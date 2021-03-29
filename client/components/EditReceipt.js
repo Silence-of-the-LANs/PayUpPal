@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import {Modal as ReactModal} from 'react-modal';
+// import { Modal as ReactModal } from 'react-modal';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
 import AddFriend from './AddFriend';
@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 import Modal from '@material-ui/core/Modal';
 import { Switch } from '@material-ui/core';
 
-Modal.setAppElement('#app');
+// ReactModal.setAppElement('#app');
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
@@ -41,7 +41,7 @@ const EditReceipt = () => {
   const [splitEvenly, setSplitEvenly] = useState(true);
   const [openSelect, setOpenSelect] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
- 
+
   const closeAddModal = () => {
     setOpenAdd(false);
   };
@@ -66,6 +66,7 @@ const EditReceipt = () => {
   const submitReceipt = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
+    console.log('inside submit receipt');
     if (eventInput && dateInput) {
       let newTip;
       let newTax;
@@ -80,6 +81,7 @@ const EditReceipt = () => {
         tip: newTip,
         total,
       };
+
       let { data } = axios.post('/api/receipts/submit', editReceiptUserData);
       setSuccessfulSubmit(true);
       // add data to view history component
@@ -95,7 +97,7 @@ const EditReceipt = () => {
           .toFixed(2)
       )
     : 0;
-  // finds sum of subtotal, tip, tax
+  // finds sum of subtotal, tip, tax˜
   let total = parseFloat(
     [subTotal, tax, tip]
       .reduce((a, b) => {
@@ -111,7 +113,7 @@ const EditReceipt = () => {
   );
 
   console.log('pool: ', pool);
-  return !successfulSubmit ? ( (
+  return !successfulSubmit ? (
     <div style={{ border: 'solid black' }}>
       <div>
         <h2>Edit Receipt</h2>
@@ -139,7 +141,7 @@ const EditReceipt = () => {
         </div>
         <br />
         <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        <ReactModal
+        {/* <ReactModal
           isOpen={modalIsOpen}
           // onAfterOpen={afterOpenModal}
           onRequestClose={() => setIsOpen(false)}
@@ -148,7 +150,7 @@ const EditReceipt = () => {
             <button onClick={() => setIsOpen(false)}>Close</button>
             <img src={receiptDataState.imageUrl} />
           </div>
-        </ReactModal>
+        </ReactModal> */}
         <button
           type='button'
           onClick={() => {
