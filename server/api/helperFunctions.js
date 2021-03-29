@@ -45,7 +45,7 @@ const convertToArrObj = (itemArr) => {
       }
     }
     // adds tax as a misc item
-    if (/tips/i.test(line)) {
+    if (/tip/i.test(line)) {
       if (dollarText.includes('$') || dollarText.includes('S')) {
         miscItems.subTotal = Number(dollarText.slice(1));
       } else {

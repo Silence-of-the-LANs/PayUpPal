@@ -46,8 +46,8 @@ const textSameLine = (text, targetLine) => {
   if (
     // Math.abs(text.minY - targetLine.minY < 10) &&
     // Math.abs(text.maxY - targetLine.maxY < 10)
-    (text.minY - targetLine.minY) / text.minY < 0.046 &&
-    (text.maxY - targetLine.maxY) / text.maxY < 0.046
+    (text.minY - targetLine.minY) / text.minY < 0.048 &&
+    (text.maxY - targetLine.maxY) / text.maxY < 0.048
   ) {
     return true;
   }
@@ -82,6 +82,8 @@ router.post('/upload', upload, async (req, res, next) => {
 
     // sharp.rotate auto rotates images originating from phone
     const newBuffer = await sharp(req.file.buffer).rotate();
+    // const getDimensions = await sharp(newBuffer).toBuffer();
+    // console.log(getDimensions);
     const params = {
       Bucket: AWS_BUCKET_NAME,
       Key: fileName + `.${fileType}`,
@@ -113,7 +115,6 @@ router.post('/upload', upload, async (req, res, next) => {
       })
       // sort function only sorted from highest to lowest, so need to reverse
       .reverse();
-
     // get rid of original description
     let sortByYNoDescription = sortByY.slice(1);
     let line = 1;
@@ -158,6 +159,8 @@ router.post('/upload', upload, async (req, res, next) => {
         .join(' ');
       return joinLines;
     });
+    console.log(textByLines);
+
     const itemList = checkIfItem(textByLines);
 
     res.send({ ...itemList, imageUrl: data.Location, imageName: data.key });

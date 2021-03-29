@@ -71,8 +71,6 @@ const IndividualItem = (props) => {
   const changeTotalPrice = (e) => {
     setTotalPrice(e.target.value);
     setPricePerItem(parseFloat((e.target.value / quantity).toFixed(2)));
-    // e.target.value = $1.00
-    // before it was = $0.99
     let PPI = parseFloat((e.target.value / quantity).toFixed(2));
     let TP = e.target.value;
     //

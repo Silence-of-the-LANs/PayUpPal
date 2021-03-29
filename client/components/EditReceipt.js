@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-// import { Modal as ReactModal } from 'react-modal';
+import * as ReactModal from 'react-modal';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
 import AddFriend from './AddFriend';
@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 import Modal from '@material-ui/core/Modal';
 import { Switch } from '@material-ui/core';
 
-// ReactModal.setAppElement('#app');
+ReactModal.setAppElement('#app');
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
@@ -31,7 +31,7 @@ const EditReceipt = () => {
   const [countdown, setCountdown] = useState(5);
   const [modalIsOpen, setIsOpen] = useState(false);
   useEffect(() => {
-    if (successfulSubmit) {
+    if (successfulSubmit && countdown > 0) {
       setInterval(() => {
         setCountdown(countdown - 1);
       }, 1000);
@@ -140,17 +140,16 @@ const EditReceipt = () => {
           />
         </div>
         <br />
-        <button onClick={() => setIsOpen(true)}>Open Modal</button>
-        {/* <ReactModal
+        <button onClick={() => setIsOpen(true)}>Preview Image</button>
+        <ReactModal
           isOpen={modalIsOpen}
-          // onAfterOpen={afterOpenModal}
           onRequestClose={() => setIsOpen(false)}
         >
           <div>
             <button onClick={() => setIsOpen(false)}>Close</button>
-            <img src={receiptDataState.imageUrl} />
+            <img className='preview-image' src={receiptDataState.imageUrl} />
           </div>
-        </ReactModal> */}
+        </ReactModal>
         <button
           type='button'
           onClick={() => {
