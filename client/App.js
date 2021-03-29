@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import Routes from './routes';
 import { Navbar } from './components';
-import TommyPractice from '../client/components/TommyPractice';
 
-// export const UserContext = React.createContext({});
 export const UserContext = React.createContext(null);
 
 const App = () => {
-  // const [user, setUser] = useState({ userId: null });
-  const [user, setUser] = useState(null);
+  const getUser = async () => {
+    const { data } = await axios.get('auth/me');
+  };
+  const initialUser = getUser();
+  const [user, setUser] = useState(initialUser);
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Navbar />
       <Routes />
-      {/* <TommyPractice /> */}
     </UserContext.Provider>
   );
 };

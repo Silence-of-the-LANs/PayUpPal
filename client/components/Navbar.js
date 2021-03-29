@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../App';
 import { useHistory } from 'react-router';
 import { Link as RouterLink } from 'react-router-dom';
@@ -28,15 +28,19 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
-  console.log('The user in the navbar is', user);
+  useEffect(() => {
+    const loggedInStatus = async () => {
+      const { data } = await axios.get('auth/me');
+      setUser(data.id);
+    };
+    loggedInStatus();
+  }, []);
+
   const history = useHistory();
   async function Logout() {
-    const loggedinPerson = await axios.get('auth/me');
-    console.log('This person is logged in:', loggedinPerson);
-    const response = await axios.post('auth/logout');
-    const loggedoutPerson = await axios.get('auth/me');
-    console.log('This person is logged out:', loggedoutPerson);
-    setUser({ userId: response.data });
+    await axios.post('auth/logout');
+    const loggedOutUser = await axios.get('auth/me');
+    setUser(loggedOutUser.data);
     history.push('/');
   }
 

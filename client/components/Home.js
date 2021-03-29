@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import axios from 'axios';
 import { UserContext } from '../App';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const { user, setUser } = useContext(UserContext);
-  console.log('The user at home is', user);
+
   return (
     <Grid container direction='column' align='center'>
       <Grid

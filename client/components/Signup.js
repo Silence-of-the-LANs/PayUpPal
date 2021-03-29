@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../App';
 import { useHistory } from 'react-router';
 import axios from 'axios';
@@ -62,6 +62,7 @@ export default function Signup() {
   });
   const { user, setUser } = useContext(UserContext);
   console.log('The user outside the loop is:', user);
+
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
@@ -72,10 +73,8 @@ export default function Signup() {
     };
     await axios.post('auth/signup', formInfoToSubmit);
     const { data } = await axios.get('auth/me');
-    console.log('The user id is:', data.id);
     const loggedinUser = data.id;
     setUser(loggedinUser);
-    console.log('The user after after being set is', user);
     // Clear the inputs after the button is pressed
     setFormInfo({
       email: '',
@@ -88,6 +87,7 @@ export default function Signup() {
     evt.persist();
     setFormInfo({ ...formInfo, [evt.target.name]: evt.target.value });
   };
+  console.log('This is the user after set in Signup:', user);
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />

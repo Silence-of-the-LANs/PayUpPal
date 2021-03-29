@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Login() {
   const classes = useStyles();
   const history = useHistory();
-  const [data, setData] = useState({
+  const [formInfo, setFormInfo] = useState({
     email: '',
     password: '',
   });
@@ -64,16 +64,19 @@ export default function Login() {
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
-    const formData = {
-      email: data.email,
-      password: data.password,
+    const formInfoToSubmit = {
+      email: formInfo.email,
+      password: formInfo.password,
     };
-    const response = await axios.put('auth/login', formData);
+    await axios.put('auth/login', formInfoToSubmit);
+    const { data } = await axios.get('auth/me');
+    const loggedinUser = data.id;
+    setUser(loggedinUser);
 
-    const newUser = { userId: response.data.id };
-    setUser(newUser);
+    // const newUser = { userId: response.data.id };
+    setUser(loggedinUser);
     // Clear the inputs after the button is pressed
-    setData({
+    setFormInfo({
       email: '',
       password: '',
     });
@@ -81,7 +84,7 @@ export default function Login() {
   }
   const handleChange = (evt) => {
     evt.persist();
-    setData({ ...data, [evt.target.name]: evt.target.value });
+    setFormInfo({ ...formInfo, [evt.target.name]: evt.target.value });
   };
 
   return (
@@ -106,7 +109,7 @@ export default function Login() {
             onChange={handleChange}
             autoComplete='email'
             type='email'
-            value={data.email}
+            value={formInfo.email}
             autoFocus
           />
           <TextField
@@ -118,7 +121,7 @@ export default function Login() {
             onChange={handleChange}
             label='Password'
             type='password'
-            value={data.password}
+            value={formInfo.password}
             id='password'
             autoComplete='password'
           />
