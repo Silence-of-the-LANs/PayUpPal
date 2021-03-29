@@ -4,6 +4,8 @@ import Routes from './routes';
 import { Navbar } from './components';
 
 export const UserContext = React.createContext(null);
+import ReactNotification, { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 const App = () => {
   const getUser = async () => {
@@ -13,6 +15,8 @@ const App = () => {
   const [user, setUser] = useState(initialUser);
   return (
     <UserContext.Provider value={{ user, setUser }}>
+      <ReactNotification />
+
       <Navbar />
       <Routes />
     </UserContext.Provider>
