@@ -3,6 +3,7 @@ const vision = require('@google-cloud/vision');
 // const { Storage } = require('@google-cloud/storage');
 const multer = require('multer');
 const AWS = require('aws-sdk');
+const sharp = require('sharp');
 const { checkIfItem } = require('./helperFunctions');
 const { Receipt, Item, User } = require('../db/model/index');
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
@@ -41,8 +42,10 @@ const upload = multer({ storage }).single('file');
 
 const textSameLine = (text, targetLine) => {
   if (
-    Math.abs(text.minY - targetLine.minY < 10) ||
-    Math.abs(text.maxY - targetLine.maxY < 10)
+    // Math.abs(text.minY - targetLine.minY < 10) &&
+    // Math.abs(text.maxY - targetLine.maxY < 10)
+    (text.minY - targetLine.minY) / text.minY < 0.046 &&
+    (text.maxY - targetLine.maxY) / text.maxY < 0.046
   ) {
     return true;
   }
@@ -74,10 +77,13 @@ router.post('/upload', upload, async (req, res, next) => {
     // fileName = receipt1
     const fileName = file[0];
     // params for S3 upload, need ACL to be 'public-read' to make URL public
+
+    // sharp.rotate auto rotates images originating from phone
+    const newBuffer = await sharp(req.file.buffer).rotate();
     const params = {
       Bucket: AWS_BUCKET_NAME,
       Key: fileName + `.${fileType}`,
-      Body: req.file.buffer,
+      Body: newBuffer,
       ContentType: req.file.mimetype,
       ACL: 'public-read',
     };
@@ -105,6 +111,7 @@ router.post('/upload', upload, async (req, res, next) => {
       })
       // sort function only sorted from highest to lowest, so need to reverse
       .reverse();
+    console.log(sortByY);
     // get rid of original description
     let sortByYNoDescription = sortByY.slice(1);
     let line = 1;
@@ -149,10 +156,8 @@ router.post('/upload', upload, async (req, res, next) => {
         .join(' ');
       return joinLines;
     });
-
     const itemList = checkIfItem(textByLines);
-
-    console.log(itemList);
+    // console.log(itemList);
     res.send({ ...itemList, imageUrl: data.Location, imageName: data.key });
   } catch (err) {
     console.log(err);

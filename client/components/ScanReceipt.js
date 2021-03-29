@@ -58,7 +58,7 @@ const ScanReceipt = () => {
   // history used to push user to editReceipt page
   const history = useHistory();
   // handles after file has been dropped
-  const handleFileDrop = (file) => {
+  const handleFileDrop = async (file) => {
     // creates a temp URL to preview image
     store.addNotification({
       title: '',
@@ -92,6 +92,7 @@ const ScanReceipt = () => {
         onScreen: true,
       },
     });
+
     setTempImageUrl(URL.createObjectURL(e.target.files[0]));
     setFile(e.target.files[0]);
     setFilename(e.target.files[0].name);
@@ -124,7 +125,10 @@ const ScanReceipt = () => {
       try {
         setLoading(true);
         // send formData on as our request
-        const { data } = await axios.post('/api/receipts/upload', formData);
+        const { data } = await axios.post(
+          '/api/receipts/upload/test',
+          formData
+        );
         // dispatch data onto our store
         dispatch({ type: 'GET_ITEMS', itemsInfo: data });
         // direct user to edit receipt page
