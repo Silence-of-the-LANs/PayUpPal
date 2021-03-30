@@ -80,6 +80,8 @@ const EditReceipt = () => {
         tax: newTax,
         tip: newTip,
         total,
+        pool,
+        splitEvenly,
       };
 
       let { data } = axios.post('/api/receipts/submit', editReceiptUserData);
@@ -112,7 +114,17 @@ const EditReceipt = () => {
       .toFixed(2)
   );
 
-  console.log('pool: ', pool);
+  let everyItemAssigned = receiptDataState.items
+    ? (everyItemAssigned = receiptDataState.items.every(
+        (item) => item.friends && item.friends.length > 0
+      ))
+    : 'false';
+
+  console.log('everyItemAssigned:', everyItemAssigned);
+  console.log('splitEvenly:', splitEvenly);
+  console.log('pool.length < 1:', pool.length < 1);
+  console.log('receiptDataState.items', receiptDataState.items);
+
   return !successfulSubmit ? (
     <div style={{ border: 'solid black' }}>
       <div>
@@ -246,7 +258,13 @@ const EditReceipt = () => {
         <label>Total: ${total.toFixed(2)}</label>
         <button
           type='submit'
-          disabled={pool.length < 1}
+          disabled={
+            splitEvenly
+              ? pool.length < 1 || !receiptDataState.items
+              : receiptDataState.items
+              ? !everyItemAssigned
+              : true
+          }
           onClick={submitReceipt}
         >
           Submit Receipt

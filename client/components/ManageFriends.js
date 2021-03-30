@@ -19,7 +19,6 @@ const ManageFriends = () => {
 
     fetchFriends();
   }, []);
-  console.log('friendlist: ', friends);
 
   return (
     <div className='friends-wrapper'>
