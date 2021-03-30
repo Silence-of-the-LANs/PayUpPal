@@ -182,7 +182,12 @@ router.post('/submit', async (req, res, next) => {
       tax,
       tip,
       total,
+      pool,
+      splitEvenly,
     } = req.body;
+
+    console.log('splitEvenly: ', splitEvenly);
+    console.log('pool: ', pool);
 
     const newReceipt = await Receipt.create({
       imageUrl,
@@ -193,11 +198,12 @@ router.post('/submit', async (req, res, next) => {
       total: parseInt(total * 100),
       // date,
     });
+
     await user.addReceipt(newReceipt);
 
     await Promise.all(
       items.map(async (singleItem) => {
-        const {
+        let {
           quantity,
           description,
           pricePerItem,
@@ -211,16 +217,26 @@ router.post('/submit', async (req, res, next) => {
           pricePerItem: parseInt(pricePerItem * 100),
         });
 
+        if (splitEvenly) {
+          friends = pool;
+        }
+
+        friends = friends || [];
+
         await Promise.all(
           friends.map(async (friend) => {
             const newDebt = await Debt.create({
               paid: false,
-              balance: parseInt(totalPrice * 100) / friends.length,
+              balance:
+                parseInt(totalPrice * 100) /
+                (friends.length === 0 ? 1 : friends.length),
               friendId: friend.id,
               userId: user.id,
               itemId: newItem.id,
               receiptId: newReceipt.id,
             });
+
+            console.log(newDebt);
           })
         );
 

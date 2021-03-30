@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const Sequelize = require('sequelize');
 const db = require('../db');
+const Friend = require('./friend');
 
 const User = db.define('user', {
   email: {
@@ -77,5 +78,11 @@ User.beforeUpdate(setSaltAndPassword);
 User.beforeBulkCreate((users) => {
   users.forEach(setSaltAndPassword);
 });
+User.afterCreate(
+  async (instance) =>
+    await Friend.findOrCreate({
+      where: { name: 'Myself', userId: instance.id },
+    })
+);
 
 module.exports = User;
