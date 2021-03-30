@@ -51,3 +51,13 @@
 .MuiFormLabel-root {
   font-size: 1.1rem;
 }
+
+.MuiAccordionDetails-root {
+  flex-direction: column;
+  /* margin-bottom: 5px; */
+}
+
+.MuiAccordion-rounded:last-child,
+.MuiCollapse-entered {
+  margin-bottom: 10px;
+}

@@ -5,7 +5,7 @@ const multer = require('multer');
 const AWS = require('aws-sdk');
 const sharp = require('sharp');
 const { checkIfItem } = require('./helperFunctions');
-const { Receipt, Item, User, Debt } = require('../db/model/index');
+const { Receipt, Item, User, Debt, Friend } = require('../db/model/index');
 let AWS_ID, AWS_SECRET, AWS_BUCKET_NAME;
 let GOOG_KEY;
 
@@ -63,6 +63,12 @@ router.get('/user:id', async (req, res, next) => {
       },
       include: {
         model: Item,
+        include: {
+          model: Debt,
+          include: {
+            model: Friend,
+          },
+        },
       },
     });
     res.send(receiptHistory);
@@ -271,7 +277,6 @@ router.post('/submit', async (req, res, next) => {
             });
           })
         );
-
         await newReceipt.addItem(newItem);
         return newItem;
       })
