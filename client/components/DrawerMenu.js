@@ -60,6 +60,7 @@ export default function DrawerMenu() {
           { text: 'Manage Debts', url: 'viewdebts' },
           { text: 'Manage Friends', url: 'managefriends' },
           { text: 'Receipt History', url: 'receipthistory' },
+          { text: 'User Info', url: 'userinfo' },
         ].map((listItemObj, index) => (
           <Link key={listItemObj.text} to={`/${listItemObj.url}`}>
             <ListItem button key={listItemObj.text}>

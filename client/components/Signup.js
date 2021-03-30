@@ -79,7 +79,7 @@ export default function Signup() {
       password: '',
       confirmPassword: '',
     });
-    history.push('/');
+    history.push('/userinfo');
   }
   const handleChange = (evt) => {
     evt.persist();

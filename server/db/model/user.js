@@ -4,6 +4,9 @@ const db = require('../db');
 const Friend = require('./friend');
 
 const User = db.define('user', {
+  name: {
+    type: Sequelize.STRING,
+  },
   email: {
     type: Sequelize.STRING,
     unique: true,
@@ -42,6 +45,9 @@ const User = db.define('user', {
     validate: {
       isUrl: true,
     },
+  },
+  BTCAddress: {
+    type: Sequelize.TEXT,
   },
 });
 
