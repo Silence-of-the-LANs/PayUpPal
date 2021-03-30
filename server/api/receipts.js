@@ -251,18 +251,24 @@ router.post('/submit', async (req, res, next) => {
 
         await Promise.all(
           friends.map(async (friend) => {
+            let subtotal = newReceipt.total - newReceipt.tax - newReceipt.tip;
+
+            let balance = parseInt(
+              Math.round(
+                (totalPrice / (friends.length === 0 ? 1 : friends.length)) * 100
+              )
+            );
+
             const newDebt = await Debt.create({
               paid: false,
-              balance:
-                parseInt(totalPrice * 100) /
-                (friends.length === 0 ? 1 : friends.length),
+              balance: Math.round(balance),
+              proratedTax: Math.round(newReceipt.tax * (balance / subtotal)),
+              proratedTip: Math.round(newReceipt.tip * (balance / subtotal)),
               friendId: friend.id,
               userId: user.id,
               itemId: newItem.id,
               receiptId: newReceipt.id,
             });
-
-            console.log(newDebt);
           })
         );
 
