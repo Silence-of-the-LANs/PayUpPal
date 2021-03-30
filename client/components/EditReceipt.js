@@ -66,7 +66,7 @@ const EditReceipt = () => {
   const submitReceipt = (e) => {
     e.preventDefault();
     setHasSubmitted(true);
-    console.log('inside submit receipt');
+
     if (eventInput && dateInput) {
       let newTip;
       let newTax;
@@ -119,11 +119,6 @@ const EditReceipt = () => {
         (item) => item.friends && item.friends.length > 0
       ))
     : 'false';
-
-  console.log('everyItemAssigned:', everyItemAssigned);
-  console.log('splitEvenly:', splitEvenly);
-  console.log('pool.length < 1:', pool.length < 1);
-  console.log('receiptDataState.items', receiptDataState.items);
 
   return !successfulSubmit ? (
     <div style={{ border: 'solid black' }}>

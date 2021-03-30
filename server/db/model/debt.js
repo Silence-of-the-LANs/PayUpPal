@@ -12,6 +12,18 @@ const Debt = db.define('debt', {
       notEmpty: true,
     },
   },
+  proratedTip: {
+    type: Sequelize.INTEGER,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  proratedTax: {
+    type: Sequelize.INTEGER,
+    validate: {
+      notEmpty: true,
+    },
+  },
 });
 
 module.exports = Debt;
