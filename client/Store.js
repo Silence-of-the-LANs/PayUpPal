@@ -6,14 +6,15 @@ import receiptDataReducer from './reducers/receiptDataReducer';
 export const ReceiptDataContext = React.createContext({});
 export const UserContext = React.createContext(null);
 // export const FinalizedReceiptDataContext = React.createContext([]);
+const getUser = async () => {
+  const { data } = await axios.get('auth/me');
+  return data;
+};
 
 const Store = ({ children }) => {
   // similar to mapState & mapProps
   const [receiptDataState, dispatch] = useReducer(receiptDataReducer, {});
 
-  const getUser = async () => {
-    const { data } = await axios.get('auth/me');
-  };
   const initialUser = getUser();
   const [user, setUser] = useState(initialUser);
 

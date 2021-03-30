@@ -37,6 +37,12 @@ const User = db.define('user', {
       isUrl: true,
     },
   },
+  venmoLink: {
+    type: Sequelize.TEXT,
+    validate: {
+      isUrl: true,
+    },
+  },
 });
 
 module.exports = User;
