@@ -258,16 +258,6 @@ router.post('/submit', async (req, res, next) => {
                 (totalPrice / (friends.length === 0 ? 1 : friends.length)) * 100
               )
             );
-            console.log('balance is: ', balance);
-            console.log('subtotal is: ', subtotal);
-            console.log(
-              'proratedTax is: ',
-              newReceipt.tax * (balance / subtotal)
-            );
-            console.log(
-              'proratedTip is: ',
-              newReceipt.tip * (balance / subtotal)
-            );
 
             const newDebt = await Debt.create({
               paid: false,

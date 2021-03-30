@@ -50,24 +50,40 @@ export default function DrawerMenu() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      {user ? <div>Welcome {user.email}</div> : <div>Welcome</div>}
-      <Divider />
-      <List>
-        {[
-          { text: 'Home', url: 'home' },
-          { text: 'Scan Receipt', url: 'scanreceipt' },
-          { text: 'Edit Receipt', url: 'editreceipt' },
-          { text: 'Manage Debts', url: 'viewdebts' },
-          { text: 'Manage Friends', url: 'managefriends' },
-          { text: 'Receipt History', url: 'receipthistory' },
-        ].map((listItemObj, index) => (
-          <Link key={listItemObj.text} to={`/${listItemObj.url}`}>
-            <ListItem button key={listItemObj.text}>
-              <ListItemText primary={listItemObj.text} />
-            </ListItem>
-          </Link>
-        ))}
-      </List>
+      {!user ? (
+        <div>
+          <div>Welcome</div>
+          <Divider />
+          <List>
+            <Link key='Home' to={`/home`}>
+              <ListItem button>
+                <ListItemText primary='Home' />
+              </ListItem>
+            </Link>
+          </List>
+        </div>
+      ) : (
+        <div>
+          <div>Welcome {user.email}</div>
+          <Divider />
+          <List>
+            {[
+              { text: 'Home', url: 'home' },
+              { text: 'Scan Receipt', url: 'scanreceipt' },
+              { text: 'Edit Receipt', url: 'editreceipt' },
+              { text: 'Manage Debts', url: 'viewdebts' },
+              { text: 'Manage Friends', url: 'managefriends' },
+              { text: 'Receipt History', url: 'receipthistory' },
+            ].map((listItemObj, index) => (
+              <Link key={listItemObj.text} to={`/${listItemObj.url}`}>
+                <ListItem button key={listItemObj.text}>
+                  <ListItemText primary={listItemObj.text} />
+                </ListItem>
+              </Link>
+            ))}
+          </List>
+        </div>
+      )}
     </div>
   );
 
