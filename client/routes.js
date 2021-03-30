@@ -12,6 +12,7 @@ import {
   DrawerMenu,
   ReceiptHistory,
   SelectFriends,
+  UserInfo,
 } from './components';
 
 const Routes = () => {
@@ -27,6 +28,7 @@ const Routes = () => {
       <Route exact path='/managefriends' component={ManageFriends} />
       <Route exact path='/viewdebts' component={ViewDebts} />
       <Route exact path='/receipthistory' component={ReceiptHistory} />
+      <Route exact path='/userinfo' component={UserInfo} />
       <Route path='/' component={Home} />
     </Switch>
   );
