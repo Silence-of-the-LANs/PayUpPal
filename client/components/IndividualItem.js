@@ -108,7 +108,6 @@ const IndividualItem = (props) => {
   };
 
   const assignFriends = (event, value) => {
-    console.log('assigning');
     dispatch({ type: 'ASSIGN_FRIEND', itemIndex, friends: value });
   };
 
@@ -162,9 +161,6 @@ const IndividualItem = (props) => {
                 checkedIcon={<span className={classes.checkedIcon} />}
                 icon={<span className={classes.icon} />}
                 checked={state.selected}
-                onChange={() => {
-                  console.log('changing');
-                }}
               />
               {option.name}
             </React.Fragment>

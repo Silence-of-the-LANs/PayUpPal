@@ -87,9 +87,6 @@ const SelectFriends = (props) => {
             checkedIcon={<span className={classes.checkedIcon} />}
             icon={<span className={classes.icon} />}
             checked={state.selected}
-            onChange={() => {
-              console.log('changing');
-            }}
           />
           {option.name}
         </React.Fragment>

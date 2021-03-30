@@ -19,7 +19,6 @@ const ManageFriends = () => {
 
     fetchFriends();
   }, []);
-  console.log('friendlist: ', friends);
 
   return (
     <div className='friends-wrapper'>
@@ -28,6 +27,7 @@ const ManageFriends = () => {
           <div key={friend.id}>
             {friend.name}
             <button
+              disabled={friend.name === 'Myself'}
               onClick={async () => setFriends(await removeFriend(friend.id))}
             >
               Remove Friend

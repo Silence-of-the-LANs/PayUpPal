@@ -4,7 +4,6 @@ const router = require('express').Router();
 // api/friends/displayFriends route
 router.get('/displayFriends', async (req, res, next) => {
   try {
-    console.log(req.session);
     const userId = req.session.passport.user;
 
     const friends = await Friend.findAll({
@@ -14,7 +13,6 @@ router.get('/displayFriends', async (req, res, next) => {
       order: [['name', 'asc']],
     });
 
-    console.log(friends);
     res.json(friends);
   } catch (err) {
     next(err);
