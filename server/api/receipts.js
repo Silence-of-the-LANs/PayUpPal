@@ -42,12 +42,14 @@ const storage = multer.memoryStorage({
 const upload = multer({ storage }).single('file');
 
 // changed sameLine checker from absolute value to proportion
-const textSameLine = (text, targetLine) => {
+const textSameLine = (text, targetLine, pictureWidth) => {
+  const parameters = pictureWidth > 2000 ? 0.045 : 0.025;
+  // console.log(parameters);
   if (
     // Math.abs(text.minY - targetLine.minY < 10) &&
     // Math.abs(text.maxY - targetLine.maxY < 10)
-    (text.minY - targetLine.minY) / text.minY < 0.048 &&
-    (text.maxY - targetLine.maxY) / text.maxY < 0.048
+    (text.minY - targetLine.minY) / text.minY < parameters ||
+    (text.maxY - targetLine.maxY) / text.maxY < parameters
   ) {
     return true;
   }
@@ -58,6 +60,27 @@ router.get('/user:id', async (req, res, next) => {
     const receiptHistory = await Receipt.findAll({
       where: {
         userId: req.params.id,
+      },
+      include: {
+        model: Item,
+      },
+    });
+    res.send(receiptHistory);
+  } catch (err) {
+    next(err);
+  }
+});
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    await Receipt.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    const receiptHistory = await Receipt.findAll({
+      where: {
+        userId: req.user.id,
       },
       include: {
         model: Item,
@@ -82,8 +105,12 @@ router.post('/upload', upload, async (req, res, next) => {
 
     // sharp.rotate auto rotates images originating from phone
     const newBuffer = await sharp(req.file.buffer).rotate();
-    // const getDimensions = await sharp(newBuffer).toBuffer();
-    // console.log(getDimensions);
+    const { info } = await sharp(req.file.buffer).toBuffer({
+      resolveWithObject: true,
+    });
+    console.log(info);
+    const pictureWidth = info.width;
+    console.log('width', pictureWidth);
     const params = {
       Bucket: AWS_BUCKET_NAME,
       Key: fileName + `.${fileType}`,
@@ -93,7 +120,7 @@ router.post('/upload', upload, async (req, res, next) => {
     };
     // uploads the image onto S3 bucket
     const data = await s3.upload(params).promise();
-
+    console.log(data);
     const [result] = await client.textDetection(data.Location);
     const detections = result.textAnnotations;
     // create simplied data object
@@ -128,7 +155,7 @@ router.post('/upload', upload, async (req, res, next) => {
         line++;
       }
       // helper function created check if text belongs to a line
-      if (textSameLine(text, lineObj[`line${line - 1}`][0])) {
+      if (textSameLine(text, lineObj[`line${line - 1}`][0], pictureWidth)) {
         lineObj[`line${line - 1}`].push(text);
       } else {
         lineObj[`line${line}`] = [text];
@@ -160,9 +187,8 @@ router.post('/upload', upload, async (req, res, next) => {
       return joinLines;
     });
     console.log(textByLines);
-
     const itemList = checkIfItem(textByLines);
-
+    // console.log(itemList);
     res.send({ ...itemList, imageUrl: data.Location, imageName: data.key });
   } catch (err) {
     console.log(err);
@@ -211,18 +237,18 @@ router.post('/submit', async (req, res, next) => {
           pricePerItem: parseInt(pricePerItem * 100),
         });
 
-        await Promise.all(
-          friends.map(async (friend) => {
-            const newDebt = await Debt.create({
-              paid: false,
-              balance: parseInt(totalPrice * 100) / friends.length,
-              friendId: friend.id,
-              userId: user.id,
-              itemId: newItem.id,
-              receiptId: newReceipt.id,
-            });
-          })
-        );
+        // await Promise.all(
+        //   friends.map(async (friend) => {
+        //     const newDebt = await Debt.create({
+        //       paid: false,
+        //       balance: parseInt(totalPrice * 100) / friends.length,
+        //       friendId: friend.id,
+        //       userId: user.id,
+        //       itemId: newItem.id,
+        //       receiptId: newReceipt.id,
+        //     });
+        //   })
+        // );
 
         await newReceipt.addItem(newItem);
         return newItem;

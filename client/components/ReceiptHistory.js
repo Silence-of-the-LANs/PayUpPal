@@ -9,37 +9,54 @@ const ReceiptHistory = () => {
   const [receipts, setReceipts] = useState([]);
   const [selectedReceipt, setSelectedReceipt] = useState({});
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [hasNoReceipts, setNoReceipts] = useState(false);
   const [isDeleteClicked, setDeleteClicked] = useState(false);
   // useEffect, similar to component did mount if the second argument is empty
   // if user is logged in fetch receiptdata
-
+  const sortReceipts = (receiptsHistory) => {
+    const sortByRecentReceipt = receiptsHistory.sort((a, b) => {
+      return a.id < b.id ? 1 : -1;
+    });
+    const sortItems = sortByRecentReceipt.map((receipt) => {
+      receipt.items = receipt.items.sort((a, b) => {
+        return a.id > b.id ? 1 : -1;
+      });
+      return receipt;
+    });
+    setSelectedReceipt(sortItems[0]);
+    return sortItems;
+  };
   useEffect(() => {
     async function fetchReceipt() {
-      if (user.id) {
-        const receiptHistory = await axios.get(`/api/receipts/user${user.id}`);
-        const sortByRecentReceipt = receiptHistory.data.sort((a, b) => {
-          return a.id < b.id ? 1 : -1;
-        });
-        const sortItems = sortByRecentReceipt.map((receipt) => {
-          receipt.items = receipt.items.sort((a, b) => {
-            return a.id > b.id ? 1 : -1;
-          });
-          return receipt;
-        });
-        setReceipts(sortItems);
-        setSelectedReceipt(sortItems[0]);
+      if (user.id && !receipts.length && !hasNoReceipts) {
+        const { data } = await axios.get(`/api/receipts/user${user.id}`);
+        console.log(data);
+        !data.length ? setNoReceipts(true) : setNoReceipts(false);
+        if (data.length) {
+          setReceipts(sortReceipts(data));
+        }
       }
     }
     fetchReceipt();
-  }, []);
-  const deleteReceipt = () => {
+  });
+  const confirmDeleteReceipt = async (id) => {
+    const { data } = await axios.delete(`/api/receipts/${id}`);
+    console.log('data', data);
+    !data.length ? setNoReceipts(true) : setNoReceipts(false);
+    if (data.length) {
+      setReceipts(sortReceipts(data));
+    }
+
+    setIsOpen(false);
+  };
+  const deleteClicked = () => {
     setDeleteClicked(true);
     setIsOpen(true);
   };
   return (
     <div id='receipthistory-div'>
       <div id='past-receipt'>
-        {selectedReceipt.items ? (
+        {!hasNoReceipts && selectedReceipt.items ? (
           <>
             <h3>
               {selectedReceipt.eventName} {selectedReceipt.date}
@@ -82,11 +99,11 @@ const ReceiptHistory = () => {
         )}
       </div>
       <div id='receipt-list'>
-        {receipts.length ? (
+        {receipts.length && !hasNoReceipts ? (
           receipts.map((receipt) => {
             return (
               <div>
-                <button onClick={deleteReceipt}>X</button>
+                <button onClick={deleteClicked}>X</button>
                 {isDeleteClicked && (
                   <ReactModal
                     isOpen={modalIsOpen}
@@ -98,7 +115,9 @@ const ReceiptHistory = () => {
                         Are you sure you want to delete {receipt.eventName}{' '}
                         {receipt.date}
                       </h4>
-                      <button>Delete</button>
+                      <button onClick={() => confirmDeleteReceipt(receipt.id)}>
+                        Delete
+                      </button>
                       <button onClick={() => setIsOpen(false)}>Cancel</button>
                     </div>
                   </ReactModal>
@@ -112,7 +131,7 @@ const ReceiptHistory = () => {
         ) : (
           <>
             <h2>No receipt history</h2>
-            <a href='scanrecreipt'>Scan a receipt now!</a>
+            <a href='scanreceipt'>Scan a receipt now!</a>
           </>
         )}
       </div>
