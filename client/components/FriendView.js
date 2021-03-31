@@ -6,6 +6,7 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ReminderCheckboxDialog from './ReminderCheckboxDialog';
 import ReminderDialog from './ReminderDialog';
 import axios from 'axios';
 
