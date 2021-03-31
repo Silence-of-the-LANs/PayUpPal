@@ -17,9 +17,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const markPaid = async (debtId) => {
+const markReceiptPaid = async (receiptId, friendId) => {
   try {
-    const { data } = await axios.put(`api/debts/markPaid/${debtId}`);
+    console.log('receiptId: ', receiptId);
+    console.log('friendId: ', friendId);
+    const { data } = await axios.put(
+      `api/debts/markReceiptPaid/${receiptId}/${friendId}`
+    );
     return data;
   } catch (err) {
     console.log(err);
@@ -31,46 +35,74 @@ const FriendView = (props) => {
 
   let { setTotalOwed, totalOwed, calcTotalOwed, listOfGroups, debts } = props;
 
-  listOfGroups = listOfGroups.filter((group) => group.friendName !== 'Myself');
+  let friendInfo = listOfGroups.filter(
+    (group) => group.friendName !== 'Myself'
+  );
 
-  return listOfGroups.map((group) => {
-    let debtsOwedByFriend = debts.filter(
-      (balance) => balance.friendId === group.friendId
-    );
+  console.log('listy: ', friendInfo);
+
+  return friendInfo.map((info) => {
     return (
-      <Accordion key={group.friendId}>
+      <Accordion key={info.currentFriend.id}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls='panel1a-content'
           id='panel1a-header'
         >
           <Typography className={classes.heading}>
-            {group.friendName} - $
-            {(calcTotalOwed(debtsOwedByFriend) / 100).toFixed(2)}
+            {info.currentFriend.name} -{' '}
+            {info.receipts.reduce((total, receipt) => {
+              total += calcTotalOwed(receipt.debts);
+              return total;
+            }, 0) / 100}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ul>
-            {debtsOwedByFriend.map((debt) => (
-              <li key={debt.id}>
-                <span className={debt.paid ? 'paid' : ''}>
-                  {debt.receipt.eventName} - Total Owed: $
-                  {(
-                    (debt.balance + debt.proratedTax + debt.proratedTip) /
-                    100
-                  ).toFixed(2)}
-                </span>{' '}
-                <button>Send Reminder (WIP)</button>
-                <button
-                  onClick={async () =>
-                    setTotalOwed(calcTotalOwed(await markPaid(debt.id)))
-                  }
-                >
-                  Mark as Paid
-                </button>
-              </li>
-            ))}
-          </ul>
+          {info.receipts.map((receipt) => (
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography className={classes.heading}>
+                  <span
+                    className={
+                      receipt.debts.every((debt) => debt.paid === true)
+                        ? 'paid'
+                        : ''
+                    }
+                  >
+                    {receipt.eventName} - Total Owed: ${' '}
+                    {calcTotalOwed(receipt.debts) / 100}
+                  </span>{' '}
+                  <button>Send Reminder (WIP)</button>
+                  <button
+                    onClick={async () => {
+                      await markReceiptPaid(
+                        receipt.id,
+                        receipt.debts[0].friendId
+                      );
+                      setTotalOwed(Math.random() * 100);
+                    }}
+                  >
+                    Mark as Paid
+                  </button>
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {receipt.debts.map((debt) => {
+                  return (
+                    <span className={debt.paid ? 'paid' : ''}>
+                      {debt.item.description} -{' '}
+                      {(debt.balance + debt.proratedTip + debt.proratedTax) /
+                        100}
+                    </span>
+                  );
+                })}
+              </AccordionDetails>
+            </Accordion>
+          ))}
         </AccordionDetails>
       </Accordion>
     );

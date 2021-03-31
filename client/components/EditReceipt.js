@@ -39,7 +39,6 @@ const EditReceipt = () => {
       }, 1000);
     }
   });
-  console.log(receiptDataState);
   const [splitEvenly, setSplitEvenly] = useState(true);
   const [openSelect, setOpenSelect] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -85,8 +84,12 @@ const EditReceipt = () => {
         pool,
         splitEvenly,
       };
+      if (receiptDataState.isEditReceipt) {
+        axios.put('/api/receipts/submit', editReceiptUserData);
+      } else {
+        let { data } = axios.post('/api/receipts/submit', editReceiptUserData);
+      }
 
-      let { data } = axios.post('/api/receipts/submit', editReceiptUserData);
       setSuccessfulSubmit(true);
       // add data to view history component
     }

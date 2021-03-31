@@ -91,6 +91,17 @@ const ReceiptHistory = () => {
     dispatch({ type: 'GET_ITEMS', itemsInfo });
     history.push('/editreceipt');
   };
+  const getFriends = (receipt) => {
+    let friendList = [];
+    receipt.items.forEach((item) => {
+      item.debts.forEach((debt) => {
+        if (!friendList.includes(debt.friend.name)) {
+          friendList.push(debt.friend.name);
+        }
+      });
+    });
+    return friendList;
+  };
   return (
     <div id='receipthistory-div'>
       <div id='past-receipt'>
@@ -111,6 +122,12 @@ const ReceiptHistory = () => {
                 <img className='preview-image' src={selectedReceipt.imageUrl} />
               </div>
             </ReactModal>
+            <p>
+              Friend(s) on receipt:{' '}
+              {getFriends(selectedReceipt).map((friend, i, arr) => {
+                return i === arr.length - 1 ? friend : friend + ', ';
+              })}
+            </p>
             <ol>
               Items
               {selectedReceipt.items.map((item) => {

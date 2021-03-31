@@ -39,7 +39,7 @@ const calcTotalOwed = (balances) => {
 
 const ManageDebts = () => {
   const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('receipt');
+  const [view, setView] = useState('person');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -49,8 +49,8 @@ const ManageDebts = () => {
     const fetchDebts = async () => {
       let { data } = await axios.get(`api/debts/displayDebts/${view}`);
       let total = await axios.get('api/debts/total');
-      console.log('data: ', data);
-      console.log('total: ', total.data);
+      console.log(data);
+      console.log(total.data);
       setDebts(data);
       setTotalOwed(total.data);
     };
@@ -62,32 +62,39 @@ const ManageDebts = () => {
   let listOfGroups = [];
   let listOfGroupIds = [];
 
-  debts.forEach((balanceObj) => {
-    // if a borrower is not on the list of borrowers, add them to the list of borrowers
+  // debts.forEach((balanceObj) => {
+  //   // if a borrower is not on the list of borrowers, add them to the list of borrowers
 
-    if (view === 'person' && !listOfGroupIds.includes(balanceObj.friendId)) {
-      listOfGroupIds.push(balanceObj.friendId);
-      listOfGroups.push({
-        friendId: balanceObj.friendId,
-        friendName: balanceObj.friend.name,
-      });
-    }
+  //   if (view === 'person' && !listOfGroupIds.includes(balanceObj.friendId)) {
+  //     listOfGroupIds.push(balanceObj.friendId);
+  //     listOfGroups.push({
+  //       friendId: balanceObj.friendId,
+  //       friendName: balanceObj.friend.name,
+  //     });
+  //   }
+  if (view === 'person') {
+    listOfGroups = debts;
+  }
 
-    if (view === 'receipt') {
-      listOfGroups = debts;
-    }
-  });
+  if (view === 'receipt') {
+    listOfGroups = debts;
+  }
+  // });
 
   // sort the list of borrowers by name
-  listOfGroups.sort((friendOne, friendTwo) => {
-    if (friendOne.friendName > friendTwo.friendName) {
-      return 1;
-    } else if (friendOne.friendName < friendTwo.friendName) {
-      return -1;
-    } else {
-      return 0;
-    }
-  });
+  // listOfGroups.sort((friendOne, friendTwo) => {
+  //   if (friendOne.friendName > friendTwo.friendName) {
+  //     return 1;
+  //   } else if (friendOne.friendName < friendTwo.friendName) {
+  //     return -1;
+  //   } else {
+  //     return 0;
+  //   }
+  // });
+
+  const changeView = (viewSetting) => {
+    setView(viewSetting);
+  };
 
   // console.log('listOfGroups from parent: ', listOfGroups);
   // console.log('listOfGroupsId: ', listOfGroupIds);
@@ -95,22 +102,8 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <button
-        onClick={() => {
-          console.log('setting view to person');
-          setView('person');
-        }}
-      >
-        By Person
-      </button>
-      <button
-        onClick={() => {
-          console.log('setting view to receipt');
-          setView('receipt');
-        }}
-      >
-        By Receipt
-      </button>
+      <button onClick={() => changeView('person')}>By Person</button>
+      <button onClick={() => changeView('receipt')}>By Receipt</button>
       {view === 'receipt' ? (
         <ReceiptView
           calcTotalOwed={calcTotalOwed}
