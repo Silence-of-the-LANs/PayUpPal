@@ -201,6 +201,91 @@ router.post('/upload', upload, async (req, res, next) => {
   }
 });
 
+router.put('/submit', async (req, res, next) => {
+  try {
+    const {
+      id,
+      items,
+      miscItems,
+      date,
+      imageUrl,
+      imageName,
+      eventName,
+      tax,
+      tip,
+      total,
+      pool,
+      splitEvenly,
+    } = req.body;
+    await Receipt.destroy({ where: { id } });
+    const user = await User.findByPk(req.user.id);
+
+    const newReceipt = await Receipt.create({
+      id,
+      imageUrl,
+      eventName,
+      date,
+      tax: parseInt(tax * 100),
+      tip: parseInt(tip * 100),
+      total: parseInt(total * 100),
+      // date,
+    });
+
+    await user.addReceipt(newReceipt);
+
+    await Promise.all(
+      items.map(async (singleItem) => {
+        let {
+          quantity,
+          description,
+          pricePerItem,
+          totalPrice,
+          friends,
+        } = singleItem;
+
+        const newItem = await Item.create({
+          quantity,
+          description,
+          pricePerItem: parseInt(pricePerItem * 100),
+        });
+
+        if (splitEvenly) {
+          friends = pool;
+        }
+
+        friends = friends || [];
+
+        await Promise.all(
+          friends.map(async (friend) => {
+            let subtotal = newReceipt.total - newReceipt.tax - newReceipt.tip;
+
+            let balance = parseInt(
+              Math.round(
+                (totalPrice / (friends.length === 0 ? 1 : friends.length)) * 100
+              )
+            );
+
+            const newDebt = await Debt.create({
+              paid: false,
+              balance: Math.round(balance),
+              proratedTax: Math.round(newReceipt.tax * (balance / subtotal)),
+              proratedTip: Math.round(newReceipt.tip * (balance / subtotal)),
+              friendId: friend.id,
+              userId: user.id,
+              itemId: newItem.id,
+              receiptId: newReceipt.id,
+            });
+          })
+        );
+        await newReceipt.addItem(newItem);
+        return newItem;
+      })
+    );
+  } catch (err) {
+    next(err);
+  }
+});
+
 router.post('/submit', async (req, res, next) => {
   try {
     const user = await User.findByPk(req.user.id);
