@@ -1,17 +1,16 @@
 import React from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 export default function CheckboxLabels() {
-  const [state, setState] = React.useState({
-    checkedA: true,
-    checkedB: true,
+  const [checkbox, setCheckbox] = React.useState({
+    checkedA: false,
+    checkedB: false,
   });
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
   };
 
   return (
@@ -20,7 +19,7 @@ export default function CheckboxLabels() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={state.checkedA}
+              checked={checkbox.checkedA}
               onChange={handleChange}
               color='primary'
               name='checkedA'
@@ -33,7 +32,7 @@ export default function CheckboxLabels() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={state.checkedB}
+              checked={checkbox.checkedB}
               onChange={handleChange}
               name='checkedB'
               color='primary'

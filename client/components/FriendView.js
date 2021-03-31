@@ -100,10 +100,15 @@ const FriendView = (props) => {
                   >
                     Remind
                   </Button>
-                  <ReminderDialog
+                  {/* <ReminderDialog
                     selectedValue={selectedValue}
                     open={open}
                     onClose={handleClose}
+                  /> */}
+                  <ReminderCheckboxDialog
+                    open={open}
+                    onClose={handleClose}
+                    selectedValue={selectedValue}
                   />
                   <button
                     onClick={async () => {

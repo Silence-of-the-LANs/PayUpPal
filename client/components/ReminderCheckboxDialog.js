@@ -5,7 +5,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CheckBoxLabels from './demo';
+import CheckBoxLabels from './Checkboxes';
 
 export default function ReminderCheckboxDialog(props) {
   const { onClose, selectedValue, open } = props;
@@ -30,7 +30,7 @@ export default function ReminderCheckboxDialog(props) {
       </DialogTitle> */}
       <DialogContent>
         <DialogContentText id='alert-dialog-description'>
-          Please select the method of delivery for the reminder.
+          Please select the method(s) of delivery for the reminder.
         </DialogContentText>
         <CheckBoxLabels />
       </DialogContent>
