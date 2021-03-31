@@ -17,6 +17,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const calcEventTotal = (receipt) => {
+  let eventTotal = 0;
+  receipt.friends.forEach((friend) => {
+    let items = friend.items;
+    for (let i = 0; i < items.length; i++) {
+      let currentDebt = items[i].debts[0];
+      console.log(currentDebt);
+
+      if (!currentDebt.paid) {
+        eventTotal +=
+          currentDebt.balance +
+          currentDebt.proratedTip +
+          currentDebt.proratedTax;
+      }
+    }
+  });
+
+  return eventTotal / 100;
+};
+
 const ReceiptView = (props) => {
   const classes = useStyles();
   const {
@@ -38,7 +58,8 @@ const ReceiptView = (props) => {
           id='panel1a-header'
         >
           <Typography className={classes.heading}>
-            Event: {receipt.eventName} Date: {receipt.date} - Total Owed:{' '}
+            Event: {receipt.eventName} Date: {receipt.date} - Total Owed: $
+            {calcEventTotal(receipt)} of out ${receipt.total / 100}
             {/* {calcTotalOwed(receipt.debts) / 100} */}
           </Typography>
         </AccordionSummary>
