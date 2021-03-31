@@ -120,8 +120,11 @@ router.get('/total', async (req, res, next) => {
         parseInt(totalProratedTax);
 
       console.log(total);
-
-      res.send(`${total}`);
+      if (isNaN(total)) {
+        res.send('0');
+      } else {
+        res.send(`${total}`);
+      }
     }
   } catch (err) {
     next(err);
