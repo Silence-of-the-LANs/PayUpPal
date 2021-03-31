@@ -84,7 +84,6 @@ const createApp = () => {
 
   // Checking session issue for diagnostic purposes
   app.use((req, res, next) => {
-    console.log('SESSION -->', req.session);
     next();
   });
 

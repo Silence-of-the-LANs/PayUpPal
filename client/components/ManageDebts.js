@@ -39,7 +39,7 @@ const calcTotalOwed = (balances) => {
 
 const ManageDebts = () => {
   const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('person');
+  const [view, setView] = useState('receipt');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -50,7 +50,7 @@ const ManageDebts = () => {
       let { data } = await axios.get(`api/debts/displayDebts/${view}`);
       let total = await axios.get('api/debts/total');
       console.log(data);
-      console.log(total.data);
+      // console.log(total.data);
       setDebts(data);
       setTotalOwed(total.data);
     };
