@@ -30,10 +30,6 @@ const FriendView = (props) => {
     setDebts,
   } = props;
 
-  let friendInfo = listOfGroups.filter(
-    (group) => group.friendName !== 'Myself'
-  );
-
   useEffect(() => {
     // initial data fetch of debts
     const fetchData = async () => {
@@ -43,6 +39,8 @@ const FriendView = (props) => {
     setLoaded(true);
     fetchData();
   }, [totalOwed]);
+
+  let friendInfo = listOfGroups;
 
   return loaded
     ? friendInfo.map((info) => {

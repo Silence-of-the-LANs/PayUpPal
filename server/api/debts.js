@@ -1,6 +1,7 @@
 const { Debt, Friend, Item, Receipt, User } = require('../db/model/index');
 const router = require('express').Router();
 const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 // api/debts/displayDebts/receipt route
 router.get('/displayDebts/receipt', async (req, res, next) => {
@@ -11,11 +12,17 @@ router.get('/displayDebts/receipt', async (req, res, next) => {
       const userId = req.session.passport.user;
       let friendsBalances;
       let resArr = [];
-      console.log('hit receipt');
+
+      const friendIdOfUser = await Friend.findOne({
+        where: { userId: userId, name: 'Myself' },
+      });
 
       // find all the receipts for this user
       let receipts = await Receipt.findAll({
-        where: { userId: userId },
+        where: {
+          userId: userId,
+        },
+        order: [['eventName', 'ASC']],
       });
 
       let receiptItems;
@@ -24,9 +31,14 @@ router.get('/displayDebts/receipt', async (req, res, next) => {
       for (let i = 0; i < receipts.length; i++) {
         let currentReceipt = receipts[i];
         currentReceipt.dataValues.friends = [];
+
         // find the balances associated with the current receipt
         receiptItems = await Debt.findAll({
-          where: { receiptId: currentReceipt.id },
+          where: {
+            receiptId: currentReceipt.id,
+            friendId: { [Op.notIn]: [friendIdOfUser.id] },
+          },
+          order: [['friendId', 'ASC']],
         });
 
         // store the each friend's id found on this receipt to use for querying
@@ -39,27 +51,31 @@ router.get('/displayDebts/receipt', async (req, res, next) => {
         });
 
         // for each friend, find the items that belong to them on the current receipt
-
         for (let j = 0; j < friendsOnReceipt.length; j++) {
           let friendId = friendsOnReceipt[j];
-
           let friendInfo = await Friend.findByPk(friendId);
 
+          // attach the friends information onto the current receipt
           currentReceipt.dataValues.friends.push(friendInfo);
 
+          // grab the balances associated with that friend
           friendsBalances = await Item.findAll({
             where: { receiptId: currentReceipt.id },
             include: [
               {
                 model: Debt,
                 where: { receiptId: currentReceipt.id, friendId: friendId },
+                order: [['friendId', 'ASC']],
               },
             ],
+            order: [['id', 'ASC']],
           });
 
+          // attach that friend's balance information to the friend's info
           friendInfo.dataValues.items = friendsBalances;
         }
 
+        // add the receipt (now containing our extra friend and friend's balance data) to our response array
         resArr.push(currentReceipt);
       }
 
@@ -77,14 +93,22 @@ router.get('/displayDebts/person', async (req, res, next) => {
       res.json('User is not logged in!');
     } else {
       const userId = req.session.passport.user;
-      console.log('hit person');
       let resArray = [];
+
+      const friendIdOfUser = await Friend.findOne({
+        where: { userId: userId, name: 'Myself' },
+      });
 
       // get the user's friends and their associated debts
       let friends = await Friend.findAll({
-        where: { userId: userId },
+        where: {
+          userId: userId,
+          id: { [Op.notIn]: [friendIdOfUser.id] },
+        },
+        order: [['name', 'ASC']],
       });
 
+      console.log(friends);
       // for each friend they have...
       for (let i = 0; i < friends.length; i++) {
         let currentFriend = friends[i];
@@ -99,7 +123,8 @@ router.get('/displayDebts/person', async (req, res, next) => {
                 userId: userId,
                 friendId: currentFriend.id,
               },
-              include: [{ model: Item }],
+              order: [['friendId', 'ASC']],
+              include: [{ model: Item, order: [['id', 'ASC']] }],
             },
           ],
         });
@@ -127,6 +152,7 @@ router.put('/markPaid/:debtId', async (req, res, next) => {
 
       const debt = await Debt.findOne({
         where: { id: debtId, userId: userId },
+        order: [['friendId', 'ASC']],
       });
 
       await debt.update({
@@ -146,13 +172,9 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
     if (!req.session.passport) {
       res.json('User is not logged in!');
     } else {
-      console.log('hitting receipt paid route');
-
       const userId = req.session.passport.user;
       const friendId = parseInt(req.params.friendId);
       const receiptId = parseInt(req.params.receiptId);
-      console.log('friendId: ', friendId);
-      console.log('receiptId: ', receiptId);
 
       const debts = await Debt.update(
         { paid: true },
@@ -160,7 +182,6 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
           where: { receiptId: receiptId, friendId: friendId, userId: userId },
         }
       );
-      console.log(debts);
 
       res.send('Successfully paid bill');
     }
@@ -177,6 +198,10 @@ router.get('/total', async (req, res, next) => {
     } else {
       const userId = req.session.passport.user;
 
+      const friendIdOfUser = await Friend.findOne({
+        where: { userId: userId, name: 'Myself' },
+      });
+
       // add up the balance, tip and tax in the Debt model for that user
       const debt = await Debt.findAll({
         attributes: [
@@ -190,10 +215,13 @@ router.get('/total', async (req, res, next) => {
             'totalProratedTax',
           ],
         ],
-        where: { userId: userId, paid: false },
+        where: {
+          userId: userId,
+          paid: false,
+          friendId: { [Op.notIn]: [friendIdOfUser.id] },
+        },
       });
 
-      console.log('debt query: ', debt);
       let {
         totalBalance,
         totalProratedTip,
@@ -210,7 +238,6 @@ router.get('/total', async (req, res, next) => {
         total = 0;
       }
 
-      // console.log('total going out: ', total);
       // ... will break if we do not send it in this format
       res.send(`${total}`);
     }
