@@ -71,7 +71,7 @@ export default function DrawerMenu() {
               { text: 'Home', url: 'home' },
               { text: 'Scan Receipt', url: 'scanreceipt' },
               { text: 'Edit Receipt', url: 'editreceipt' },
-              { text: 'Manage Debts', url: 'viewdebts' },
+              { text: 'Manage Debts', url: 'managedebts' },
               { text: 'Manage Friends', url: 'managefriends' },
               { text: 'Receipt History', url: 'receipthistory' },
           { text: 'User Info', url: 'userinfo' },
