@@ -27,6 +27,8 @@ const ReceiptView = (props) => {
     totalOwed,
   } = props;
 
+  console.log('here data:', listOfGroups);
+
   return listOfGroups.map((receipt) => {
     return (
       <Accordion key={receipt.id}>
@@ -37,31 +39,57 @@ const ReceiptView = (props) => {
         >
           <Typography className={classes.heading}>
             Event: {receipt.eventName} Date: {receipt.date} - Total Owed:{' '}
-            {calcTotalOwed(receipt.debts) / 100}
+            {/* {calcTotalOwed(receipt.debts) / 100} */}
           </Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <ul>
-            {receipt.debts.map((debt) => {
-              return (
-                <li key={debt.id}>
-                  <span className={debt.paid ? 'paid' : ''}>
-                    {debt.itemName} ({debt.friendName}) -{' '}
-                    {(debt.balance + debt.proratedTax + debt.proratedTip) / 100}
-                  </span>
-                  <button>Send Reminder (WIP)</button>
+          {receipt.friends.map((friend) => (
+            <Accordion key={friend.id}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls='panel1a-content'
+                id='panel1a-header'
+              >
+                <Typography className={classes.heading}>
+                  {friend.name} - Total Owed:{' '}
+                  {friend.items.reduce((total, item) => {
+                    if (!item.debts[0].paid) {
+                      total =
+                        total +
+                        item.debts[0].balance +
+                        item.debts[0].proratedTip +
+                        item.debts[0].proratedTax;
+                      return total;
+                    } else {
+                      return total;
+                    }
+                  }, 0) / 100}{' '}
                   <button
                     onClick={async () => {
-                      console.log('this', await markPaid(debt.id));
+                      await markReceiptPaid(
+                        receipt.id,
+                        receipt.debts[0].friendId
+                      );
                       setTotalOwed(Math.random() * 100);
                     }}
                   >
                     Mark as Paid
                   </button>
-                </li>
-              );
-            })}
-          </ul>
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                {friend.items.map((item) => (
+                  <span className={item.debts[0].paid ? 'paid' : ''}>
+                    {item.description} -{' '}
+                    {(item.debts[0].balance +
+                      item.debts[0].proratedTip +
+                      item.debts[0].proratedTax) /
+                      100}
+                  </span>
+                ))}
+              </AccordionDetails>
+            </Accordion>
+          ))}
         </AccordionDetails>
       </Accordion>
     );

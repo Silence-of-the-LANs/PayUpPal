@@ -49,8 +49,6 @@ const ManageDebts = () => {
     const fetchDebts = async () => {
       let { data } = await axios.get(`api/debts/displayDebts/${view}`);
       let total = await axios.get('api/debts/total');
-      console.log(data);
-      // console.log(total.data);
       setDebts(data);
       setTotalOwed(total.data);
     };
