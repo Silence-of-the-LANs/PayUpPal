@@ -12,12 +12,12 @@ const listOfUsers = [
     venmoLink: 'tommy@venmo.com',
   },
   { email: 'jason@gmail.com', password: 'test' },
-  // { email: 'bdionis@gmail.com', password: 'abcdef' },
-  // { email: 'nventon@gmail.com', password: 'abcdef' },
-  // { email: 'ezannolli6@gmail.com', password: 'abcdef' },
-  // { email: 'mblevin@gmail.com', password: 'abcdef' },
-  // { email: 'mwallbanks@gmail.com', password: 'abcdef' },
-  // { email: 'lnern@gmail.com', password: 'abcdef' },
+  { email: 'bdionis@gmail.com', password: 'abcdef' },
+  { email: 'nventon@gmail.com', password: 'abcdef' },
+  { email: 'ezannolli6@gmail.com', password: 'abcdef' },
+  { email: 'mblevin@gmail.com', password: 'abcdef' },
+  { email: 'mwallbanks@gmail.com', password: 'abcdef' },
+  { email: 'lnern@gmail.com', password: 'abcdef' },
 ];
 
 module.exports = listOfUsers;

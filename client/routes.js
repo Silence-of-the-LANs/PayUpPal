@@ -8,7 +8,7 @@ import {
   ManageFriends,
   ScanReceipt,
   Signup,
-  ViewDebts,
+  ManageDebts,
   DrawerMenu,
   ReceiptHistory,
   SelectFriends,
@@ -26,7 +26,7 @@ const Routes = () => {
       <Route path='/signup' component={Signup} />
       <Route path='/login' component={Login} />
       <Route exact path='/managefriends' component={ManageFriends} />
-      <Route exact path='/viewdebts' component={ViewDebts} />
+      <Route exact path='/managedebts' component={ManageDebts} />
       <Route exact path='/receipthistory' component={ReceiptHistory} />
       <Route exact path='/userinfo' component={UserInfo} />
       <Route path='/' component={Home} />
