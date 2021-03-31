@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ReminderDialog from './ReminderDialog';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +40,19 @@ const FriendView = (props) => {
   let friendInfo = listOfGroups.filter(
     (group) => group.friendName !== 'Myself'
   );
+
+  //For dialog window
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = React.useState('');
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (value) => {
+    setOpen(false);
+    setSelectedValue(value);
+  };
 
   console.log('listy: ', friendInfo);
 
@@ -76,7 +91,19 @@ const FriendView = (props) => {
                     {receipt.eventName} - Total Owed: ${' '}
                     {calcTotalOwed(receipt.debts) / 100}
                   </span>{' '}
-                  <button>Send Reminder (WIP)</button>
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    onClick={handleClickOpen}
+                    size='small'
+                  >
+                    Remind
+                  </Button>
+                  <ReminderDialog
+                    selectedValue={selectedValue}
+                    open={open}
+                    onClose={handleClose}
+                  />
                   <button
                     onClick={async () => {
                       await markReceiptPaid(
