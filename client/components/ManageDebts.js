@@ -15,6 +15,17 @@ const markPaid = async (debtId) => {
   return data;
 };
 
+const markReceiptPaid = async (receiptId, friendId) => {
+  try {
+    const { data } = await axios.put(
+      `api/debts/markReceiptPaid/${receiptId}/${friendId}`
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -39,7 +50,7 @@ const calcTotalOwed = (balances) => {
 
 const ManageDebts = () => {
   const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('receipt');
+  const [view, setView] = useState('person');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -47,8 +58,10 @@ const ManageDebts = () => {
   useEffect(() => {
     // initial data fetch of debts
     const fetchDebts = async () => {
+      console.log('CDM Manage Debts');
       let { data } = await axios.get(`api/debts/displayDebts/${view}`);
       let total = await axios.get('api/debts/total');
+
       setDebts(data);
       setTotalOwed(total.data);
     };
@@ -57,45 +70,14 @@ const ManageDebts = () => {
   }, [view, totalOwed]);
 
   // get a unique list of borrowers
-  let listOfGroups = [];
+  let listOfGroups = debts;
   let listOfGroupIds = [];
 
-  // debts.forEach((balanceObj) => {
-  //   // if a borrower is not on the list of borrowers, add them to the list of borrowers
-
-  //   if (view === 'person' && !listOfGroupIds.includes(balanceObj.friendId)) {
-  //     listOfGroupIds.push(balanceObj.friendId);
-  //     listOfGroups.push({
-  //       friendId: balanceObj.friendId,
-  //       friendName: balanceObj.friend.name,
-  //     });
-  //   }
-  if (view === 'person') {
-    listOfGroups = debts;
-  }
-
-  if (view === 'receipt') {
-    listOfGroups = debts;
-  }
-  // });
-
-  // sort the list of borrowers by name
-  // listOfGroups.sort((friendOne, friendTwo) => {
-  //   if (friendOne.friendName > friendTwo.friendName) {
-  //     return 1;
-  //   } else if (friendOne.friendName < friendTwo.friendName) {
-  //     return -1;
-  //   } else {
-  //     return 0;
-  //   }
-  // });
-
-  const changeView = (viewSetting) => {
+  const changeView = async (viewSetting) => {
+    const { data } = await axios.get(`api/debts/displayDebts/${viewSetting}`);
     setView(viewSetting);
+    setDebts(data);
   };
-
-  // console.log('listOfGroups from parent: ', listOfGroups);
-  // console.log('listOfGroupsId: ', listOfGroupIds);
 
   return (
     <div className={classes.root}>
@@ -107,8 +89,10 @@ const ManageDebts = () => {
           calcTotalOwed={calcTotalOwed}
           setTotalOwed={setTotalOwed}
           markPaid={markPaid}
+          markReceiptPaid={markReceiptPaid}
           total={totalOwed}
           listOfGroups={listOfGroups}
+          setDebts={setDebts}
         />
       ) : (
         <FriendView
@@ -118,6 +102,9 @@ const ManageDebts = () => {
           total={totalOwed}
           setTotalOwed={setTotalOwed}
           markPaid={markPaid}
+          markReceiptPaid={markReceiptPaid}
+          setDebts={setDebts}
+          debts={debts}
         />
       )}
     </div>

@@ -11,6 +11,7 @@ router.get('/displayDebts/receipt', async (req, res, next) => {
       const userId = req.session.passport.user;
       let friendsBalances;
       let resArr = [];
+      console.log('hit receipt');
 
       // find all the receipts for this user
       let receipts = await Receipt.findAll({
@@ -37,7 +38,6 @@ router.get('/displayDebts/receipt', async (req, res, next) => {
           }
         });
 
-        console.log('FRIENDS ON RECEIPT: ', friendsOnReceipt);
         // for each friend, find the items that belong to them on the current receipt
 
         for (let j = 0; j < friendsOnReceipt.length; j++) {
@@ -77,7 +77,7 @@ router.get('/displayDebts/person', async (req, res, next) => {
       res.json('User is not logged in!');
     } else {
       const userId = req.session.passport.user;
-
+      console.log('hit person');
       let resArray = [];
 
       // get the user's friends and their associated debts
@@ -193,6 +193,7 @@ router.get('/total', async (req, res, next) => {
         where: { userId: userId, paid: false },
       });
 
+      console.log('debt query: ', debt);
       let {
         totalBalance,
         totalProratedTip,
@@ -205,6 +206,11 @@ router.get('/total', async (req, res, next) => {
         parseInt(totalProratedTip) +
         parseInt(totalProratedTax);
 
+      if (isNaN(total)) {
+        total = 0;
+      }
+
+      // console.log('total going out: ', total);
       // ... will break if we do not send it in this format
       res.send(`${total}`);
     }
