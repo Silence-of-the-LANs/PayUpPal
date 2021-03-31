@@ -28,7 +28,6 @@ const markPaid = async (debtId) => {
 
 const FriendView = (props) => {
   const classes = useStyles();
-  c;
 
   let { setTotalOwed, totalOwed, calcTotalOwed, listOfGroups, debts } = props;
 
