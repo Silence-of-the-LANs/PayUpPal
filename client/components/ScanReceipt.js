@@ -48,8 +48,6 @@ const ScanReceipt = () => {
   const [fileName, setFilename] = useState('Choose File');
   const [tempImageUrl, setTempImageUrl] = useState({});
   const [isLoading, setLoading] = useState(false);
-  // inputfield is ref used for drag & drop
-  const inputfield = React.useRef(null);
   // uploadField is ref used for click & upload
   // ref gives access to manipulate the HTML element directly
   const uploadField = React.useRef(null);
@@ -141,7 +139,6 @@ const ScanReceipt = () => {
       <div
         // ref is used as a reference to manipulate dom in our functions
         id='drag-drop'
-        ref={inputfield}
         style={dragDrop}
         onDragOver={handleDrag}
         onDrop={handleDrop}

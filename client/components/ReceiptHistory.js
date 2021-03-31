@@ -1,11 +1,19 @@
 import axios from 'axios';
 import React, { useEffect, useState, useContext } from 'react';
-import { UserContext } from '../Store';
+import { UserContext, ReceiptDataContext } from '../Store';
 import * as ReactModal from 'react-modal';
+import { useHistory } from 'react-router';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 ReactModal.setAppElement('#app');
 const ReceiptHistory = () => {
+  const history = useHistory();
   const [user, setUser] = useContext(UserContext);
+  const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
   const [receipts, setReceipts] = useState([]);
   const [selectedReceipt, setSelectedReceipt] = useState({});
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -30,7 +38,6 @@ const ReceiptHistory = () => {
     async function fetchReceipt() {
       if (user.id && !receipts.length && !hasNoReceipts) {
         const { data } = await axios.get(`/api/receipts/user${user.id}`);
-        console.log(data);
         !data.length ? setNoReceipts(true) : setNoReceipts(false);
         if (data.length) {
           setReceipts(sortReceipts(data));
@@ -38,6 +45,7 @@ const ReceiptHistory = () => {
       }
     }
     fetchReceipt();
+    console.log('selectedReceipt', selectedReceipt);
   });
   const confirmDeleteReceipt = async (id) => {
     const { data } = await axios.delete(`/api/receipts/${id}`);
@@ -53,6 +61,36 @@ const ReceiptHistory = () => {
     setDeleteClicked(true);
     setIsOpen(true);
   };
+  const editReceipt = () => {
+    let {
+      id,
+      date,
+      eventName,
+      imageUrl,
+      items,
+      tax,
+      tip,
+      total,
+    } = selectedReceipt;
+    items = items.map((item) => {
+      item.totalPrice = (item.quantity * item.pricePerItem) / 100;
+      item.pricePerItem /= 100;
+      return item;
+    });
+    let miscItems = { tax: tax / 100, tip: tip / 100 };
+    // sending off items to be updated
+    let itemsInfo = {
+      id,
+      eventName,
+      imageUrl,
+      items,
+      miscItems,
+      date,
+      isEditReceipt: true,
+    };
+    dispatch({ type: 'GET_ITEMS', itemsInfo });
+    history.push('/editreceipt');
+  };
   return (
     <div id='receipthistory-div'>
       <div id='past-receipt'>
@@ -62,6 +100,7 @@ const ReceiptHistory = () => {
               {selectedReceipt.eventName} {selectedReceipt.date}
             </h3>
             <button onClick={() => setIsOpen(true)}>Preview Image</button>
+            <button onClick={editReceipt}>Edit Receipt</button>
             <ReactModal
               isOpen={modalIsOpen}
               // onAfterOpen={afterOpenModal}
@@ -77,8 +116,32 @@ const ReceiptHistory = () => {
               {selectedReceipt.items.map((item) => {
                 return (
                   <li>
-                    {item.quantity} {item.description} $
-                    {(item.pricePerItem * item.quantity) / 100}
+                    <Accordion>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls='panel1a-content'
+                        id='panel1a-header'
+                      >
+                        <Typography>
+                          {item.quantity} {item.description} $
+                          {(item.pricePerItem * item.quantity) / 100} (Click to
+                          see friends/debts)
+                        </Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        {item.debts.map((debt) => {
+                          return (
+                            <Typography>
+                              {debt.friend.name} owes $
+                              {(debt.balance +
+                                debt.proratedTip +
+                                debt.proratedTax) /
+                                100}
+                            </Typography>
+                          );
+                        })}
+                      </AccordionDetails>
+                    </Accordion>
                   </li>
                 );
               })}

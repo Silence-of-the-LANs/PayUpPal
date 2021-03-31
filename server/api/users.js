@@ -23,6 +23,20 @@ router.post('/', async (req, res, next) => {
   }
 });
 
+// POST updates userinfo
+router.put('/info', async (req, res, next) => {
+  try {
+    const [rowsUpdated, updatedUser] = await User.update(req.body, {
+      returning: true,
+      where: { id: req.user.id },
+    });
+    console.log(rowsUpdated, updatedUser);
+    res.send(updatedUser[0]);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // UPDATE single user
 // api/users/userId
 router.put('/:userId', async (req, res, next) => {

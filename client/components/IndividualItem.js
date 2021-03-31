@@ -110,7 +110,6 @@ const IndividualItem = (props) => {
   const assignFriends = (event, value) => {
     dispatch({ type: 'ASSIGN_FRIEND', itemIndex, friends: value });
   };
-
   return (
     <tr className='item-input'>
       <button type='button' onClick={deleteItem}>

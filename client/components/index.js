@@ -15,3 +15,4 @@ export { default as ManageDebts } from './ManageDebts';
 export { default as SelectFriends } from './SelectFriends';
 export { default as DrawerMenu } from './DrawerMenu';
 export { default as ReceiptHistory } from './ReceiptHistory';
+export { default as UserInfo } from './UserInfo';

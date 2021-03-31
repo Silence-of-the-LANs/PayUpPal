@@ -23,9 +23,11 @@ const EditReceipt = () => {
   const [tip, setTip] = useState(
     receiptDataState.miscItems ? receiptDataState.miscItems.tip : 0
   );
-  const [eventInput, setEventInput] = useState('');
+  const [eventInput, setEventInput] = useState(
+    receiptDataState.eventName || ''
+  );
 
-  const [dateInput, setDateInput] = useState('');
+  const [dateInput, setDateInput] = useState(receiptDataState.date || '');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [countdown, setCountdown] = useState(5);
@@ -37,7 +39,7 @@ const EditReceipt = () => {
       }, 1000);
     }
   });
-
+  console.log(receiptDataState);
   const [splitEvenly, setSplitEvenly] = useState(true);
   const [openSelect, setOpenSelect] = React.useState(false);
   const [openAdd, setOpenAdd] = React.useState(false);
@@ -132,6 +134,7 @@ const EditReceipt = () => {
           <input
             type='text'
             placeholder='Label this event here...'
+            value={eventInput}
             onChange={(e) => setEventInput(e.target.value)}
           />
         </div>
@@ -143,6 +146,7 @@ const EditReceipt = () => {
           <input
             type='date'
             placeholder=''
+            value={dateInput}
             onChange={(e) => setDateInput(e.target.value)}
           />
         </div>

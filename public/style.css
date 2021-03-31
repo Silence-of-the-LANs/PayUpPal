@@ -37,3 +37,27 @@
 #successful-submit {
   margin: auto;
 }
+
+.userinfo-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.MuiFormHelperText-root {
+  color: black;
+  font-size: 1rem;
+}
+
+.MuiFormLabel-root {
+  font-size: 1.1rem;
+}
+
+.MuiAccordionDetails-root {
+  flex-direction: column;
+  /* margin-bottom: 5px; */
+}
+
+.MuiAccordion-rounded:last-child,
+.MuiCollapse-entered {
+  margin-bottom: 10px;
+}
