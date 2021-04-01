@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReminderCheckboxDialog from './ReminderCheckboxDialog';
+// import sendInitialEmail from '../../server/api/email';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +49,20 @@ const FriendView = (props) => {
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const [checkboxContents, setCheckboxContents] = useState({});
+  const [reminderInfo, setReminderInfo] = useState({
+    total: '',
+    receipt: {},
+    friend: {},
+  });
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (total, receipt, friend) => {
+    // We save the info needed for the reminder to state
+    setReminderInfo({
+      total,
+      receipt,
+      friend,
+    });
+
     // This opens the dialog window
     setOpen(true);
   };
@@ -64,6 +77,10 @@ const FriendView = (props) => {
     // ReminderCheckboxDialog
     setSelectedValue(value);
     setCheckboxContents(checkboxBooleans);
+    console.log('Your selected value is:', value);
+    console.log('Your checkbox contents are:', checkboxBooleans);
+    console.log('Your info package is:', reminderInfo);
+    // sendInitialEmail(reminderInfo);
   };
 
   return loaded
@@ -105,8 +122,15 @@ const FriendView = (props) => {
                       <Button
                         variant='outlined'
                         color='primary'
-                        onClick={handleClickOpen}
+                        onClick={() => {
+                          handleClickOpen(
+                            calcTotalOwed(receipt.debts) / 100,
+                            receipt,
+                            info.currentFriend
+                          );
+                        }}
                         size='small'
+                        name={friendInfo.name}
                       >
                         Remind
                       </Button>
