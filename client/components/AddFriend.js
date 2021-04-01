@@ -20,7 +20,6 @@ const initialState = {
 const AddFriend = (props) => {
   const classes = useStyles();
   const { closeAddModal } = props;
-  console.log('modal value: ', closeAddModal);
   const [friend, setFriend] = useState(initialState);
 
   const dataInput = (event) => {

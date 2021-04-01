@@ -31,7 +31,6 @@ const EditFriend = (props) => {
   const submitEditedFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      console.log(event.target);
       const { data } = await axios.put('api/friends/editFriend', friend);
 
       store.addNotification({
