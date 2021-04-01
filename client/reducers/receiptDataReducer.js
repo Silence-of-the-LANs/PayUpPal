@@ -33,6 +33,17 @@ export default (state = {}, action) => {
       newItemList = state.items.filter((items, i) => {
         return i === itemIndex ? false : true;
       });
+      newItemList.length
+        ? newItemList
+        : (newItemList = [
+            {
+              quantity: 1,
+              description: '',
+              pricePerItem: 0,
+              totalPrice: 0,
+            },
+          ]);
+      console.log(newItemList);
       return { ...state, items: newItemList };
     case 'ADD_ITEM':
       if (!state.items) {
