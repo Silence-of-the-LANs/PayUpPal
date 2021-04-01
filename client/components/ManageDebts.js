@@ -92,8 +92,12 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <button onClick={() => changeView('person')}>By Person</button>
-      <button onClick={() => changeView('receipt')}>By Receipt</button>
+      <button className='button' onClick={() => changeView('person')}>
+        By Person
+      </button>
+      <button className='button' onClick={() => changeView('receipt')}>
+        By Receipt
+      </button>
       {view === 'receipt' ? (
         <ReceiptView
           calcTotalOwed={calcTotalOwed}

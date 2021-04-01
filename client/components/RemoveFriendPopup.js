@@ -39,11 +39,12 @@ const RemoveFriendPopup = (props) => {
   return (
     <div>
       Are you sure you want to remove this friend?
-      <button type='button' onClick={closeRemoveModal}>
+      <button type='button' className='button' onClick={closeRemoveModal}>
         Cancel
       </button>
       <button
         type='button'
+        className='button'
         onClick={closeRemoveModal}
         onClick={() =>
           removeSelectedFriend(friendToRemove.id, updateFriendList)

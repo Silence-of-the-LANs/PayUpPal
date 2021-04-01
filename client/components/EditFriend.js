@@ -99,14 +99,10 @@ const EditFriend = (props) => {
             onChange={dataInput}
           />
         </div>
-        <button type='submit' className='btn btn-primary'>
+        <button type='submit' className='button'>
           CONFIRM
         </button>
-        <button
-          type='button'
-          className='btn btn-primary'
-          onClick={closeEditModal}
-        >
+        <button type='button' className='button' onClick={closeEditModal}>
           CANCEL
         </button>
       </form>

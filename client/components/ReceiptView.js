@@ -106,13 +106,13 @@ const ReceiptView = (props) => {
                           return total;
                         }
                       }, 0) / 100}{' '}
-                      <button>Send Reminder (WIP)</button>
+                      <button className='button'>Send Reminder (WIP)</button>
                       {friend.items.every((item) =>
                         item.debts.every((debt) => debt.paid === true)
                       ) ? (
                         <button
+                          className='button'
                           onClick={async () => {
-                            console.log('clicked');
                             await markReceiptUnpaid(receipt.id, friend.id);
                             setTotalOwed(0);
                             fetchNewdata();
@@ -122,8 +122,8 @@ const ReceiptView = (props) => {
                         </button>
                       ) : (
                         <button
+                          className='button'
                           onClick={async () => {
-                            console.log('clicked');
                             await markReceiptPaid(receipt.id, friend.id);
                             setTotalOwed(0);
                             fetchNewdata();

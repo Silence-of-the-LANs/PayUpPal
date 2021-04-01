@@ -116,15 +116,11 @@ const AddFriend = (props) => {
             An email or phone number is required
           </p>
         )}
-        <button type='submit' className='btn btn-primary'>
+        <button type='submit' className='button'>
           ADD
         </button>
         {closeAddModal ? (
-          <button
-            type='button'
-            className='btn btn-primary'
-            onClick={closeAddModal}
-          >
+          <button type='button' className='button' onClick={closeAddModal}>
             CLOSE
           </button>
         ) : (
