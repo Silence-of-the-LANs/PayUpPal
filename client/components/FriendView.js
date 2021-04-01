@@ -71,6 +71,16 @@ const FriendView = (props) => {
   // values of the checkboxes in the Checkboxes component which are contained
   // in an object
   const handleClose = (value, checkboxBooleans) => {
+    // This sends our reminder to the backend
+    const sendReminder = async (reminderInfo) => {
+      const { data } = await axios.get(
+        `api/debts/getDebts/${reminderInfo.receipt.id}/${reminderInfo.friend.id}`
+      );
+      reminderInfo.itemInformation = data;
+      console.log(reminderInfo);
+      const response = await axios.put('api/reminders/send', reminderInfo);
+    };
+
     // This closes the dialog window
     setOpen(false);
     // This sets the selected value to the captured value we got from
@@ -80,6 +90,7 @@ const FriendView = (props) => {
     console.log('Your selected value is:', value);
     console.log('Your checkbox contents are:', checkboxBooleans);
     console.log('Your info package is:', reminderInfo);
+    sendReminder(reminderInfo);
     // sendInitialEmail(reminderInfo);
   };
 

@@ -4,7 +4,7 @@ const pw = process.env.EMAIL_PW || require('../../secrets').EMAIL_PW;
 const email =
   process.env.EMAIL_ADDRESS || require('../../secrets').EMAIL_ADDRESS;
 
-export const sendInitialEmail = (
+const sendInitialEmail = (
   alias,
   userName,
   requesteeEmail,
@@ -1352,3 +1352,5 @@ export const sendInitialEmail = (
 //   'https://www.paypal.me',
 //   'March 25, 2020'
 // );
+
+module.exports = sendInitialEmail;

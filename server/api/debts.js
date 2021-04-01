@@ -190,6 +190,27 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
   }
 });
 
+// api/debts/getDebts/:receiptId/:friendId route
+router.get('/getDebts/:receiptId/:friendId', async (req, res, next) => {
+  try {
+    if (!req.session.passport) {
+      res.json('User is not logged in!');
+    } else {
+      const userId = req.session.passport.user;
+      const friendId = parseInt(req.params.friendId);
+      const receiptId = parseInt(req.params.receiptId);
+
+      const debts = await Debt.findAll({
+        where: { receiptId: receiptId, friendId: friendId, userId: userId },
+      });
+
+      res.send(debts);
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 // api/debts/total route
 router.get('/total', async (req, res, next) => {
   try {
