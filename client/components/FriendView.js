@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -19,27 +19,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const markReceiptPaid = async (receiptId, friendId) => {
-  try {
-    console.log('receiptId: ', receiptId);
-    console.log('friendId: ', friendId);
-    const { data } = await axios.put(
-      `api/debts/markReceiptPaid/${receiptId}/${friendId}`
-    );
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const FriendView = (props) => {
   const classes = useStyles();
+  const [loaded, setLoaded] = useState(false);
+  let {
+    setTotalOwed,
+    totalOwed,
+    calcTotalOwed,
+    listOfGroups,
+    debt,
+    markReceiptPaid,
+    setDebts,
+  } = props;
 
-  let { setTotalOwed, totalOwed, calcTotalOwed, listOfGroups, debts } = props;
+  useEffect(() => {
+    // initial data fetch of debts
+    const fetchData = async () => {
+      let { data } = await axios.get('api/debts/displayDebts/person');
+      setDebts(data);
+    };
+    setLoaded(true);
+    fetchData();
+  }, [totalOwed]);
 
-  let friendInfo = listOfGroups.filter(
-    (group) => group.friendName !== 'Myself'
-  );
+  let friendInfo = listOfGroups;
 
   // For dialog window
   const [open, setOpen] = useState(false);
@@ -63,86 +66,88 @@ const FriendView = (props) => {
     setCheckboxContents(checkboxBooleans);
   };
 
-  console.log('listy: ', friendInfo);
-
-  return friendInfo.map((info) => {
-    return (
-      <Accordion key={info.currentFriend.id}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls='panel1a-content'
-          id='panel1a-header'
-        >
-          <Typography className={classes.heading}>
-            {info.currentFriend.name} -{' '}
-            {info.receipts.reduce((total, receipt) => {
-              total += calcTotalOwed(receipt.debts);
-              return total;
-            }, 0) / 100}
-          </Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          {info.receipts.map((receipt) => (
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls='panel1a-content'
-                id='panel1a-header'
-              >
-                <Typography className={classes.heading}>
-                  <span
-                    className={
-                      receipt.debts.every((debt) => debt.paid === true)
-                        ? 'paid'
-                        : ''
-                    }
+  return loaded
+    ? friendInfo.map((info) => {
+        return (
+          <Accordion key={info.currentFriend.id}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls='panel1a-content'
+              id='panel1a-header'
+            >
+              <Typography className={classes.heading}>
+                {info.currentFriend.name} -{' '}
+                {info.receipts.reduce((total, receipt) => {
+                  total += calcTotalOwed(receipt.debts);
+                  return total;
+                }, 0) / 100}
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              {info.receipts.map((receipt) => (
+                <Accordion>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls='panel1a-content'
+                    id='panel1a-header'
                   >
-                    {receipt.eventName} - Total Owed: ${' '}
-                    {calcTotalOwed(receipt.debts) / 100}
-                  </span>{' '}
-                  <Button
-                    variant='outlined'
-                    color='primary'
-                    onClick={handleClickOpen}
-                    size='small'
-                  >
-                    Remind
-                  </Button>
-                  <ReminderCheckboxDialog
-                    open={open}
-                    onClose={handleClose}
-                    selectedValue={selectedValue}
-                  />
-                  <button
-                    onClick={async () => {
-                      await markReceiptPaid(
-                        receipt.id,
-                        receipt.debts[0].friendId
+                    <Typography className={classes.heading}>
+                      <span
+                        className={
+                          receipt.debts.every((debt) => debt.paid === true)
+                            ? 'paid'
+                            : ''
+                        }
+                      >
+                        {receipt.eventName} - Total Owed: ${' '}
+                        {calcTotalOwed(receipt.debts) / 100}
+                      </span>{' '}
+                      <Button
+                        variant='outlined'
+                        color='primary'
+                        onClick={handleClickOpen}
+                        size='small'
+                      >
+                        Remind
+                      </Button>
+                      <ReminderCheckboxDialog
+                        open={open}
+                        onClose={handleClose}
+                        selectedValue={selectedValue}
+                      />
+                      <button
+                        onClick={async () => {
+                          await markReceiptPaid(
+                            receipt.id,
+                            receipt.debts[0].friendId
+                          );
+                          setTotalOwed(Math.random() * 100);
+                        }}
+                      >
+                        Mark as Paid
+                      </button>
+                    </Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    {receipt.debts.map((debt) => {
+                      return (
+                        <span className={debt.paid ? 'paid' : ''}>
+                          {debt.item.description} -{' '}
+                          {(debt.balance +
+                            debt.proratedTip +
+                            debt.proratedTax) /
+                            100}
+                        </span>
                       );
-                      setTotalOwed(Math.random() * 100);
-                    }}
-                  >
-                    Mark as Paid
-                  </button>
-                </Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                {receipt.debts.map((debt) => {
-                  return (
-                    <span className={debt.paid ? 'paid' : ''}>
-                      {debt.item.description} -{' '}
-                      {(debt.balance + debt.proratedTip + debt.proratedTax) /
-                        100}
-                    </span>
-                  );
-                })}
-              </AccordionDetails>
-            </Accordion>
-          ))}
-        </AccordionDetails>
-      </Accordion>
-    );
-  });
+                    })}
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </AccordionDetails>
+          </Accordion>
+        );
+      })
+    : 'Loading...';
 };
 
 export default FriendView;
