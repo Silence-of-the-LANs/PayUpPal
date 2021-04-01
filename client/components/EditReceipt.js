@@ -187,20 +187,21 @@ const EditReceipt = () => {
                   <div>Description</div>
                   <div>Price Per Item</div>
                   <div>Item total</div>
-                  {!splitEvenly && <div>Allocated</div>}
+                  {!splitEvenly && <div>Add friends to an item</div>}
                 </div>
               )}
               {/* maps thru each indivial item */}
-              {receiptDataState.items.map((item, index) => {
-                return (
-                  <IndividualItem
-                    item={item}
-                    itemIndex={index}
-                    splitEvenly={splitEvenly}
-                    pool={pool}
-                  />
-                );
-              })}
+              {receiptDataState.items.length &&
+                receiptDataState.items.map((item, index) => {
+                  return (
+                    <IndividualItem
+                      item={item}
+                      itemIndex={index}
+                      splitEvenly={splitEvenly}
+                      pool={pool}
+                    />
+                  );
+                })}
             </div>
           )}
         </div>
