@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-export default function CheckboxLabels() {
-  const [checkbox, setCheckbox] = React.useState({
-    checkedA: false,
-    checkedB: false,
+export default function CheckboxLabels(props) {
+  const { getCheckboxContents } = props;
+  const [checkboxValues, setCheckboxValues] = useState({
+    email: false,
+    textMessage: false,
+  });
+
+  React.useEffect(() => {
+    getCheckboxContents(checkboxValues);
   });
 
   const handleChange = (event) => {
-    setCheckbox({ ...checkbox, [event.target.name]: event.target.checked });
+    setCheckboxValues({
+      ...checkboxValues,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   return (
@@ -19,10 +27,10 @@ export default function CheckboxLabels() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={checkbox.checkedA}
+              checked={checkboxValues.email}
               onChange={handleChange}
               color='primary'
-              name='checkedA'
+              name='email'
             />
           }
           label='Email'
@@ -32,9 +40,9 @@ export default function CheckboxLabels() {
         <FormControlLabel
           control={
             <Checkbox
-              checked={checkbox.checkedB}
+              checked={checkboxValues.textMessage}
               onChange={handleChange}
-              name='checkedB'
+              name='textMessage'
               color='primary'
             />
           }

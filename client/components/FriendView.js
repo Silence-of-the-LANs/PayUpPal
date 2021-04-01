@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReminderCheckboxDialog from './ReminderCheckboxDialog';
-import ReminderDialog from './ReminderDialog';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,17 +41,26 @@ const FriendView = (props) => {
     (group) => group.friendName !== 'Myself'
   );
 
-  //For dialog window
-  const [open, setOpen] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState('');
+  // For dialog window
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [checkboxContents, setCheckboxContents] = useState({});
 
   const handleClickOpen = () => {
+    // This opens the dialog window
     setOpen(true);
   };
 
-  const handleClose = (value) => {
+  // This takes in either "Cancel" or "Send" as a value and the boolean
+  // values of the checkboxes in the Checkboxes component which are contained
+  // in an object
+  const handleClose = (value, checkboxBooleans) => {
+    // This closes the dialog window
     setOpen(false);
+    // This sets the selected value to the captured value we got from
+    // ReminderCheckboxDialog
     setSelectedValue(value);
+    setCheckboxContents(checkboxBooleans);
   };
 
   console.log('listy: ', friendInfo);
@@ -100,11 +108,6 @@ const FriendView = (props) => {
                   >
                     Remind
                   </Button>
-                  {/* <ReminderDialog
-                    selectedValue={selectedValue}
-                    open={open}
-                    onClose={handleClose}
-                  /> */}
                   <ReminderCheckboxDialog
                     open={open}
                     onClose={handleClose}
