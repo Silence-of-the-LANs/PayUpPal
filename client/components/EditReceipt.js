@@ -43,8 +43,8 @@ const EditReceipt = () => {
     }
   });
   const [splitEvenly, setSplitEvenly] = useState(true);
-  const [openSelect, setOpenSelect] = React.useState(false);
-  const [openAdd, setOpenAdd] = React.useState(false);
+  const [openSelect, setOpenSelect] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
 
   const closeAddModal = () => {
     setOpenAdd(false);
