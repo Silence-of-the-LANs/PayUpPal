@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
+import { store } from 'react-notifications-component';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,20 @@ const AddFriend = (props) => {
     event.preventDefault();
     try {
       const { data } = await axios.post('api/friends/addFriend', friend);
+
+      store.addNotification({
+        title: '',
+        message: `Successfully added to your friend list!`,
+        type: 'success',
+        insert: 'top',
+        container: 'top-left',
+        animationIn: ['animate__animated', 'animate__fadeIn'],
+        animationOut: ['animate__animated', 'animate__fadeOut'],
+        dismiss: {
+          duration: 1500,
+          onScreen: true,
+        },
+      });
 
       if (props.addToFriends) {
         props.addToFriends(data);

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
 
@@ -32,6 +31,8 @@ const EditFriend = (props) => {
     event.preventDefault();
     try {
       const { data } = await axios.put('api/friends/editFriend', friend);
+
+      closeEditModal();
 
       store.addNotification({
         title: '',
