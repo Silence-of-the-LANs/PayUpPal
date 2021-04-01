@@ -34,9 +34,12 @@ const EditReceipt = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (successfulSubmit && countdown > 0) {
-      setInterval(() => {
+      let timer = setInterval(() => {
         setCountdown(countdown - 1);
       }, 1000);
+      return () => {
+        clearInterval(timer);
+      };
     }
   });
   const [splitEvenly, setSplitEvenly] = useState(true);
@@ -126,151 +129,187 @@ const EditReceipt = () => {
     : 'false';
 
   return !successfulSubmit ? (
-    <div style={{ border: 'solid black' }}>
+    <div id='edit-receipt-div'>
       <div>
-        <h2>Edit Receipt</h2>
-        <div>
-          {hasSubmitted && !eventInput && (
-            <p style={{ color: 'red' }}>Event name cannot be empty</p>
-          )}
-          <label>Event Name:</label>
-          <input
-            type='text'
-            placeholder='Label this event here...'
-            value={eventInput}
-            onChange={(e) => setEventInput(e.target.value)}
-          />
+        <div id='editReceipt-previewImage'>
+          <h2>Edit Receipt</h2>
+          <button onClick={() => setIsOpen(true)}>Preview Image</button>
+          <ReactModal
+            isOpen={modalIsOpen}
+            onRequestClose={() => setIsOpen(false)}
+          >
+            <div>
+              <button onClick={() => setIsOpen(false)}>Close</button>
+              <img className='preview-image' src={receiptDataState.imageUrl} />
+            </div>
+          </ReactModal>
         </div>
-        <div>
-          {hasSubmitted && !dateInput && (
-            <p style={{ color: 'red' }}>Date name cannot be empty</p>
-          )}
-          <label>Event Date:</label>
-          <input
-            type='date'
-            placeholder=''
-            value={dateInput}
-            onChange={(e) => setDateInput(e.target.value)}
-          />
-        </div>
-        <br />
-        <button onClick={() => setIsOpen(true)}>Preview Image</button>
-        <ReactModal
-          isOpen={modalIsOpen}
-          onRequestClose={() => setIsOpen(false)}
-        >
-          <div>
-            <button onClick={() => setIsOpen(false)}>Close</button>
-            <img className='preview-image' src={receiptDataState.imageUrl} />
+        <div id='input-div'>
+          <div className='input-eventAndDate'>
+            {hasSubmitted && !eventInput && (
+              <p style={{ color: 'red' }}>Event name cannot be empty</p>
+            )}
+            <label>Event Name:</label>
+            <input
+              type='text'
+              placeholder='Label this event here...'
+              value={eventInput}
+              onChange={(e) => setEventInput(e.target.value)}
+            />
           </div>
-        </ReactModal>
-        <button
-          type='button'
-          onClick={() => {
-            setOpenAdd(true);
-          }}
-        >
-          Add Friend
-        </button>
-        <Modal
-          open={openAdd}
-          onClose={closeAddModal}
-          aria-labelledby='Add a friend'
-          aria-describedby='Add a new friend to your friend list'
-        >
-          <AddFriend closeAddModal={closeAddModal} />
-        </Modal>
-        <button
-          type='button'
-          onClick={() => {
-            setOpenSelect(true);
-          }}
-        >
-          Select Friends
-        </button>
-        <Switch checked={splitEvenly} onChange={toggleSwitch} /> Split Evenly
-        <Modal
-          open={openSelect}
-          onClose={() => {
-            setOpenSelect(false);
-          }}
-          aria-labelledby='Select Friend(s)'
-          aria-describedby='Select your friends to add'
-        >
-          <FriendList updatePool={setPool} />
-        </Modal>
-        <div>
-          Friends selected:{' '}
-          {pool.map((friend, index) => (
-            <span>
-              {index === pool.length - 1 ? friend.name : friend.name + ', '}
-            </span>
-          ))}
+          <div className='input-eventAndDate'>
+            {hasSubmitted && !dateInput && (
+              <p style={{ color: 'red' }}>Date name cannot be empty</p>
+            )}
+            <label>Event Date:</label>
+            <input
+              type='date'
+              placeholder=''
+              value={dateInput}
+              onChange={(e) => setDateInput(e.target.value)}
+            />
+          </div>
         </div>
-        {receiptDataState.items && (
-          <table>
-            <tr className='item-header'>
-              <th></th>
-              <th>Quantity</th>
-              <th>Description</th>
-              <th>Price Per Item</th>
-              <th>Item total</th>
-              {!splitEvenly && <th>Allocated</th>}
-            </tr>
-            {/* maps thru each indivial item */}
-            {receiptDataState.items.map((item, index) => {
-              return (
-                <IndividualItem
-                  item={item}
-                  itemIndex={index}
-                  splitEvenly={splitEvenly}
-                  pool={pool}
-                />
-              );
-            })}
-          </table>
-        )}
-      </div>
-      <div id='misc-form'>
-        <button type='button' onClick={addItem}>
+        <button id='add-item' type='button' onClick={addItem}>
           Add Item
         </button>
-        {/* if receiptData exists show subTotal */}
-        <label>Subtotal: {receiptDataState.items && subTotal}</label>
-        <label>
-          Tax:{' '}
-          <input
-            type='number'
-            min='0'
-            value={tax}
-            step='0.01'
-            onChange={(e) => setTax(parseFloat(e.target.value))}
-          />
-        </label>
-        <label>
-          Tip:{' '}
-          <input
-            type='number'
-            min='0'
-            value={tip}
-            step='0.01'
-            onChange={(e) => setTip(parseFloat(e.target.value))}
-          />
-        </label>
-        <label>Total: ${total.toFixed(2)}</label>
-        <button
-          type='submit'
-          disabled={
-            splitEvenly
-              ? pool.length < 1 || !receiptDataState.items
-              : receiptDataState.items
-              ? !everyItemAssigned
-              : true
-          }
-          onClick={submitReceipt}
-        >
-          Submit Receipt
-        </button>
+        <div id='item-div'>
+          {receiptDataState.items && (
+            <div>
+              {receiptDataState.items.length && (
+                <div
+                  className={
+                    splitEvenly ? 'grid-header' : 'grid-header-allocate'
+                  }
+                >
+                  <div></div>
+                  <div>Qty</div>
+                  <div>Description</div>
+                  <div>Price Per Item</div>
+                  <div>Item total</div>
+                  {!splitEvenly && <div>Allocated</div>}
+                </div>
+              )}
+              {/* maps thru each indivial item */}
+              {receiptDataState.items.map((item, index) => {
+                return (
+                  <IndividualItem
+                    item={item}
+                    itemIndex={index}
+                    splitEvenly={splitEvenly}
+                    pool={pool}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+      <div id='friend-subtotal'>
+        <div id='friend-div'>
+          <div id='button-div'>
+            <button
+              type='button'
+              onClick={() => {
+                setOpenAdd(true);
+              }}
+            >
+              Add Friend
+            </button>
+            <Modal
+              open={openAdd}
+              onClose={closeAddModal}
+              aria-labelledby='Add a friend'
+              aria-describedby='Add a new friend to your friend list'
+            >
+              <AddFriend closeAddModal={closeAddModal} />
+            </Modal>
+            <button
+              type='button'
+              onClick={() => {
+                setOpenSelect(true);
+              }}
+            >
+              Select Friends
+            </button>
+          </div>
+          <div>
+            Friends selected:{' '}
+            {pool.map((friend, index) => (
+              <span>
+                {index === pool.length - 1 ? friend.name : friend.name + ', '}
+              </span>
+            ))}
+          </div>
+
+          <Modal
+            className='friendlist-modal'
+            open={openSelect}
+            onClose={() => {
+              setOpenSelect(false);
+            }}
+            aria-labelledby='Select Friend(s)'
+            aria-describedby='Select your friends to add'
+            label='Click to select friends...'
+          >
+            <FriendList updatePool={setPool} />
+          </Modal>
+        </div>
+        <div id='misc-form'>
+          <div id='split-toggle'>
+            <p
+              className={
+                !splitEvenly ? 'toggle-selected' : 'toggle-not-selected'
+              }
+            >
+              Split By Item
+            </p>
+            <Switch checked={splitEvenly} onChange={toggleSwitch} />{' '}
+            <p
+              className={
+                splitEvenly ? 'toggle-selected' : 'toggle-not-selected'
+              }
+            >
+              Split Evenly
+            </p>
+          </div>
+          {/* if receiptData exists show subTotal */}
+          <label>Subtotal: {receiptDataState.items && subTotal}</label>
+          <label>
+            Tax:{' '}
+            <input
+              type='number'
+              min='0'
+              value={tax}
+              step='0.01'
+              onChange={(e) => setTax(parseFloat(e.target.value))}
+            />
+          </label>
+          <label>
+            Tip:{' '}
+            <input
+              type='number'
+              min='0'
+              value={tip}
+              step='0.01'
+              onChange={(e) => setTip(parseFloat(e.target.value))}
+            />
+          </label>
+          <label>Total: ${total.toFixed(2)}</label>
+          <button
+            type='submit'
+            disabled={
+              splitEvenly
+                ? pool.length < 1 || !receiptDataState.items
+                : receiptDataState.items
+                ? !everyItemAssigned
+                : true
+            }
+            onClick={submitReceipt}
+          >
+            Submit Receipt
+          </button>
+        </div>
       </div>
     </div>
   ) : (

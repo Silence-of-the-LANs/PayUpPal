@@ -111,71 +111,81 @@ const IndividualItem = (props) => {
     dispatch({ type: 'ASSIGN_FRIEND', itemIndex, friends: value });
   };
   return (
-    <tr className='item-input'>
+    <div className={splitEvenly ? 'grid-item' : 'grid-item-allocate'}>
       <button type='button' onClick={deleteItem}>
         X
       </button>
-      <td>
+      <div>
         <input
+          className='qty-input'
           type='number'
           min='1'
           value={quantity}
           onChange={changeQuantity}
         />
-      </td>
-      <td>
-        <input type='text' value={description} onChange={editDescription} />
-      </td>
-      <td>
+      </div>
+      <div>
         <input
+          className='description-input'
+          type='text'
+          value={description}
+          onChange={editDescription}
+        />
+      </div>
+      <div>
+        <input
+          className='PPI-input'
           type='number'
           min='0'
           step='0.01'
           value={pricePerItem}
           onChange={changePricePerItem}
         />
-      </td>
-      <td>
+      </div>
+      <div>
         <input
+          className='totalprice-input'
           type='number'
           min='0'
           step='0.01'
           value={totalPrice}
           onChange={changeTotalPrice}
         />
-      </td>
-      {!splitEvenly && (
-        <Autocomplete
-          className={classes.root}
-          noOptionsText='Please add some friends...'
-          multiple
-          onChange={assignFriends}
-          id='autocomplete'
-          options={pool}
-          disableCloseOnSelect
-          getOptionLabel={(option) => option.name}
-          renderOption={(option, state) => (
-            <React.Fragment>
-              <Checkbox
-                checkedIcon={<span className={classes.checkedIcon} />}
-                icon={<span className={classes.icon} />}
-                checked={state.selected}
+      </div>
+      <div>
+        {!splitEvenly && (
+          <Autocomplete
+            className={classes.root}
+            noOptionsText='Please add some friends...'
+            multiple
+            onChange={assignFriends}
+            id='autocomplete'
+            options={pool}
+            disableCloseOnSelect
+            getOptionLabel={(option) => option.name}
+            renderOption={(option, state) => (
+              <React.Fragment>
+                <Checkbox
+                  checkedIcon={<span className={classes.checkedIcon} />}
+                  icon={<span className={classes.icon} />}
+                  checked={state.selected}
+                />
+                {option.name}
+              </React.Fragment>
+            )}
+            style={{ width: '18em' }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant='outlined'
+                label='Friends List'
+                placeholder='Select friends...'
               />
-              {option.name}
-            </React.Fragment>
-          )}
-          style={{ width: 500 }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant='outlined'
-              label='Friends List'
-              placeholder='Select friends...'
-            />
-          )}
-        />
-      )}
-    </tr>
+            )}
+          />
+        )}
+      </div>
+    </div>
   );
 };
 
