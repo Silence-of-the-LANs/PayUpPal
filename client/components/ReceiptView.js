@@ -114,7 +114,7 @@ const ReceiptView = (props) => {
                           onClick={async () => {
                             console.log('clicked');
                             await markReceiptUnpaid(receipt.id, friend.id);
-                            setTotalOwed(Math.random() * 100);
+                            setTotalOwed(0);
                             fetchNewdata();
                           }}
                         >
@@ -125,7 +125,7 @@ const ReceiptView = (props) => {
                           onClick={async () => {
                             console.log('clicked');
                             await markReceiptPaid(receipt.id, friend.id);
-                            setTotalOwed(Math.random() * 100);
+                            setTotalOwed(0);
                             fetchNewdata();
                           }}
                         >
@@ -136,7 +136,10 @@ const ReceiptView = (props) => {
                   </AccordionSummary>
                   <AccordionDetails>
                     {friend.items.map((item) => (
-                      <span className={item.debts[0].paid ? 'paid' : ''}>
+                      <span
+                        key={item.id}
+                        className={item.debts[0].paid ? 'paid' : ''}
+                      >
                         {item.description} -{' '}
                         {(item.debts[0].balance +
                           item.debts[0].proratedTip +

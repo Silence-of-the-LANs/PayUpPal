@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
+import { store } from 'react-notifications-component';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,26 +18,37 @@ const initialState = {
   phone: '',
 };
 
-const AddFriend = (props) => {
+const EditFriend = (props) => {
   const classes = useStyles();
-  const { closeAddModal } = props;
-  console.log('modal value: ', closeAddModal);
-  const [friend, setFriend] = useState(initialState);
+  const { setOpenEdit, friendInfo, closeEditModal, updateFriendList } = props;
+
+  const [friend, setFriend] = useState(friendInfo);
 
   const dataInput = (event) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
   };
 
-  const submitFriendInfo = async (event) => {
+  const submitEditedFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post('api/friends/addFriend', friend);
+      console.log(event.target);
+      const { data } = await axios.put('api/friends/editFriend', friend);
 
-      if (props.addToFriends) {
-        props.addToFriends(data);
-      }
+      store.addNotification({
+        title: '',
+        message: `Information successfully updated!`,
+        type: 'success',
+        insert: 'top',
+        container: 'top-left',
+        animationIn: ['animate__animated', 'animate__fadeIn'],
+        animationOut: ['animate__animated', 'animate__fadeOut'],
+        dismiss: {
+          duration: 1000,
+          onScreen: true,
+        },
+      });
 
-      setFriend(initialState);
+      updateFriendList(data);
     } catch (err) {
       console.log(err);
     }
@@ -44,7 +56,7 @@ const AddFriend = (props) => {
 
   return (
     <div className={classes.root}>
-      <form className='form-inline' onSubmit={submitFriendInfo}>
+      <form className='form-inline' onSubmit={submitEditedFriendInfo}>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
             Name
@@ -88,22 +100,18 @@ const AddFriend = (props) => {
           />
         </div>
         <button type='submit' className='btn btn-primary'>
-          ADD
+          CONFIRM
         </button>
-        {closeAddModal ? (
-          <button
-            type='button'
-            className='btn btn-primary'
-            onClick={closeAddModal}
-          >
-            CLOSE
-          </button>
-        ) : (
-          ''
-        )}
+        <button
+          type='button'
+          className='btn btn-primary'
+          onClick={closeEditModal}
+        >
+          CANCEL
+        </button>
       </form>
     </div>
   );
 };
 
-export default AddFriend;
+export default EditFriend;

@@ -95,20 +95,15 @@ router.get('/displayDebts/person', async (req, res, next) => {
       const userId = req.session.passport.user;
       let resArray = [];
 
-      const friendIdOfUser = await Friend.findOne({
-        where: { userId: userId, name: 'Myself' },
-      });
-
       // get the user's friends and their associated debts
       let friends = await Friend.findAll({
         where: {
           userId: userId,
-          id: { [Op.notIn]: [friendIdOfUser.id] },
+          name: { [Op.notIn]: ['Myself'] },
         },
         order: [['name', 'ASC']],
       });
 
-      console.log(friends);
       // for each friend they have...
       for (let i = 0; i < friends.length; i++) {
         let currentFriend = friends[i];
@@ -189,8 +184,6 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
         }
       );
 
-      console.log(debts);
-
       res.send('Successfully marked as paid');
     }
   } catch (err) {
@@ -222,8 +215,6 @@ router.put(
             },
           }
         );
-
-        console.log(debts);
 
         res.send('Successfully marked as unpaid');
       }

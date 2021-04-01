@@ -62,7 +62,7 @@ const FriendView = (props) => {
             </AccordionSummary>
             <AccordionDetails>
               {info.receipts.map((receipt) => (
-                <Accordion>
+                <Accordion key={receipt.id}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls='panel1a-content'
@@ -87,7 +87,7 @@ const FriendView = (props) => {
                               receipt.id,
                               receipt.debts[0].friendId
                             );
-                            setTotalOwed(Math.random() * 100);
+                            setTotalOwed(0);
                           }}
                         >
                           Mark as Unpaid
@@ -99,7 +99,7 @@ const FriendView = (props) => {
                               receipt.id,
                               receipt.debts[0].friendId
                             );
-                            setTotalOwed(Math.random() * 100);
+                            setTotalOwed(0);
                           }}
                         >
                           Mark as Paid
@@ -110,7 +110,7 @@ const FriendView = (props) => {
                   <AccordionDetails>
                     {receipt.debts.map((debt) => {
                       return (
-                        <span className={debt.paid ? 'paid' : ''}>
+                        <span key={debt.id} className={debt.paid ? 'paid' : ''}>
                           {debt.item.description} -{' '}
                           {(debt.balance +
                             debt.proratedTip +
