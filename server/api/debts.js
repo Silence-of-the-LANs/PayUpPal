@@ -10,44 +10,76 @@ router.get('/displayDebts/receipt', async (req, res, next) => {
       res.json('User is not logged in!');
     } else {
       const userId = req.session.passport.user;
+      let friendsBalances;
+      let resArr = [];
 
-      let receipts = await Receipt.findAll({
-        where: { userId: userId },
-        include: [{ model: Debt }],
+      const friendIdOfUser = await Friend.findOne({
+        where: { userId: userId, name: 'Myself' },
       });
 
-      // create unique list of friends from the listed Debts
+      // find all the receipts for this user
+      let receipts = await Receipt.findAll({
+        where: {
+          userId: userId,
+        },
+        order: [['eventName', 'ASC']],
+      });
 
-      const friends = await Friend.findAll({ where: { userId: userId } });
+      let receiptItems;
 
-      let friendsObj = {};
-      let itemsObj = {};
-
-      friends.map((friend) => (friendsObj[friend.id] = friend.name));
-
+      // for each receipt that belonged to the user
       for (let i = 0; i < receipts.length; i++) {
-        let receipt = receipts[i];
+        let currentReceipt = receipts[i];
+        currentReceipt.dataValues.friends = [];
 
-        let receiptItems = await Item.findAll({
-          where: { receiptId: receipt.id },
+        // find the balances associated with the current receipt
+        receiptItems = await Debt.findAll({
+          where: {
+            receiptId: currentReceipt.id,
+            friendId: { [Op.notIn]: [friendIdOfUser.id] },
+          },
+          order: [['friendId', 'ASC']],
         });
 
-        receiptItems.forEach((item) => (itemsObj[item.id] = item.description));
+        // store the each friend's id found on this receipt to use for querying
+        let friendsOnReceipt = [];
+
+        receiptItems.forEach((item) => {
+          if (!friendsOnReceipt.includes(item.friendId)) {
+            friendsOnReceipt.push(item.friendId);
+          }
+        });
+
+        // for each friend, find the items that belong to them on the current receipt
+        for (let j = 0; j < friendsOnReceipt.length; j++) {
+          let friendId = friendsOnReceipt[j];
+          let friendInfo = await Friend.findByPk(friendId);
+
+          // attach the friends information onto the current receipt
+          currentReceipt.dataValues.friends.push(friendInfo);
+
+          // grab the balances associated with that friend
+          friendsBalances = await Item.findAll({
+            where: { receiptId: currentReceipt.id },
+            include: [
+              {
+                model: Debt,
+                where: { receiptId: currentReceipt.id, friendId: friendId },
+                order: [['friendId', 'ASC']],
+              },
+            ],
+            order: [['id', 'ASC']],
+          });
+
+          // attach that friend's balance information to the friend's info
+          friendInfo.dataValues.items = friendsBalances;
+        }
+
+        // add the receipt (now containing our extra friend and friend's balance data) to our response array
+        resArr.push(currentReceipt);
       }
 
-      receipts.forEach((receipt) => {
-        receipt.debts.forEach((debt) => {
-          debt.dataValues.friendName = friendsObj[debt.friendId];
-        });
-      });
-
-      receipts.forEach((receipt) => {
-        receipt.debts.forEach((debt) => {
-          debt.dataValues.itemName = itemsObj[debt.itemId];
-        });
-      });
-
-      res.json(receipts);
+      res.json(resArr);
     }
   } catch (err) {
     next(err);
@@ -61,16 +93,27 @@ router.get('/displayDebts/person', async (req, res, next) => {
       res.json('User is not logged in!');
     } else {
       const userId = req.session.passport.user;
-
       let resArray = [];
-      // get our friends and their associated debts
-      let friends = await Friend.findAll({
-        where: { userId: userId },
+
+      const friendIdOfUser = await Friend.findOne({
+        where: { userId: userId, name: 'Myself' },
       });
 
+      // get the user's friends and their associated debts
+      let friends = await Friend.findAll({
+        where: {
+          userId: userId,
+          id: { [Op.notIn]: [friendIdOfUser.id] },
+        },
+        order: [['name', 'ASC']],
+      });
+
+      console.log(friends);
+      // for each friend they have...
       for (let i = 0; i < friends.length; i++) {
         let currentFriend = friends[i];
 
+        // find the receipts which they are part of...
         let receipts = await Receipt.findAll({
           where: { userId: userId },
           include: [
@@ -78,15 +121,15 @@ router.get('/displayDebts/person', async (req, res, next) => {
               model: Debt,
               where: {
                 userId: userId,
-                friendId: {
-                  [Op.in]: [currentFriend.id],
-                },
+                friendId: currentFriend.id,
               },
-              include: [{ model: Item }],
+              order: [['friendId', 'ASC']],
+              include: [{ model: Item, order: [['id', 'ASC']] }],
             },
           ],
         });
 
+        // combine the friend's info and receipt info into an object and push add it to our response
         resArray.push({ currentFriend, receipts });
       }
 
@@ -103,13 +146,13 @@ router.put('/markPaid/:debtId', async (req, res, next) => {
     if (!req.session.passport) {
       res.json('User is not logged in!');
     } else {
-      console.log('hitting route');
       const userId = req.session.passport.user;
 
       const debtId = parseInt(req.params.debtId);
 
       const debt = await Debt.findOne({
         where: { id: debtId, userId: userId },
+        order: [['friendId', 'ASC']],
       });
 
       await debt.update({
@@ -129,13 +172,9 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
     if (!req.session.passport) {
       res.json('User is not logged in!');
     } else {
-      console.log('hitting receipt paid route');
-
       const userId = req.session.passport.user;
       const friendId = parseInt(req.params.friendId);
       const receiptId = parseInt(req.params.receiptId);
-      console.log('friendId: ', friendId);
-      console.log('receiptId: ', receiptId);
 
       const debts = await Debt.update(
         { paid: true },
@@ -143,7 +182,6 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
           where: { receiptId: receiptId, friendId: friendId, userId: userId },
         }
       );
-      console.log(debts);
 
       res.send('Successfully paid bill');
     }
@@ -158,9 +196,13 @@ router.get('/total', async (req, res, next) => {
     if (!req.session.passport) {
       res.json('User is not logged in!');
     } else {
-      console.log('hitting total');
       const userId = req.session.passport.user;
 
+      const friendIdOfUser = await Friend.findOne({
+        where: { userId: userId, name: 'Myself' },
+      });
+
+      // add up the balance, tip and tax in the Debt model for that user
       const debt = await Debt.findAll({
         attributes: [
           [Sequelize.fn('SUM', Sequelize.col('balance')), 'totalBalance'],
@@ -173,7 +215,11 @@ router.get('/total', async (req, res, next) => {
             'totalProratedTax',
           ],
         ],
-        where: { userId: userId, paid: false },
+        where: {
+          userId: userId,
+          paid: false,
+          friendId: { [Op.notIn]: [friendIdOfUser.id] },
+        },
       });
 
       let {
@@ -182,11 +228,17 @@ router.get('/total', async (req, res, next) => {
         totalProratedTax,
       } = debt[0].dataValues;
 
+      // add it up and send it as our response
       let total =
         parseInt(totalBalance) +
         parseInt(totalProratedTip) +
         parseInt(totalProratedTax);
 
+      if (isNaN(total)) {
+        total = 0;
+      }
+
+      // ... will break if we do not send it in this format
       res.send(`${total}`);
     }
   } catch (err) {
