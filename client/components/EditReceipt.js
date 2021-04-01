@@ -299,6 +299,7 @@ const EditReceipt = () => {
           <label>Total: ${total.toFixed(2)}</label>
           <button
             type='submit'
+            class='submit-button'
             disabled={
               splitEvenly
                 ? pool.length < 1 || !receiptDataState.items

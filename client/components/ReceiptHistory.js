@@ -19,6 +19,8 @@ const ReceiptHistory = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [hasNoReceipts, setNoReceipts] = useState(false);
   const [isDeleteClicked, setDeleteClicked] = useState(false);
+  const [buttonId, setButtonId] = useState(0);
+  const [deleteReceipt, setDeleteReceipt] = useState({});
   // useEffect, similar to component did mount if the second argument is empty
   // if user is logged in fetch receiptdata
   const sortReceipts = (receiptsHistory) => {
@@ -47,6 +49,7 @@ const ReceiptHistory = () => {
     fetchReceipt();
   });
   const confirmDeleteReceipt = async (id) => {
+    console.log(data);
     const { data } = await axios.delete(`/api/receipts/${id}`);
     console.log('data', data);
     !data.length ? setNoReceipts(true) : setNoReceipts(false);
@@ -56,9 +59,10 @@ const ReceiptHistory = () => {
 
     setIsOpen(false);
   };
-  const deleteClicked = () => {
+  const deleteClicked = (receipt) => {
     setDeleteClicked(true);
     setIsOpen(true);
+    setDeleteReceipt(receipt);
   };
   const editReceipt = () => {
     let {
@@ -93,125 +97,166 @@ const ReceiptHistory = () => {
   const getFriends = (receipt) => {
     let friendList = [];
     receipt.items.forEach((item) => {
-      item.debts.forEach((debt) => {
-        if (!friendList.includes(debt.friend.name)) {
-          friendList.push(debt.friend.name);
-        }
-      });
+      if (item.debts) {
+        item.debts.forEach((debt) => {
+          if (!friendList.includes(debt.friend.name)) {
+            friendList.push(debt.friend.name);
+          }
+        });
+      }
     });
     return friendList;
   };
+  const handleSelectReceipt = (receipt, i) => {
+    console.log('i', i);
+    setSelectedReceipt(receipt);
+    setButtonId(i);
+    console.log('buttonId', buttonId);
+  };
+  console.log('receipts', receipts);
   return (
     <div id='receipthistory-div'>
-      <div id='past-receipt'>
-        {!hasNoReceipts && selectedReceipt.items ? (
-          <>
-            <h3>
-              {selectedReceipt.eventName} {selectedReceipt.date}
-            </h3>
-            <button onClick={() => setIsOpen(true)}>Preview Image</button>
-            <button onClick={editReceipt}>Edit Receipt</button>
-            <ReactModal
-              isOpen={modalIsOpen}
-              // onAfterOpen={afterOpenModal}
-              onRequestClose={() => setIsOpen(false)}
-            >
-              <div className='preview-image-div'>
-                <button onClick={() => setIsOpen(false)}>Close</button>
-                <img className='preview-image' src={selectedReceipt.imageUrl} />
-              </div>
-            </ReactModal>
-            <p>
-              Friend(s) on receipt:{' '}
-              {getFriends(selectedReceipt).map((friend, i, arr) => {
-                return i === arr.length - 1 ? friend : friend + ', ';
-              })}
-            </p>
-            <ol>
-              Items
-              {selectedReceipt.items.map((item) => {
-                return (
-                  <li>
-                    <Accordion>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls='panel1a-content'
-                        id='panel1a-header'
-                      >
-                        <Typography>
-                          {item.quantity} {item.description} (Click to see
-                          friends/debts)
-                        </Typography>
-                      </AccordionSummary>
-                      <AccordionDetails>
-                        {item.debts.map((debt) => {
-                          return (
-                            <Typography>
-                              {debt.friend.name} owes $
-                              {(debt.balance +
-                                debt.proratedTip +
-                                debt.proratedTax) /
-                                100}
-                            </Typography>
-                          );
-                        })}
-                      </AccordionDetails>
-                    </Accordion>
-                  </li>
-                );
-              })}
-            </ol>
-            <p>
-              Subtotal: $
-              {selectedReceipt.items.reduce(
-                (a, b) => a + b.pricePerItem * b.quantity,
-                0
-              ) / 100}
-            </p>
-            <p>Tip: ${selectedReceipt.tip / 100}</p>
-            <p>Tax: ${selectedReceipt.tax / 100}</p>
-            <p>Total: ${selectedReceipt.total / 100}</p>
-          </>
-        ) : (
-          <h4>No receipt history</h4>
-        )}
-      </div>
-      <div id='receipt-list'>
-        {receipts.length && !hasNoReceipts ? (
-          receipts.map((receipt) => {
-            return (
-              <div>
-                <button onClick={deleteClicked}>X</button>
-                {isDeleteClicked && (
-                  <ReactModal
-                    isOpen={modalIsOpen}
-                    // onAfterOpen={afterOpenModal}
-                    onRequestClose={() => setIsOpen(false)}
+      <h1>Receipt History</h1>
+      <div id='receiptList-details-div'>
+        <div id='receipt-list'>
+          {receipts.length && !hasNoReceipts ? (
+            receipts.map((receipt, i) => {
+              return (
+                <div className='single-history-button-div'>
+                  <button
+                    className={
+                      buttonId === i ? 'selected-receipt' : 'not-selected'
+                    }
+                    onClick={() => {
+                      deleteClicked(receipt);
+                    }}
                   >
-                    <div className='preview-image-div'>
-                      <h4>
-                        Are you sure you want to delete {receipt.eventName}{' '}
-                        {receipt.date}
-                      </h4>
-                      <button onClick={() => confirmDeleteReceipt(receipt.id)}>
-                        Delete
-                      </button>
-                      <button onClick={() => setIsOpen(false)}>Cancel</button>
-                    </div>
-                  </ReactModal>
-                )}
-                <button onClick={() => setSelectedReceipt(receipt)}>
-                  {receipt.eventName} {receipt.date}
-                </button>
+                    X
+                  </button>
+                  <button
+                    className={
+                      buttonId === i
+                        ? 'single-history-button selected-receipt'
+                        : 'single-history-button not-selected'
+                    }
+                    onClick={() => {
+                      handleSelectReceipt(receipt, i);
+                    }}
+                    // onClick={() => setSelectedReceipt(receipt)}
+                  >
+                    {receipt.eventName} {receipt.date}
+                  </button>
+                  {isDeleteClicked && (
+                    <ReactModal
+                      isOpen={modalIsOpen}
+                      // onAfterOpen={afterOpenModal}
+                      onRequestClose={() => setIsOpen(false)}
+                    >
+                      <div className='preview-image-div'>
+                        <h4>
+                          Are you sure you want to delete{' '}
+                          {deleteReceipt.eventName} {deleteReceipt.date}
+                        </h4>
+                        <button
+                          onClick={() => confirmDeleteReceipt(deleteReceipt.id)}
+                        >
+                          Delete
+                        </button>
+                        <button onClick={() => setIsOpen(false)}>Cancel</button>
+                      </div>
+                    </ReactModal>
+                  )}
+                </div>
+              );
+            })
+          ) : (
+            <>
+              <h2>No receipt history</h2>
+            </>
+          )}
+        </div>
+        <div id='past-receipt'>
+          {!hasNoReceipts && selectedReceipt.items ? (
+            <>
+              <div id='history-heading'>
+                <h3>Event: {selectedReceipt.eventName}</h3>
+                <h3>Date: {selectedReceipt.date}</h3>
               </div>
-            );
-          })
-        ) : (
-          <>
-            <h2>No receipt history</h2>
+              <div id='friends-and-buttons'>
+                <p>
+                  Friend(s) on receipt:{' '}
+                  {getFriends(selectedReceipt).map((friend, i, arr) => {
+                    return i === arr.length - 1 ? friend : friend + ', ';
+                  })}
+                </p>
+                <div id='receipt-history-button-div'>
+                  <button onClick={() => setIsOpen(true)}>Preview Image</button>
+                  <button onClick={editReceipt}>Edit Receipt</button>
+                </div>
+              </div>
+              <ReactModal
+                isOpen={modalIsOpen}
+                // onAfterOpen={afterOpenModal}
+                onRequestClose={() => setIsOpen(false)}
+              >
+                <div className='preview-image-div'>
+                  <button onClick={() => setIsOpen(false)}>Close</button>
+                  <img
+                    className='preview-image'
+                    src={selectedReceipt.imageUrl}
+                  />
+                </div>
+              </ReactModal>
+              <ol>
+                Items
+                {selectedReceipt.items.map((item) => {
+                  return (
+                    <li>
+                      <Accordion>
+                        <AccordionSummary
+                          expandIcon={<ExpandMoreIcon />}
+                          aria-controls='panel1a-content'
+                          id='panel1a-header'
+                        >
+                          <Typography>
+                            {item.quantity} {item.description} (Click to see
+                            friends/debts)
+                          </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                          {item.debts &&
+                            item.debts.map((debt) => {
+                              return (
+                                <Typography>
+                                  {debt.friend.name} owes $
+                                  {(debt.balance +
+                                    debt.proratedTip +
+                                    debt.proratedTax) /
+                                    100}
+                                </Typography>
+                              );
+                            })}
+                        </AccordionDetails>
+                      </Accordion>
+                    </li>
+                  );
+                })}
+              </ol>
+              <p>
+                Subtotal: $
+                {selectedReceipt.items.reduce(
+                  (a, b) => a + b.pricePerItem * b.quantity,
+                  0
+                ) / 100}
+              </p>
+              <p>Tip: ${selectedReceipt.tip / 100}</p>
+              <p>Tax: ${selectedReceipt.tax / 100}</p>
+              <p>Total: ${selectedReceipt.total / 100}</p>
+            </>
+          ) : (
             <a href='scanreceipt'>Scan a receipt now!</a>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
