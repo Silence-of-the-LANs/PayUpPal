@@ -55,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Signup() {
   const classes = useStyles();
   const history = useHistory();
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [formInfo, setFormInfo] = useState({
     email: '',
     password: '',
@@ -65,21 +66,30 @@ export default function Signup() {
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
+    setHasSubmitted(true);
+
     const formInfoToSubmit = {
       email: formInfo.email,
       password: formInfo.password,
       confirmPassword: formInfo.confirmPassword,
     };
-    await axios.post('auth/signup', formInfoToSubmit);
-    const { data } = await axios.get('auth/me');
-    setUser(data);
-    // Clear the inputs after the button is pressed
-    setFormInfo({
-      email: '',
-      password: '',
-      confirmPassword: '',
-    });
-    history.push('/userinfo');
+
+    if (
+      formInfo.email.length > 0 &&
+      formInfo.password.length > 0 &&
+      formInfo.password === formInfo.confirmPassword
+    ) {
+      await axios.post('auth/signup', formInfoToSubmit);
+      const { data } = await axios.get('auth/me');
+      setUser(data);
+      // Clear the inputs after the button is pressed
+      setFormInfo({
+        email: '',
+        password: '',
+        confirmPassword: '',
+      });
+      history.push('/userinfo');
+    }
   }
   const handleChange = (evt) => {
     evt.persist();
@@ -97,11 +107,10 @@ export default function Signup() {
           Sign Up
         </Typography>
         {/* We need to add the onSubmit event listener here */}
-        <form className={classes.form} noValidate onSubmit={Submit}>
+        <form className={classes.form} onSubmit={Submit}>
           <TextField
             variant='outlined'
             margin='normal'
-            required
             fullWidth
             name='email'
             onChange={handleChange}
@@ -110,10 +119,12 @@ export default function Signup() {
             value={formInfo.email}
             id='email'
           />
+          {!formInfo.email && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>Email required</p>
+          )}
           <TextField
             variant='outlined'
             margin='normal'
-            required
             fullWidth
             name='password'
             onChange={handleChange}
@@ -123,10 +134,14 @@ export default function Signup() {
             id='password'
             autoComplete='current-password'
           />
+          {formInfo.password !== formInfo.confirmPassword && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>
+              Passwords must match
+            </p>
+          )}
           <TextField
             variant='outlined'
             margin='normal'
-            required
             fullWidth
             name='confirmPassword'
             onChange={handleChange}
@@ -136,6 +151,11 @@ export default function Signup() {
             id='confirmPassword'
             autoComplete='current-password'
           />
+          {formInfo.password !== formInfo.confirmPassword && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>
+              Passwords must match
+            </p>
+          )}
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'
