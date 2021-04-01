@@ -45,7 +45,6 @@ const ReceiptHistory = () => {
       }
     }
     fetchReceipt();
-    console.log('selectedReceipt', selectedReceipt);
   });
   const confirmDeleteReceipt = async (id) => {
     const { data } = await axios.delete(`/api/receipts/${id}`);
@@ -140,9 +139,8 @@ const ReceiptHistory = () => {
                         id='panel1a-header'
                       >
                         <Typography>
-                          {item.quantity} {item.description} $
-                          {(item.pricePerItem * item.quantity) / 100} (Click to
-                          see friends/debts)
+                          {item.quantity} {item.description} (Click to see
+                          friends/debts)
                         </Typography>
                       </AccordionSummary>
                       <AccordionDetails>
