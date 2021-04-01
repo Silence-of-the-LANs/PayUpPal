@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const removeFriend = async (friendId) => {
-  const { data } = await axios.delete(`api/friends/removeFriend/${friendId}`);
+  const { data } = await axios.put(`api/friends/removeFriend/${friendId}`);
   return data;
 };
 
@@ -26,6 +26,7 @@ const ManageFriends = () => {
   const [friends, setFriends] = useState([]);
   const [friendInfo, setFriendInfo] = useState({});
   const [openEdit, setOpenEdit] = useState(false);
+  const [openRemove, setOpenRemove] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
@@ -94,6 +95,15 @@ const ManageFriends = () => {
           closeEditModal={closeEditModal}
           updateFriendList={updateFriendList}
         />
+      </Modal>
+      <Modal
+        className={classes.paper}
+        open={openRemove}
+        onClose={() => setOpenRemove(false)}
+        aria-labelledby='Edit friend info'
+        aria-describedby='Edit a friend on your friend list'
+      >
+        <div>Hello</div>
       </Modal>
     </div>
   );

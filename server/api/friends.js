@@ -87,16 +87,19 @@ router.put('/editFriend', async (req, res, next) => {
 });
 
 // api/friends/removeFriend/:friendId route
-router.delete('/removeFriend/:friendId', async (req, res, next) => {
+router.put('/removeFriend/:friendId', async (req, res, next) => {
   try {
     const userId = req.session.passport.user;
 
-    await Friend.destroy({
-      where: {
-        id: req.params.friendId,
-        userId: userId,
-      },
-    });
+    await Friend.update(
+      { userId: null },
+      {
+        where: {
+          id: req.params.friendId,
+          userId: userId,
+        },
+      }
+    );
 
     const updatedFriends = await Friend.findAll({
       where: {
