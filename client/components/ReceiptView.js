@@ -48,6 +48,7 @@ const ReceiptView = (props) => {
     markPaid,
     totalOwed,
     markReceiptPaid,
+    markReceiptUnpaid,
     setDebts,
     debts,
   } = props;
@@ -105,16 +106,32 @@ const ReceiptView = (props) => {
                           return total;
                         }
                       }, 0) / 100}{' '}
-                      <button
-                        onClick={async () => {
-                          console.log('clicked');
-                          await markReceiptPaid(receipt.id, friend.id);
-                          setTotalOwed(Math.random() * 100);
-                          fetchNewdata();
-                        }}
-                      >
-                        Mark as Paid
-                      </button>
+                      <button>Send Reminder (WIP)</button>
+                      {friend.items.every((item) =>
+                        item.debts.every((debt) => debt.paid === true)
+                      ) ? (
+                        <button
+                          onClick={async () => {
+                            console.log('clicked');
+                            await markReceiptUnpaid(receipt.id, friend.id);
+                            setTotalOwed(Math.random() * 100);
+                            fetchNewdata();
+                          }}
+                        >
+                          Mark as Unpaid
+                        </button>
+                      ) : (
+                        <button
+                          onClick={async () => {
+                            console.log('clicked');
+                            await markReceiptPaid(receipt.id, friend.id);
+                            setTotalOwed(Math.random() * 100);
+                            fetchNewdata();
+                          }}
+                        >
+                          Mark as Paid
+                        </button>
+                      )}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>

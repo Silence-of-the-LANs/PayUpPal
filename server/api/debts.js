@@ -1,4 +1,4 @@
-const { Debt, Friend, Item, Receipt, User } = require('../db/model/index');
+const { Debt, Friend, Item, Receipt } = require('../db/model/index');
 const router = require('express').Router();
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
@@ -177,18 +177,61 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
       const receiptId = parseInt(req.params.receiptId);
 
       const debts = await Debt.update(
-        { paid: true },
         {
-          where: { receiptId: receiptId, friendId: friendId, userId: userId },
+          paid: true,
+        },
+        {
+          where: {
+            receiptId: receiptId,
+            friendId: friendId,
+            userId: userId,
+          },
         }
       );
 
-      res.send('Successfully paid bill');
+      console.log(debts);
+
+      res.send('Successfully marked as paid');
     }
   } catch (err) {
     next(err);
   }
 });
+
+// api/debts/markReceiptPaid/:receiptId route
+router.put(
+  '/markReceiptUnpaid/:receiptId/:friendId',
+  async (req, res, next) => {
+    try {
+      if (!req.session.passport) {
+        res.json('User is not logged in!');
+      } else {
+        const userId = req.session.passport.user;
+        const friendId = parseInt(req.params.friendId);
+        const receiptId = parseInt(req.params.receiptId);
+
+        const debts = await Debt.update(
+          {
+            paid: false,
+          },
+          {
+            where: {
+              receiptId: receiptId,
+              friendId: friendId,
+              userId: userId,
+            },
+          }
+        );
+
+        console.log(debts);
+
+        res.send('Successfully marked as unpaid');
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+);
 
 // api/debts/total route
 router.get('/total', async (req, res, next) => {

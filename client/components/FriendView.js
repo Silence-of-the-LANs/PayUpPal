@@ -28,6 +28,7 @@ const FriendView = (props) => {
     debt,
     markReceiptPaid,
     setDebts,
+    markReceiptUnpaid,
   } = props;
 
   useEffect(() => {
@@ -79,17 +80,31 @@ const FriendView = (props) => {
                         {calcTotalOwed(receipt.debts) / 100}
                       </span>{' '}
                       <button>Send Reminder (WIP)</button>
-                      <button
-                        onClick={async () => {
-                          await markReceiptPaid(
-                            receipt.id,
-                            receipt.debts[0].friendId
-                          );
-                          setTotalOwed(Math.random() * 100);
-                        }}
-                      >
-                        Mark as Paid
-                      </button>
+                      {receipt.debts.every((debt) => debt.paid === true) ? (
+                        <button
+                          onClick={async () => {
+                            await markReceiptUnpaid(
+                              receipt.id,
+                              receipt.debts[0].friendId
+                            );
+                            setTotalOwed(Math.random() * 100);
+                          }}
+                        >
+                          Mark as Unpaid
+                        </button>
+                      ) : (
+                        <button
+                          onClick={async () => {
+                            await markReceiptPaid(
+                              receipt.id,
+                              receipt.debts[0].friendId
+                            );
+                            setTotalOwed(Math.random() * 100);
+                          }}
+                        >
+                          Mark as Paid
+                        </button>
+                      )}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
