@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ReminderCheckboxDialog from './ReminderCheckboxDialog';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +45,51 @@ const FriendView = (props) => {
 
   let friendInfo = listOfGroups;
 
+  // For dialog window
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [checkboxContents, setCheckboxContents] = useState({});
+  const [reminderInfo, setReminderInfo] = useState({
+    total: '',
+    receipt: {},
+    friend: {},
+  });
+
+  const handleClickOpen = (total, receipt, friend) => {
+    // We save the info needed for the reminder to state
+    setReminderInfo({
+      total,
+      receipt,
+      friend,
+    });
+
+    // This opens the dialog window
+    setOpen(true);
+  };
+
+  // This takes in either "Cancel" or "Send" as a value and the boolean
+  // values of the checkboxes in the Checkboxes component which are contained
+  // in an object
+  const handleClose = (value, checkboxBooleans) => {
+    // This sends our reminder to the backend
+    const sendReminder = async (reminderInfo) => {
+      const { data } = await axios.get('auth/me');
+      reminderInfo.userInformation = data;
+      const response = await axios.put('api/reminders/send', reminderInfo);
+    };
+
+    // This closes the dialog window
+    setOpen(false);
+    // This sets the selected value to the captured value we got from
+    // ReminderCheckboxDialog
+    setSelectedValue(value);
+    setCheckboxContents(checkboxBooleans);
+    // console.log('Your selected value is:', value);
+    // console.log('Your checkbox contents are:', checkboxBooleans);
+    // console.log('Your info package is:', reminderInfo);
+    sendReminder(reminderInfo);
+  };
+
   return loaded
     ? friendInfo.map((info) => {
         return (
@@ -79,7 +126,26 @@ const FriendView = (props) => {
                         {receipt.eventName} - Total Owed: ${' '}
                         {calcTotalOwed(receipt.debts) / 100}
                       </span>{' '}
-                      <button className='button'>Send Reminder (WIP)</button>
+                      <Button
+                        variant='outlined'
+                        color='primary'
+                        onClick={() => {
+                          handleClickOpen(
+                            calcTotalOwed(receipt.debts) / 100,
+                            receipt,
+                            info.currentFriend
+                          );
+                        }}
+                        size='small'
+                        name={friendInfo.name}
+                      >
+                        Remind
+                      </Button>
+                      <ReminderCheckboxDialog
+                        open={open}
+                        onClose={handleClose}
+                        selectedValue={selectedValue}
+                      />
                       {receipt.debts.every((debt) => debt.paid === true) ? (
                         <button
                           className='button'
