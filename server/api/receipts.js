@@ -386,16 +386,4 @@ router.post('/submit', async (req, res, next) => {
   }
 });
 
-router.get('api/receipts/associatedFriends', async (req, res, next) => {
-  try {
-    if (!req.session.passport) {
-      res.json('User is not logged in!');
-    } else {
-      const userId = req.session.passport.user;
-    }
-  } catch (err) {
-    next(err);
-  }
-});
-
 module.exports = router;
