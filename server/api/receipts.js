@@ -55,23 +55,31 @@ const textSameLine = (text, targetLine, pictureWidth) => {
   }
   return false;
 };
-router.get('/user:id', async (req, res, next) => {
+router.get('/user', async (req, res, next) => {
   try {
-    const receiptHistory = await Receipt.findAll({
-      where: {
-        userId: req.params.id,
-      },
-      include: {
-        model: Item,
+    if (!req.session.passport) {
+      res.json('User is not logged in!');
+    } else {
+      const userId = req.session.passport.user;
+
+      const receiptHistory = await Receipt.findAll({
+        where: {
+          userId: userId,
+        },
+        order: [['date', 'DESC']],
         include: {
-          model: Debt,
+          model: Item,
           include: {
-            model: Friend,
+            model: Debt,
+            include: {
+              model: Friend,
+            },
           },
         },
-      },
-    });
-    res.send(receiptHistory);
+      });
+
+      res.send(receiptHistory);
+    }
   } catch (err) {
     next(err);
   }
@@ -84,14 +92,23 @@ router.delete('/:id', async (req, res, next) => {
         id: req.params.id,
       },
     });
+
     const receiptHistory = await Receipt.findAll({
       where: {
         userId: req.user.id,
       },
+      order: [['date', 'DESC']],
       include: {
         model: Item,
+        include: {
+          model: Debt,
+          include: {
+            model: Friend,
+          },
+        },
       },
     });
+
     res.send(receiptHistory);
   } catch (err) {
     next(err);

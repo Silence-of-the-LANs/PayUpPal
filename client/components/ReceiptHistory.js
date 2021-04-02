@@ -24,9 +24,7 @@ const ReceiptHistory = () => {
   // useEffect, similar to component did mount if the second argument is empty
   // if user is logged in fetch receiptdata
   const sortReceipts = (receiptsHistory) => {
-    const sortByRecentReceipt = receiptsHistory.sort((a, b) => {
-      return a.id < b.id ? 1 : -1;
-    });
+    const sortByRecentReceipt = receiptsHistory;
     const sortItems = sortByRecentReceipt.map((receipt) => {
       receipt.items = receipt.items.sort((a, b) => {
         return a.id > b.id ? 1 : -1;
@@ -39,7 +37,7 @@ const ReceiptHistory = () => {
   useEffect(() => {
     async function fetchReceipt() {
       if (user.id && !receipts.length && !hasNoReceipts) {
-        const { data } = await axios.get(`/api/receipts/user${user.id}`);
+        const { data } = await axios.get('/api/receipts/user');
         !data.length ? setNoReceipts(true) : setNoReceipts(false);
         if (data.length) {
           setReceipts(sortReceipts(data));
@@ -49,9 +47,7 @@ const ReceiptHistory = () => {
     fetchReceipt();
   });
   const confirmDeleteReceipt = async (id) => {
-    console.log(data);
     const { data } = await axios.delete(`/api/receipts/${id}`);
-    console.log('data', data);
     !data.length ? setNoReceipts(true) : setNoReceipts(false);
     if (data.length) {
       setReceipts(sortReceipts(data));
@@ -229,10 +225,12 @@ const ReceiptHistory = () => {
                               return (
                                 <Typography>
                                   {debt.friend.name} owes $
-                                  {(debt.balance +
-                                    debt.proratedTip +
-                                    debt.proratedTax) /
-                                    100}
+                                  {(
+                                    (debt.balance +
+                                      debt.proratedTip +
+                                      debt.proratedTax) /
+                                    100
+                                  ).toFixed(2)}
                                 </Typography>
                               );
                             })}
@@ -244,14 +242,16 @@ const ReceiptHistory = () => {
               </ol>
               <p>
                 Subtotal: $
-                {selectedReceipt.items.reduce(
-                  (a, b) => a + b.pricePerItem * b.quantity,
-                  0
-                ) / 100}
+                {(
+                  selectedReceipt.items.reduce(
+                    (a, b) => a + b.pricePerItem * b.quantity,
+                    0
+                  ) / 100
+                ).toFixed(2)}
               </p>
-              <p>Tip: ${selectedReceipt.tip / 100}</p>
-              <p>Tax: ${selectedReceipt.tax / 100}</p>
-              <p>Total: ${selectedReceipt.total / 100}</p>
+              <p>Tip: ${(selectedReceipt.tip / 100).toFixed(2)}</p>
+              <p>Tax: ${(selectedReceipt.tax / 100).toFixed(2)}</p>
+              <p>Total: ${(selectedReceipt.total / 100).toFixed(2)}</p>
             </>
           ) : (
             <a href='scanreceipt'>Scan a receipt now!</a>
