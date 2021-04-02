@@ -105,11 +105,13 @@ const FriendView = (props) => {
               id='panel1a-header'
             >
               <Typography className={classes.heading}>
-                {info.currentFriend.name} -{' '}
-                {info.receipts.reduce((total, receipt) => {
-                  total += calcTotalOwed(receipt.debts);
-                  return total;
-                }, 0) / 100}
+                {info.currentFriend.name} - $
+                {(
+                  info.receipts.reduce((total, receipt) => {
+                    total += calcTotalOwed(receipt.debts);
+                    return total;
+                  }, 0) / 100
+                ).toFixed(2)}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -129,7 +131,7 @@ const FriendView = (props) => {
                         }
                       >
                         {receipt.eventName} - Total Owed: ${' '}
-                        {calcTotalOwed(receipt.debts) / 100}
+                        {(calcTotalOwed(receipt.debts) / 100).toFixed(2)}
                       </span>{' '}
                       <Button
                         variant='outlined'
@@ -184,11 +186,13 @@ const FriendView = (props) => {
                     {receipt.debts.map((debt) => {
                       return (
                         <span key={debt.id} className={debt.paid ? 'paid' : ''}>
-                          {debt.item.description} -{' '}
-                          {(debt.balance +
-                            debt.proratedTip +
-                            debt.proratedTax) /
-                            100}
+                          {debt.item.description} - $
+                          {(
+                            (debt.balance +
+                              debt.proratedTip +
+                              debt.proratedTax) /
+                            100
+                          ).toFixed(2)}
                         </span>
                       );
                     })}

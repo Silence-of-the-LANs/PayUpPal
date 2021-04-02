@@ -81,7 +81,7 @@ const ReceiptView = (props) => {
             >
               <Typography className={classes.heading}>
                 Event: {receipt.eventName} Date: {receipt.date} - Total Owed: $
-                {calcEventTotal(receipt)}
+                {calcEventTotal(receipt).toFixed(2)}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -93,19 +93,21 @@ const ReceiptView = (props) => {
                     id='panel1a-header'
                   >
                     <Typography className={classes.heading}>
-                      {friend.name} - Total Owed:{' '}
-                      {friend.items.reduce((total, item) => {
-                        if (!item.debts[0].paid) {
-                          total =
-                            total +
-                            item.debts[0].balance +
-                            item.debts[0].proratedTip +
-                            item.debts[0].proratedTax;
-                          return total;
-                        } else {
-                          return total;
-                        }
-                      }, 0) / 100}{' '}
+                      {friend.name}'s' Total: $
+                      {(
+                        friend.items.reduce((total, item) => {
+                          if (!item.debts[0].paid) {
+                            total =
+                              total +
+                              item.debts[0].balance +
+                              item.debts[0].proratedTip +
+                              item.debts[0].proratedTax;
+                            return total;
+                          } else {
+                            return total;
+                          }
+                        }, 0) / 100
+                      ).toFixed(2)}{' '}
                       <button className='button'>Send Reminder (WIP)</button>
                       {friend.items.every((item) =>
                         item.debts.every((debt) => debt.paid === true)
@@ -140,11 +142,13 @@ const ReceiptView = (props) => {
                         key={item.id}
                         className={item.debts[0].paid ? 'paid' : ''}
                       >
-                        {item.description} -{' '}
-                        {(item.debts[0].balance +
-                          item.debts[0].proratedTip +
-                          item.debts[0].proratedTax) /
-                          100}
+                        {item.description} - $
+                        {(
+                          (item.debts[0].balance +
+                            item.debts[0].proratedTip +
+                            item.debts[0].proratedTax) /
+                          100
+                        ).toFixed(2)}
                       </span>
                     ))}
                   </AccordionDetails>
