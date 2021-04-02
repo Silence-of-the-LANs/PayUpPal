@@ -28,12 +28,18 @@ const AddFriend = (props) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
   };
 
+  const changeHasSubmittedTrue = () => {
+    setHasSubmitted(true);
+  };
+
+  const changeHasSubmittedFalse = () => {
+    setHasSubmitted(false);
+  };
+
   const submitFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      setHasSubmitted(true);
-
-      if (hasSubmitted) {
+      if (friend.email && friend.phone) {
         const { data } = await axios.post('api/friends/addFriend', friend);
 
         store.addNotification({
@@ -55,6 +61,7 @@ const AddFriend = (props) => {
         }
 
         setFriend(initialState);
+        changeHasSubmittedFalse();
       }
     } catch (err) {
       console.log(err);
@@ -63,7 +70,13 @@ const AddFriend = (props) => {
 
   return (
     <div className={classes.root}>
-      <form className='form-inline' onSubmit={submitFriendInfo}>
+      <form
+        className='form-inline'
+        onSubmit={(event) => {
+          changeHasSubmittedTrue();
+          submitFriendInfo(event);
+        }}
+      >
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
             Name
