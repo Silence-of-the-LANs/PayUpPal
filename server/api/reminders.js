@@ -4,9 +4,6 @@ const sendInitialEmail = require('./email');
 // api/reminder/send
 router.put('/send', async (req, res, next) => {
   try {
-    console.log('The send route hit!');
-
-    console.log(req.body);
     const { total, friend, receipt, userInformation } = req.body;
     const alias = friend.name;
     const userName = userInformation.name;
@@ -15,6 +12,7 @@ router.put('/send', async (req, res, next) => {
     const paypalLink = userInformation.paypalLink;
     const transactionDate = receipt.date;
     const debts = receipt.debts;
+
     sendInitialEmail(
       alias,
       userName,

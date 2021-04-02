@@ -37,7 +37,11 @@ const sendInitialEmail = (
                                         style="width: 30%; padding: 0px 20px"
                                         align="right"
                                       >
-                                        ${currentItem.item.pricePerItem / 100}
+                                        ${
+                                          currentItem.item.pricePerItem / 100 +
+                                          currentItem.proratedTip / 100 +
+                                          currentItem.proratedTax / 100
+                                        }
                                       </td>
                                     </tr>`
     );
