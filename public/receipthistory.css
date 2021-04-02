@@ -64,7 +64,8 @@
   border: 0;
 }
 
-.not-selected {
+.not-selected,
+.preview-image-div button {
   display: inline-block;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   color: white;
@@ -101,16 +102,24 @@
 }
 
 .preview-image {
-  align-self: center;
-  width: 75vw;
+  width: 500px;
   height: 95%;
 }
 .preview-image-div {
   display: flex;
   flex-direction: column;
+  width: 400px;
+  height: 95%;
+  margin: auto;
+}
+
+.preview-image-div button {
+  align-self: center;
+  margin: 10px 2.5em 0 0;
 }
 
 .ReactModal__Content--after-open {
-  width: 80vw;
-  height: 70%;
+  margin: 50px auto 0 auto;
+  width: 50vw;
+  height: 75%;
 }

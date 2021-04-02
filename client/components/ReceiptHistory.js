@@ -190,7 +190,7 @@ const ReceiptHistory = () => {
                   })}
                 </p>
                 <div id='receipt-history-button-div'>
-                  <button onClick={() => setIsOpen(true)}>Preview Image</button>
+                  <button onClick={() => setIsOpen(true)}>View Receipt</button>
                   <button onClick={editReceipt}>Edit Receipt</button>
                 </div>
               </div>
@@ -200,11 +200,11 @@ const ReceiptHistory = () => {
                 onRequestClose={() => setIsOpen(false)}
               >
                 <div className='preview-image-div'>
-                  <button onClick={() => setIsOpen(false)}>Close</button>
                   <img
                     className='preview-image'
                     src={selectedReceipt.imageUrl}
                   />
+                  <button onClick={() => setIsOpen(false)}>Close</button>
                 </div>
               </ReactModal>
               <ol>
