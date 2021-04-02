@@ -39,7 +39,7 @@ const ReceiptHistory = () => {
   useEffect(() => {
     async function fetchReceipt() {
       if (user.id && !receipts.length && !hasNoReceipts) {
-        const { data } = await axios.get(`/api/receipts/user${user.id}`);
+        const { data } = await axios.get('/api/receipts/user');
         !data.length ? setNoReceipts(true) : setNoReceipts(false);
         if (data.length) {
           setReceipts(sortReceipts(data));
@@ -229,10 +229,12 @@ const ReceiptHistory = () => {
                               return (
                                 <Typography>
                                   {debt.friend.name} owes $
-                                  {(debt.balance +
-                                    debt.proratedTip +
-                                    debt.proratedTax) /
-                                    100}
+                                  {(
+                                    (debt.balance +
+                                      debt.proratedTip +
+                                      debt.proratedTax) /
+                                    100
+                                  ).toFixed(2)}
                                 </Typography>
                               );
                             })}
@@ -244,14 +246,16 @@ const ReceiptHistory = () => {
               </ol>
               <p>
                 Subtotal: $
-                {selectedReceipt.items.reduce(
-                  (a, b) => a + b.pricePerItem * b.quantity,
-                  0
-                ) / 100}
+                {(
+                  selectedReceipt.items.reduce(
+                    (a, b) => a + b.pricePerItem * b.quantity,
+                    0
+                  ) / 100
+                ).toFixed(2)}
               </p>
-              <p>Tip: ${selectedReceipt.tip / 100}</p>
-              <p>Tax: ${selectedReceipt.tax / 100}</p>
-              <p>Total: ${selectedReceipt.total / 100}</p>
+              <p>Tip: ${(selectedReceipt.tip / 100).toFixed(2)}</p>
+              <p>Tax: ${(selectedReceipt.tax / 100).toFixed(2)}</p>
+              <p>Total: ${(selectedReceipt.total / 100).toFixed(2)}</p>
             </>
           ) : (
             <a href='scanreceipt'>Scan a receipt now!</a>

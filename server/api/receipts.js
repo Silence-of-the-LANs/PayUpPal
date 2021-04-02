@@ -55,23 +55,28 @@ const textSameLine = (text, targetLine, pictureWidth) => {
   }
   return false;
 };
-router.get('/user:id', async (req, res, next) => {
+router.get('/user', async (req, res, next) => {
   try {
-    const receiptHistory = await Receipt.findAll({
-      where: {
-        userId: req.params.id,
-      },
-      include: {
-        model: Item,
+    if (!req.session.passport) {
+      res.json('User is not logged in!');
+    } else {
+      const userId = req.session.passport.user;
+      const receiptHistory = await Receipt.findAll({
+        where: {
+          userId: userId,
+        },
         include: {
-          model: Debt,
+          model: Item,
           include: {
-            model: Friend,
+            model: Debt,
+            include: {
+              model: Friend,
+            },
           },
         },
-      },
-    });
-    res.send(receiptHistory);
+      });
+      res.send(receiptHistory);
+    }
   } catch (err) {
     next(err);
   }
