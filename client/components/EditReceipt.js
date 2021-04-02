@@ -18,7 +18,6 @@ const EditReceipt = () => {
   // console.log('pool is: ', pool);
   // console.log('receipt data is: ', receiptDataState);
 
-  console.log(pool);
   useEffect(() => {
     if (receiptDataState.items && receiptDataState.items[0].debts) {
       const { items } = receiptDataState;
@@ -271,7 +270,7 @@ const EditReceipt = () => {
             aria-describedby='Select your friends to add'
             label='Click to select friends...'
           >
-            <FriendList updatePool={setPool} />
+            <FriendList updatePool={setPool} selected={pool} />
           </Modal>
         </div>
         <div id='misc-form'>

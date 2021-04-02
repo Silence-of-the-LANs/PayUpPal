@@ -50,8 +50,13 @@ const useStyles = makeStyles((theme) => ({
 
 const SelectFriends = (props) => {
   const classes = useStyles();
-  const { closeSelectModal, updatePool } = props;
+  const { closeSelectModal, updatePool, selected } = props;
   const checkedFriends = [];
+
+  if (selected.length > 0) {
+    // add each friend in the friend pool to the list of people that should have a 'checked' status
+    selected.forEach((friend) => checkedFriends.push(friend));
+  }
   const [friends, setFriends] = useState([]);
   const [selectedFriends, setSelectedFriends] = useState(checkedFriends);
 
@@ -87,7 +92,7 @@ const SelectFriends = (props) => {
           <Checkbox
             checkedIcon={<span className={classes.checkedIcon} />}
             icon={<span className={classes.icon} />}
-            checked={state.selected}
+            checked={selected.some((friend) => friend.id === option.id)}
           />
           {option.name}
         </React.Fragment>
