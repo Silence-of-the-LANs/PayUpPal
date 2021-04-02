@@ -4,15 +4,15 @@ const pw = process.env.EMAIL_PW || require('../../secrets').EMAIL_PW;
 const email =
   process.env.EMAIL_ADDRESS || require('../../secrets').EMAIL_ADDRESS;
 
-export const sendInitialEmail = (
+const sendInitialEmail = (
   alias,
   userName,
   requesteeEmail,
   eventName,
-  item,
-  price,
   paypalLink,
-  transactionDate
+  transactionDate,
+  debts,
+  total
 ) => {
   const transporter = nodemailer.createTransport({
     host: 'mail.privateemail.com',
@@ -23,6 +23,29 @@ export const sendInitialEmail = (
       pass: pw,
     },
   });
+
+  console.log('It was sent to this following email address:', requesteeEmail);
+
+  let htmlCode = debts.reduce(function (accumulator, currentItem) {
+    return (
+      accumulator +
+      `   <tr>
+                                      <td style="width: 70%; padding: 0px 20px">
+                                        ${currentItem.item.description}
+                                      </td>
+                                      <td
+                                        style="width: 30%; padding: 0px 20px"
+                                        align="right"
+                                      >
+                                        ${
+                                          currentItem.item.pricePerItem / 100 +
+                                          currentItem.proratedTip / 100 +
+                                          currentItem.proratedTax / 100
+                                        }
+                                      </td>
+                                    </tr>`
+    );
+  }, ``);
 
   const emailOptions = {
     from: email,
@@ -778,15 +801,27 @@ export const sendInitialEmail = (
                                   style="font-size: 16px"
                                 >
                                   <tbody>
+                                    ${htmlCode}
                                     <tr>
                                       <td style="width: 70%; padding: 0px 20px">
-                                        ${item}
+
                                       </td>
                                       <td
                                         style="width: 30%; padding: 0px 20px"
                                         align="right"
                                       >
-                                        ${price}
+
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td style="width: 70%; padding: 0px 20px">
+                                        Total
+                                      </td>
+                                      <td
+                                        style="width: 30%; padding: 0px 20px"
+                                        align="right"
+                                      >
+                                        ${total}
                                       </td>
                                     </tr>
                                   </tbody>
@@ -1342,13 +1377,4 @@ export const sendInitialEmail = (
   });
 };
 
-// sendInitialEmail(
-//   'Jason',
-//   'Zoran',
-//   'jlfliao@gmail.com',
-//   'Mezcalero',
-//   'Corona',
-//   '5.00',
-//   'https://www.paypal.me',
-//   'March 25, 2020'
-// );
+module.exports = sendInitialEmail;

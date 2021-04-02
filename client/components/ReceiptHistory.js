@@ -118,6 +118,33 @@ const ReceiptHistory = () => {
     <div id='receipthistory-div'>
       <h1>Receipt History</h1>
       <div id='receiptList-details-div'>
+        {isDeleteClicked && (
+          <ReactModal
+            isOpen={modalIsOpen}
+            // onAfterOpen={afterOpenModal}
+            onRequestClose={() => {
+              setIsOpen(false);
+              setDeleteClicked(false);
+            }}
+          >
+            <div className='delete-history-div'>
+              <h4>
+                Are you sure you want to delete {deleteReceipt.eventName}{' '}
+                {deleteReceipt.date}
+              </h4>
+              <button onClick={() => confirmDeleteReceipt(deleteReceipt.id)}>
+                Delete
+              </button>
+              <button
+                onClick={() => {
+                  setIsOpen(false), setDeleteClicked(false);
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </ReactModal>
+        )}
         <div id='receipt-list'>
           {receipts.length && !hasNoReceipts ? (
             receipts.map((receipt, i) => {
@@ -146,26 +173,6 @@ const ReceiptHistory = () => {
                   >
                     {receipt.eventName} {receipt.date}
                   </button>
-                  {isDeleteClicked && (
-                    <ReactModal
-                      isOpen={modalIsOpen}
-                      // onAfterOpen={afterOpenModal}
-                      onRequestClose={() => setIsOpen(false)}
-                    >
-                      <div className='preview-image-div'>
-                        <h4>
-                          Are you sure you want to delete{' '}
-                          {deleteReceipt.eventName} {deleteReceipt.date}
-                        </h4>
-                        <button
-                          onClick={() => confirmDeleteReceipt(deleteReceipt.id)}
-                        >
-                          Delete
-                        </button>
-                        <button onClick={() => setIsOpen(false)}>Cancel</button>
-                      </div>
-                    </ReactModal>
-                  )}
                 </div>
               );
             })

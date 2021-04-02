@@ -22,6 +22,7 @@ router.use('/receipts', require('./receipts'));
 router.use('/friends', require('./friends'));
 router.use('/debts', require('./debts'));
 router.use('/users', require('./users'));
+router.use('/reminders', require('./reminders'));
 
 router.use((req, res, next) => {
   const err = new Error('API route not found!');

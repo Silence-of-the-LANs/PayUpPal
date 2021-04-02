@@ -57,8 +57,8 @@ export default function Login() {
   const [user, setUser] = useContext(UserContext);
   const classes = useStyles();
   const history = useHistory();
-  const [error, setError] = useState();
-  console.log(error);
+  const [error, setError] = useState('');
+
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [formInfo, setFormInfo] = useState({
     email: '',
@@ -76,12 +76,8 @@ export default function Login() {
     if (formInfo.email.length > 0 && formInfo.password.length > 0) {
       try {
         const response = await axios.put('auth/login', formInfoToSubmit);
-        console.log('catching response: ', response);
-        // if response is successful, load user data into store
 
-        if (response.status === 401) {
-          console.log('in the 401 if block');
-        }
+        // if response is successful, load user data into store
 
         if (response.status === 200) {
           setUser(response.data);
@@ -94,11 +90,7 @@ export default function Login() {
         });
         history.push('/');
       } catch (err) {
-        console.error('caught error: ', err);
-        console.error('caught reponse: ', err.reponse);
-        console.error('caught data: ', err.reponse.data);
-
-        setError(err);
+        setError(err.response.data);
       }
     }
   }
@@ -153,6 +145,9 @@ export default function Login() {
             <p style={{ color: 'red', fontSize: '.75rem' }}>
               Please enter your password
             </p>
+          )}
+          {error && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>{error}</p>
           )}
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}

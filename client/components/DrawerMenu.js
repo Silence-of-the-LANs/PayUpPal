@@ -74,7 +74,7 @@ export default function DrawerMenu() {
               { text: 'Manage Debts', url: 'managedebts' },
               { text: 'Manage Friends', url: 'managefriends' },
               { text: 'Receipt History', url: 'receipthistory' },
-          { text: 'User Info', url: 'userinfo' },
+              { text: 'User Info', url: 'userinfo' },
             ].map((listItemObj, index) => (
               <Link key={listItemObj.text} to={`/${listItemObj.url}`}>
                 <ListItem button key={listItemObj.text}>
@@ -92,7 +92,7 @@ export default function DrawerMenu() {
     <div>
       <React.Fragment key={'left'}>
         <Button onClick={toggleDrawer('left', true)}>
-          <MenuIcon />
+          <MenuIcon style={{ color: `white` }} />
         </Button>
         <Drawer
           anchor={'left'}
