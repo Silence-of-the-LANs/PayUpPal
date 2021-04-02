@@ -18,3 +18,5 @@ export { default as ReceiptHistory } from './ReceiptHistory';
 export { default as UserInfo } from './UserInfo';
 export { default as EditFriend } from './EditFriend';
 export { default as RemoveFriendPopup } from './RemoveFriendPopup';
+export { default as Checkboxes } from './Checkboxes';
+export { default as ReminderCheckboxDialog } from './ReminderCheckboxDialog';

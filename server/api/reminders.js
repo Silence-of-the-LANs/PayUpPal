@@ -13,16 +13,16 @@ router.put('/send', async (req, res, next) => {
     const transactionDate = receipt.date;
     const debts = receipt.debts;
 
-    sendInitialEmail(
-      alias,
-      userName,
-      requesteeEmail,
-      eventName,
-      paypalLink,
-      transactionDate,
-      debts,
-      total
-    );
+    // sendInitialEmail(
+    //   alias,
+    //   userName,
+    //   requesteeEmail,
+    //   eventName,
+    //   paypalLink,
+    //   transactionDate,
+    //   debts,
+    //   total
+    // );
     res.send();
   } catch (error) {
     next(error);

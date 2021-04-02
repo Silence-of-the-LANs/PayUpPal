@@ -75,7 +75,8 @@ const FriendView = (props) => {
     const sendReminder = async (reminderInfo) => {
       const { data } = await axios.get('auth/me');
       reminderInfo.userInformation = data;
-      const response = await axios.put('api/reminders/send', reminderInfo);
+      console.log('Your reminder info is:', reminderInfo);
+      // const response = await axios.put('api/reminders/send', reminderInfo);
     };
 
     // This closes the dialog window
@@ -85,7 +86,9 @@ const FriendView = (props) => {
     setSelectedValue(value);
     setCheckboxContents(checkboxBooleans);
     // console.log('Your selected value is:', value);
-    // console.log('Your checkbox contents are:', checkboxBooleans);
+    console.log('Your value is:', value);
+    console.log('Your checkbox contents are:', checkboxBooleans);
+    reminderInfo.checkboxes = checkboxBooleans;
     // console.log('Your info package is:', reminderInfo);
     sendReminder(reminderInfo);
   };
