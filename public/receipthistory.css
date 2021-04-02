@@ -103,6 +103,7 @@
 }
 
 .preview-image {
+  align-self: center;
   width: 500px;
   height: 95%;
 }
@@ -125,5 +126,16 @@
   height: 75%;
 }
 
-.delete-history-div {
+#delete-history-modal {
+  height: 125px;
+  display: flex;
+  flex-direction: column;
+}
+.delete-history-div h4 {
+  text-align: center;
+}
+
+.delete-history-div div {
+  display: flex;
+  justify-content: center;
 }
