@@ -57,6 +57,9 @@ export default function Login() {
   const [user, setUser] = useContext(UserContext);
   const classes = useStyles();
   const history = useHistory();
+  const [error, setError] = useState();
+  console.log(error);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
   const [formInfo, setFormInfo] = useState({
     email: '',
     password: '',
@@ -64,24 +67,40 @@ export default function Login() {
   async function Submit(evt) {
     // Prevent the default action of refreshing the page
     evt.preventDefault();
+    setHasSubmitted(true);
     const formInfoToSubmit = {
       email: formInfo.email,
       password: formInfo.password,
     };
 
-    const response = await axios.put('auth/login', formInfoToSubmit);
-    // if response is successful, load user data into store
-    console.log('This is the response:', response);
-    if (response.status === 200) {
-      setUser(response.data);
-    }
+    if (formInfo.email.length > 0 && formInfo.password.length > 0) {
+      try {
+        const response = await axios.put('auth/login', formInfoToSubmit);
+        console.log('catching response: ', response);
+        // if response is successful, load user data into store
 
-    // Clear the inputs after the button is pressed
-    setFormInfo({
-      email: '',
-      password: '',
-    });
-    history.push('/');
+        if (response.status === 401) {
+          console.log('in the 401 if block');
+        }
+
+        if (response.status === 200) {
+          setUser(response.data);
+        }
+
+        // Clear the inputs after the button is pressed
+        setFormInfo({
+          email: '',
+          password: '',
+        });
+        history.push('/');
+      } catch (err) {
+        console.error('caught error: ', err);
+        console.error('caught reponse: ', err.reponse);
+        console.error('caught data: ', err.reponse.data);
+
+        setError(err);
+      }
+    }
   }
   const handleChange = (evt) => {
     evt.persist();
@@ -98,7 +117,7 @@ export default function Login() {
         <Typography component='h1' variant='h5'>
           Sign in
         </Typography>
-        <form className={classes.form} noValidate onSubmit={Submit}>
+        <form className={classes.form} onSubmit={Submit}>
           <TextField
             variant='outlined'
             margin='normal'
@@ -113,10 +132,14 @@ export default function Login() {
             value={formInfo.email}
             autoFocus
           />
+          {!formInfo.email && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>
+              Please enter your email address
+            </p>
+          )}
           <TextField
             variant='outlined'
             margin='normal'
-            required
             fullWidth
             name='password'
             onChange={handleChange}
@@ -126,6 +149,11 @@ export default function Login() {
             id='password'
             autoComplete='password'
           />
+          {!formInfo.password && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>
+              Please enter your password
+            </p>
+          )}
           <FormControlLabel
             control={<Checkbox value='remember' color='primary' />}
             label='Remember me'

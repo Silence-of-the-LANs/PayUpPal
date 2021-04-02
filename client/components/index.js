@@ -16,3 +16,5 @@ export { default as SelectFriends } from './SelectFriends';
 export { default as DrawerMenu } from './DrawerMenu';
 export { default as ReceiptHistory } from './ReceiptHistory';
 export { default as UserInfo } from './UserInfo';
+export { default as EditFriend } from './EditFriend';
+export { default as RemoveFriendPopup } from './RemoveFriendPopup';

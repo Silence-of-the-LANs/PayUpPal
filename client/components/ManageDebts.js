@@ -26,6 +26,17 @@ const markReceiptPaid = async (receiptId, friendId) => {
   }
 };
 
+const markReceiptUnpaid = async (receiptId, friendId) => {
+  try {
+    const { data } = await axios.put(
+      `api/debts/markReceiptUnpaid/${receiptId}/${friendId}`
+    );
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -50,7 +61,7 @@ const calcTotalOwed = (balances) => {
 
 const ManageDebts = () => {
   const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('person');
+  const [view, setView] = useState('receipt');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -58,7 +69,6 @@ const ManageDebts = () => {
   useEffect(() => {
     // initial data fetch of debts
     const fetchDebts = async () => {
-      console.log('CDM Manage Debts');
       let { data } = await axios.get(`api/debts/displayDebts/${view}`);
       let total = await axios.get('api/debts/total');
 
@@ -82,14 +92,19 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <button onClick={() => changeView('person')}>By Person</button>
-      <button onClick={() => changeView('receipt')}>By Receipt</button>
+      <button className='button' onClick={() => changeView('person')}>
+        By Person
+      </button>
+      <button className='button' onClick={() => changeView('receipt')}>
+        By Receipt
+      </button>
       {view === 'receipt' ? (
         <ReceiptView
           calcTotalOwed={calcTotalOwed}
           setTotalOwed={setTotalOwed}
           markPaid={markPaid}
           markReceiptPaid={markReceiptPaid}
+          markReceiptUnpaid={markReceiptUnpaid}
           total={totalOwed}
           listOfGroups={listOfGroups}
           setDebts={setDebts}
@@ -103,6 +118,7 @@ const ManageDebts = () => {
           setTotalOwed={setTotalOwed}
           markPaid={markPaid}
           markReceiptPaid={markReceiptPaid}
+          markReceiptUnpaid={markReceiptUnpaid}
           setDebts={setDebts}
           debts={debts}
         />

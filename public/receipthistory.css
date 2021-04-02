@@ -1,20 +1,103 @@
-#receipthistory-div {
+#receipt-history-button-div button {
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  background-color: #3f51b5;
+  color: white;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  min-width: 64px;
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+  border: 0;
+  margin-left: 5px;
+}
+#friends-and-buttons {
   display: flex;
   flex-direction: row;
-  flex: 2 1 auto;
+  justify-content: space-between;
+}
+
+#receipthistory-div {
+  display: flex;
+  flex-direction: column;
+  border: solid black;
+  margin: 3em 10em 0 10em;
+  height: 95%;
+  width: 80vw;
+}
+
+#history-heading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+#receiptList-details-div {
+  display: flex;
+}
+
+.single-history-button-div {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+}
+
+.single-history-button {
+  flex-grow: 1;
+  text-align: start;
+}
+
+.selected-receipt {
+  display: inline-block;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: white;
+  border-radius: 4px;
+  background-color: #2cbbf3;
+  transition: all 0.2s;
+  border: 0;
+}
+
+.not-selected {
+  display: inline-block;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: white;
+  border-radius: 4px;
+  background-color: #3f51b5;
+  transition: all 0.2s;
+  border: 0;
 }
 
 #receipt-list {
   display: flex;
   flex-direction: column;
+  width: 25%;
+}
+
+#past-receipt ol {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
 }
 
 #past-receipt {
   border: orange solid;
+  width: 75%;
+  padding: 7.5px;
+}
+#past-receipt h3 {
+  text-align: center;
 }
 
 #receipt-list {
   border: green solid;
+  min-width: fit-content;
 }
 
 .preview-image {

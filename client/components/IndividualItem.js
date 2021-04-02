@@ -112,7 +112,7 @@ const IndividualItem = (props) => {
   };
   return (
     <div className={splitEvenly ? 'grid-item' : 'grid-item-allocate'}>
-      <button type='button' onClick={deleteItem}>
+      <button className='x-item' type='button' onClick={deleteItem}>
         X
       </button>
       <div>

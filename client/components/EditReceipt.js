@@ -43,8 +43,8 @@ const EditReceipt = () => {
     }
   });
   const [splitEvenly, setSplitEvenly] = useState(true);
-  const [openSelect, setOpenSelect] = React.useState(false);
-  const [openAdd, setOpenAdd] = React.useState(false);
+  const [openSelect, setOpenSelect] = useState(false);
+  const [openAdd, setOpenAdd] = useState(false);
 
   const closeAddModal = () => {
     setOpenAdd(false);
@@ -187,20 +187,21 @@ const EditReceipt = () => {
                   <div>Description</div>
                   <div>Price Per Item</div>
                   <div>Item total</div>
-                  {!splitEvenly && <div>Allocated</div>}
+                  {!splitEvenly && <div>Add friends to an item</div>}
                 </div>
               )}
               {/* maps thru each indivial item */}
-              {receiptDataState.items.map((item, index) => {
-                return (
-                  <IndividualItem
-                    item={item}
-                    itemIndex={index}
-                    splitEvenly={splitEvenly}
-                    pool={pool}
-                  />
-                );
-              })}
+              {receiptDataState.items.length &&
+                receiptDataState.items.map((item, index) => {
+                  return (
+                    <IndividualItem
+                      item={item}
+                      itemIndex={index}
+                      splitEvenly={splitEvenly}
+                      pool={pool}
+                    />
+                  );
+                })}
             </div>
           )}
         </div>
@@ -298,6 +299,7 @@ const EditReceipt = () => {
           <label>Total: ${total.toFixed(2)}</label>
           <button
             type='submit'
+            class='submit-button'
             disabled={
               splitEvenly
                 ? pool.length < 1 || !receiptDataState.items

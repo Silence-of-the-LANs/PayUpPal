@@ -159,7 +159,7 @@ const ScanReceipt = () => {
           )}
         </button>
       </div>
-      <button onClick={onSubmit} style={submitStyle}>
+      <button className='button' onClick={onSubmit} style={submitStyle}>
         Submit Image
       </button>
       {isLoading && (

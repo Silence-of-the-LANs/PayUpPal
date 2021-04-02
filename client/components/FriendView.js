@@ -30,6 +30,7 @@ const FriendView = (props) => {
     debt,
     markReceiptPaid,
     setDebts,
+    markReceiptUnpaid,
   } = props;
 
   useEffect(() => {
@@ -108,7 +109,7 @@ const FriendView = (props) => {
             </AccordionSummary>
             <AccordionDetails>
               {info.receipts.map((receipt) => (
-                <Accordion>
+                <Accordion key={receipt.id}>
                   <AccordionSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls='panel1a-content'
@@ -145,23 +146,39 @@ const FriendView = (props) => {
                         onClose={handleClose}
                         selectedValue={selectedValue}
                       />
-                      <button
-                        onClick={async () => {
-                          await markReceiptPaid(
-                            receipt.id,
-                            receipt.debts[0].friendId
-                          );
-                          setTotalOwed(Math.random() * 100);
-                        }}
-                      >
-                        Mark as Paid
-                      </button>
+                      {receipt.debts.every((debt) => debt.paid === true) ? (
+                        <button
+                          className='button'
+                          onClick={async () => {
+                            await markReceiptUnpaid(
+                              receipt.id,
+                              receipt.debts[0].friendId
+                            );
+                            setTotalOwed(0);
+                          }}
+                        >
+                          Mark as Unpaid
+                        </button>
+                      ) : (
+                        <button
+                          className='button'
+                          onClick={async () => {
+                            await markReceiptPaid(
+                              receipt.id,
+                              receipt.debts[0].friendId
+                            );
+                            setTotalOwed(0);
+                          }}
+                        >
+                          Mark as Paid
+                        </button>
+                      )}
                     </Typography>
                   </AccordionSummary>
                   <AccordionDetails>
                     {receipt.debts.map((debt) => {
                       return (
-                        <span className={debt.paid ? 'paid' : ''}>
+                        <span key={debt.id} className={debt.paid ? 'paid' : ''}>
                           {debt.item.description} -{' '}
                           {(debt.balance +
                             debt.proratedTip +

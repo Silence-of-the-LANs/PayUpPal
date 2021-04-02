@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
 
@@ -18,44 +17,38 @@ const initialState = {
   phone: '',
 };
 
-const AddFriend = (props) => {
+const EditFriend = (props) => {
   const classes = useStyles();
-  const { closeAddModal } = props;
-  const [friend, setFriend] = useState(initialState);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const { setOpenEdit, friendInfo, closeEditModal, updateFriendList } = props;
+
+  const [friend, setFriend] = useState(friendInfo);
 
   const dataInput = (event) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
   };
 
-  const submitFriendInfo = async (event) => {
+  const submitEditedFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      setHasSubmitted(true);
+      const { data } = await axios.put('api/friends/editFriend', friend);
 
-      if (hasSubmitted) {
-        const { data } = await axios.post('api/friends/addFriend', friend);
+      closeEditModal();
 
-        store.addNotification({
-          title: '',
-          message: `Successfully added to your friend list!`,
-          type: 'success',
-          insert: 'top',
-          container: 'top-left',
-          animationIn: ['animate__animated', 'animate__fadeIn'],
-          animationOut: ['animate__animated', 'animate__fadeOut'],
-          dismiss: {
-            duration: 1500,
-            onScreen: true,
-          },
-        });
+      store.addNotification({
+        title: '',
+        message: `Information successfully updated!`,
+        type: 'success',
+        insert: 'top',
+        container: 'top-left',
+        animationIn: ['animate__animated', 'animate__fadeIn'],
+        animationOut: ['animate__animated', 'animate__fadeOut'],
+        dismiss: {
+          duration: 1000,
+          onScreen: true,
+        },
+      });
 
-        if (props.addToFriends) {
-          props.addToFriends(data);
-        }
-
-        setFriend(initialState);
-      }
+      updateFriendList(data);
     } catch (err) {
       console.log(err);
     }
@@ -63,7 +56,7 @@ const AddFriend = (props) => {
 
   return (
     <div className={classes.root}>
-      <form className='form-inline' onSubmit={submitFriendInfo}>
+      <form className='form-inline' onSubmit={submitEditedFriendInfo}>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
             Name
@@ -77,11 +70,6 @@ const AddFriend = (props) => {
             value={friend.name}
             onChange={dataInput}
           />
-          {!friend.name && hasSubmitted && (
-            <p style={{ color: 'red', fontSize: '.75rem' }}>
-              Name cannot be empty
-            </p>
-          )}
         </div>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputEmail'>
@@ -111,24 +99,15 @@ const AddFriend = (props) => {
             onChange={dataInput}
           />
         </div>
-        {!friend.email && !friend.phone && hasSubmitted && (
-          <p style={{ color: 'red', fontSize: '.75rem' }}>
-            An email or phone number is required
-          </p>
-        )}
         <button type='submit' className='button'>
-          ADD
+          CONFIRM
         </button>
-        {closeAddModal ? (
-          <button type='button' className='button' onClick={closeAddModal}>
-            CLOSE
-          </button>
-        ) : (
-          ''
-        )}
+        <button type='button' className='button' onClick={closeEditModal}>
+          CANCEL
+        </button>
       </form>
     </div>
   );
 };
 
-export default AddFriend;
+export default EditFriend;
