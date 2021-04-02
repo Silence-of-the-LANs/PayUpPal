@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
+import { store } from 'react-notifications-component';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,8 +21,8 @@ const initialState = {
 const AddFriend = (props) => {
   const classes = useStyles();
   const { closeAddModal } = props;
-  console.log('modal value: ', closeAddModal);
   const [friend, setFriend] = useState(initialState);
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const dataInput = (event) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
@@ -30,13 +31,31 @@ const AddFriend = (props) => {
   const submitFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post('api/friends/addFriend', friend);
+      setHasSubmitted(true);
 
-      if (props.addToFriends) {
-        props.addToFriends(data);
+      if (hasSubmitted) {
+        const { data } = await axios.post('api/friends/addFriend', friend);
+
+        store.addNotification({
+          title: '',
+          message: `Successfully added to your friend list!`,
+          type: 'success',
+          insert: 'top',
+          container: 'top-left',
+          animationIn: ['animate__animated', 'animate__fadeIn'],
+          animationOut: ['animate__animated', 'animate__fadeOut'],
+          dismiss: {
+            duration: 1500,
+            onScreen: true,
+          },
+        });
+
+        if (props.addToFriends) {
+          props.addToFriends(data);
+        }
+
+        setFriend(initialState);
       }
-
-      setFriend(initialState);
     } catch (err) {
       console.log(err);
     }
@@ -58,6 +77,11 @@ const AddFriend = (props) => {
             value={friend.name}
             onChange={dataInput}
           />
+          {!friend.name && hasSubmitted && (
+            <p style={{ color: 'red', fontSize: '.75rem' }}>
+              Name cannot be empty
+            </p>
+          )}
         </div>
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputEmail'>
@@ -87,15 +111,16 @@ const AddFriend = (props) => {
             onChange={dataInput}
           />
         </div>
-        <button type='submit' className='btn btn-primary'>
+        {!friend.email && !friend.phone && hasSubmitted && (
+          <p style={{ color: 'red', fontSize: '.75rem' }}>
+            An email or phone number is required
+          </p>
+        )}
+        <button type='submit' className='button'>
           ADD
         </button>
         {closeAddModal ? (
-          <button
-            type='button'
-            className='btn btn-primary'
-            onClick={closeAddModal}
-          >
+          <button type='button' className='button' onClick={closeAddModal}>
             CLOSE
           </button>
         ) : (

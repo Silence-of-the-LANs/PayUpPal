@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import bootstrap from 'bootstrap';
 import axios from 'axios';
-import { AddFriend, EditFriend } from './index';
+import { AddFriend, EditFriend, RemoveFriendPopup } from './index';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -17,14 +17,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const removeFriend = async (friendId) => {
-  const { data } = await axios.put(`api/friends/removeFriend/${friendId}`);
-  return data;
-};
+// const removeFriend = async (friendId) => {
+//   const { data } = await axios.put(`api/friends/removeFriend/${friendId}`);
+//   return data;
+// };
 
 const ManageFriends = () => {
   const [friends, setFriends] = useState([]);
   const [friendInfo, setFriendInfo] = useState({});
+  const [friendToRemove, setFriendToRemove] = useState({});
   const [openEdit, setOpenEdit] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
   const classes = useStyles();
@@ -47,42 +48,57 @@ const ManageFriends = () => {
     setOpenEdit(false);
   };
 
+  const closeRemoveModal = () => {
+    setOpenRemove(false);
+  };
+
   const updateFriendList = (data) => {
     setFriends(data);
+  };
+
+  const handleRemoveFriend = (friend) => {
+    setFriendToRemove(friend);
+    setOpenRemove(true);
   };
 
   return (
     <div className='friends-wrapper'>
       <div className='friends-container'>
-        {friends.map((friend, index) => (
-          <div className='friend-box' key={friend.id}>
-            <div className='friend-info'>
-              <p>Name: {friend.name}</p>
-              <p>Email: {friend.email}</p>
-              <p>Phone: {friend.phone}</p>
+        {friends.length > 0 ? (
+          friends.map((friend, index) => (
+            <div className='friend-box' key={friend.id}>
+              <div className='friend-info'>
+                <p>Name: {friend.name}</p>
+                <p>Email: {friend.email}</p>
+                <p>Phone: {friend.phone}</p>
+              </div>
+              <div>
+                <button
+                  type='button'
+                  className='button'
+                  onClick={() => {
+                    handleClick(friend);
+                  }}
+                >
+                  Edit Friend
+                </button>
+                <button
+                  className='button'
+                  disabled={friend.name === 'Myself'}
+                  onClick={() => handleRemoveFriend(friend)}
+                >
+                  Remove Friend
+                </button>
+              </div>
             </div>
-            <div>
-              <button
-                type='button'
-                className='button'
-                onClick={() => {
-                  handleClick(friend);
-                }}
-              >
-                Edit Friend
-              </button>
-              <button
-                className='button'
-                disabled={friend.name === 'Myself'}
-                onClick={async () => setFriends(await removeFriend(friend.id))}
-              >
-                Remove Friend
-              </button>
-            </div>
+          ))
+        ) : (
+          <div>
+            <h2>Please add some friends to use this feature.. </h2>
           </div>
-        ))}
+        )}
       </div>
-      {/* <AddFriend currentFriends={friends} addToFriends={setFriends} /> */}{' '}
+      <AddFriend currentFriends={friends} addToFriends={setFriends} />{' '}
       <Modal
         className={classes.paper}
         open={openEdit}
@@ -100,10 +116,14 @@ const ManageFriends = () => {
         className={classes.paper}
         open={openRemove}
         onClose={() => setOpenRemove(false)}
-        aria-labelledby='Edit friend info'
-        aria-describedby='Edit a friend on your friend list'
+        aria-labelledby='Remove friend'
+        aria-describedby='Remove a friend on your friend list'
       >
-        <div>Hello</div>
+        <RemoveFriendPopup
+          updateFriendList={updateFriendList}
+          closeRemoveModal={closeRemoveModal}
+          friendToRemove={friendToRemove}
+        />
       </Modal>
     </div>
   );
