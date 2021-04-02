@@ -71,6 +71,7 @@ export default function Login() {
 
     const response = await axios.put('auth/login', formInfoToSubmit);
     // if response is successful, load user data into store
+    console.log('This is the response:', response);
     if (response.status === 200) {
       setUser(response.data);
     }

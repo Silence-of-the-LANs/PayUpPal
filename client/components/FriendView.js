@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReminderCheckboxDialog from './ReminderCheckboxDialog';
-// import sendInitialEmail from '../../server/api/email';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -73,11 +72,8 @@ const FriendView = (props) => {
   const handleClose = (value, checkboxBooleans) => {
     // This sends our reminder to the backend
     const sendReminder = async (reminderInfo) => {
-      const { data } = await axios.get(
-        `api/debts/getDebts/${reminderInfo.receipt.id}/${reminderInfo.friend.id}`
-      );
-      reminderInfo.itemInformation = data;
-      console.log(reminderInfo);
+      const { data } = await axios.get('auth/me');
+      reminderInfo.userInformation = data;
       const response = await axios.put('api/reminders/send', reminderInfo);
     };
 
@@ -87,11 +83,10 @@ const FriendView = (props) => {
     // ReminderCheckboxDialog
     setSelectedValue(value);
     setCheckboxContents(checkboxBooleans);
-    console.log('Your selected value is:', value);
-    console.log('Your checkbox contents are:', checkboxBooleans);
-    console.log('Your info package is:', reminderInfo);
+    // console.log('Your selected value is:', value);
+    // console.log('Your checkbox contents are:', checkboxBooleans);
+    // console.log('Your info package is:', reminderInfo);
     sendReminder(reminderInfo);
-    // sendInitialEmail(reminderInfo);
   };
 
   return loaded
