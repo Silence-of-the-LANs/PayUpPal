@@ -76,7 +76,7 @@ const FriendView = (props) => {
       const { data } = await axios.get('auth/me');
       reminderInfo.userInformation = data;
       console.log('Your reminder info is:', reminderInfo);
-      // const response = await axios.put('api/reminders/send', reminderInfo);
+      const response = await axios.put('api/reminders/send', reminderInfo);
     };
 
     // This closes the dialog window
@@ -138,7 +138,7 @@ const FriendView = (props) => {
                         color='primary'
                         onClick={() => {
                           handleClickOpen(
-                            calcTotalOwed(receipt.debts) / 100,
+                            (calcTotalOwed(receipt.debts) / 100).toFixed(2),
                             receipt,
                             info.currentFriend
                           );
