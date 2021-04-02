@@ -90,7 +90,9 @@ const FriendView = (props) => {
     console.log('Your checkbox contents are:', checkboxBooleans);
     reminderInfo.checkboxes = checkboxBooleans;
     // console.log('Your info package is:', reminderInfo);
-    sendReminder(reminderInfo);
+    if (value === 'Send') {
+      sendReminder(reminderInfo);
+    }
   };
 
   return loaded
