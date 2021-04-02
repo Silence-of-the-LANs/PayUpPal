@@ -24,9 +24,7 @@ const ReceiptHistory = () => {
   // useEffect, similar to component did mount if the second argument is empty
   // if user is logged in fetch receiptdata
   const sortReceipts = (receiptsHistory) => {
-    const sortByRecentReceipt = receiptsHistory.sort((a, b) => {
-      return a.id < b.id ? 1 : -1;
-    });
+    const sortByRecentReceipt = receiptsHistory;
     const sortItems = sortByRecentReceipt.map((receipt) => {
       receipt.items = receipt.items.sort((a, b) => {
         return a.id > b.id ? 1 : -1;
@@ -49,9 +47,7 @@ const ReceiptHistory = () => {
     fetchReceipt();
   });
   const confirmDeleteReceipt = async (id) => {
-    console.log(data);
     const { data } = await axios.delete(`/api/receipts/${id}`);
-    console.log('data', data);
     !data.length ? setNoReceipts(true) : setNoReceipts(false);
     if (data.length) {
       setReceipts(sortReceipts(data));

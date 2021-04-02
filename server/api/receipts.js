@@ -61,10 +61,12 @@ router.get('/user', async (req, res, next) => {
       res.json('User is not logged in!');
     } else {
       const userId = req.session.passport.user;
+
       const receiptHistory = await Receipt.findAll({
         where: {
           userId: userId,
         },
+        order: [['date', 'DESC']],
         include: {
           model: Item,
           include: {
@@ -75,6 +77,7 @@ router.get('/user', async (req, res, next) => {
           },
         },
       });
+
       res.send(receiptHistory);
     }
   } catch (err) {
@@ -89,14 +92,23 @@ router.delete('/:id', async (req, res, next) => {
         id: req.params.id,
       },
     });
+
     const receiptHistory = await Receipt.findAll({
       where: {
         userId: req.user.id,
       },
+      order: [['date', 'DESC']],
       include: {
         model: Item,
+        include: {
+          model: Debt,
+          include: {
+            model: Friend,
+          },
+        },
       },
     });
+
     res.send(receiptHistory);
   } catch (err) {
     next(err);
