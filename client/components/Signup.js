@@ -111,6 +111,7 @@ export default function Signup() {
           <TextField
             variant='outlined'
             margin='normal'
+            required
             fullWidth
             name='email'
             onChange={handleChange}
