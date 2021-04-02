@@ -138,9 +138,9 @@ const EditReceipt = () => {
             isOpen={modalIsOpen}
             onRequestClose={() => setIsOpen(false)}
           >
-            <div>
-              <button onClick={() => setIsOpen(false)}>Close</button>
+            <div className='preview-image-div'>
               <img className='preview-image' src={receiptDataState.imageUrl} />
+              <button onClick={() => setIsOpen(false)}>Close</button>
             </div>
           </ReactModal>
         </div>
@@ -299,7 +299,7 @@ const EditReceipt = () => {
           <label>Total: ${total.toFixed(2)}</label>
           <button
             type='submit'
-            class='submit-button'
+            className='submit-button'
             disabled={
               splitEvenly
                 ? pool.length < 1 || !receiptDataState.items
