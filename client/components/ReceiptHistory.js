@@ -60,6 +60,7 @@ const ReceiptHistory = () => {
     setIsOpen(true);
     setDeleteReceipt(receipt);
   };
+
   const editReceipt = () => {
     let {
       id,
@@ -71,6 +72,9 @@ const ReceiptHistory = () => {
       tip,
       total,
     } = selectedReceipt;
+
+    let friendPool;
+
     items = items.map((item) => {
       item.totalPrice = (item.quantity * item.pricePerItem) / 100;
       item.pricePerItem /= 100;
@@ -90,6 +94,7 @@ const ReceiptHistory = () => {
     dispatch({ type: 'GET_ITEMS', itemsInfo });
     history.push('/editreceipt');
   };
+
   const getFriends = (receipt) => {
     let friendList = [];
     receipt.items.forEach((item) => {
@@ -104,12 +109,10 @@ const ReceiptHistory = () => {
     return friendList;
   };
   const handleSelectReceipt = (receipt, i) => {
-    console.log('i', i);
     setSelectedReceipt(receipt);
     setButtonId(i);
-    console.log('buttonId', buttonId);
   };
-  console.log('receipts', receipts);
+
   return (
     <div id='receipthistory-div'>
       <h1>Receipt History</h1>
@@ -215,8 +218,9 @@ const ReceiptHistory = () => {
                           id='panel1a-header'
                         >
                           <Typography>
-                            {item.quantity} {item.description} (Click to see
-                            friends/debts)
+                            {item.quantity} {item.description} - $
+                            {(item.pricePerItem / 100).toFixed(2)} each (SEE
+                            FRIENDS)
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>

@@ -15,6 +15,24 @@ const EditReceipt = () => {
   // grab receiptData from store
   const [pool, setPool] = useState([]);
   const [receiptDataState, dispatch] = useContext(ReceiptDataContext);
+  // console.log('pool is: ', pool);
+  // console.log('receipt data is: ', receiptDataState);
+
+  console.log(pool);
+  useEffect(() => {
+    if (receiptDataState.items && receiptDataState.items[0].debts) {
+      const { items } = receiptDataState;
+      let friendPool = {};
+      items.forEach((item) =>
+        item.debts.forEach((debt) => (friendPool[debt.friend.id] = debt.friend))
+      );
+
+      friendPool = Object.values(friendPool);
+
+      setPool(friendPool);
+    }
+  }, []);
+
   // if tax is read on our receipt, set as state, otherwise 0
   const [tax, setTax] = useState(
     receiptDataState.miscItems ? receiptDataState.miscItems.tax : 0

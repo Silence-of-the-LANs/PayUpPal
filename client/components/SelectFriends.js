@@ -56,6 +56,7 @@ const SelectFriends = (props) => {
   const [selectedFriends, setSelectedFriends] = useState(checkedFriends);
 
   useEffect(() => {
+    // get the user's list of friends
     const fetchFriends = async () => {
       let { data } = await axios.get('/api/friends/displayListOfFriends');
       setFriends(data);
