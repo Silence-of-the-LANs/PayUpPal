@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
 
@@ -31,8 +30,9 @@ const EditFriend = (props) => {
   const submitEditedFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      console.log(event.target);
       const { data } = await axios.put('api/friends/editFriend', friend);
+
+      closeEditModal();
 
       store.addNotification({
         title: '',
@@ -99,14 +99,10 @@ const EditFriend = (props) => {
             onChange={dataInput}
           />
         </div>
-        <button type='submit' className='btn btn-primary'>
+        <button type='submit' className='button'>
           CONFIRM
         </button>
-        <button
-          type='button'
-          className='btn btn-primary'
-          onClick={closeEditModal}
-        >
+        <button type='button' className='button' onClick={closeEditModal}>
           CANCEL
         </button>
       </form>

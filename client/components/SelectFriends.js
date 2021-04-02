@@ -57,7 +57,7 @@ const SelectFriends = (props) => {
 
   useEffect(() => {
     const fetchFriends = async () => {
-      let { data } = await axios.get('/api/friends/displayFriends');
+      let { data } = await axios.get('/api/friends/displayListOfFriends');
       setFriends(data);
     };
 

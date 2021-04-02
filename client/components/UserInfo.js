@@ -97,7 +97,9 @@ const UserInfo = () => {
           shrink: true,
         }}
       />
-      <button type='submit'>Submit Info</button>
+      <button className='button' type='submit'>
+        Submit Info
+      </button>
     </form>
   );
 };

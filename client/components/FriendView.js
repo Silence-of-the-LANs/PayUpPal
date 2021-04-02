@@ -79,9 +79,10 @@ const FriendView = (props) => {
                         {receipt.eventName} - Total Owed: ${' '}
                         {calcTotalOwed(receipt.debts) / 100}
                       </span>{' '}
-                      <button>Send Reminder (WIP)</button>
+                      <button className='button'>Send Reminder (WIP)</button>
                       {receipt.debts.every((debt) => debt.paid === true) ? (
                         <button
+                          className='button'
                           onClick={async () => {
                             await markReceiptUnpaid(
                               receipt.id,
@@ -94,6 +95,7 @@ const FriendView = (props) => {
                         </button>
                       ) : (
                         <button
+                          className='button'
                           onClick={async () => {
                             await markReceiptPaid(
                               receipt.id,

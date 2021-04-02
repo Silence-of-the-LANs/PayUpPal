@@ -22,6 +22,24 @@ router.get('/displayFriends', async (req, res, next) => {
   }
 });
 
+// api/friends/displayFriends route
+router.get('/displayListOfFriends', async (req, res, next) => {
+  try {
+    const userId = req.session.passport.user;
+
+    const friends = await Friend.findAll({
+      where: {
+        userId: userId,
+      },
+      order: [['name', 'asc']],
+    });
+
+    res.json(friends);
+  } catch (err) {
+    next(err);
+  }
+});
+
 // api/friends/addFriend route
 router.post('/addFriend', async (req, res, next) => {
   try {
