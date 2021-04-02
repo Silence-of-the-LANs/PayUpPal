@@ -14,14 +14,14 @@ router.put('/login', async (req, res, next) => {
       res
         .status(401)
         .send(
-          'The username and/or password entered does not match the information in our records'
+          'The username and/or password entered does not match the information in our records. Please try again.'
         );
     } else if (!user.correctPassword(req.body.password)) {
       console.log(`The password for user ${req.body.email} was incorrect`);
       res
         .status(401)
         .send(
-          'The username and/or password entered does not match the information in our records'
+          'The username and/or password entered does not match the information in our records. Please try again.'
         );
     } else {
       // Logs the user in
