@@ -4,6 +4,7 @@ import axios from 'axios';
 import { AddFriend, EditFriend, RemoveFriendPopup } from './index';
 import Modal from '@material-ui/core/Modal';
 import { makeStyles } from '@material-ui/core/styles';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -73,22 +74,26 @@ const ManageFriends = () => {
                 <p>Phone: {friend.phone}</p>
               </div>
               <div>
-                <button
-                  type='button'
-                  className='button'
+                <Button
+                  variant='contained'
+                  color='primary'
                   onClick={() => {
                     handleClick(friend);
                   }}
+                  size='small'
+                  name={'edit-friend'}
                 >
                   Edit Friend
-                </button>
-                <button
-                  className='button'
-                  disabled={friend.name === 'Myself'}
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='primary'
                   onClick={() => handleRemoveFriend(friend)}
+                  size='small'
+                  name={'remove-friend'}
                 >
                   Remove Friend
-                </button>
+                </Button>
               </div>
             </div>
           ))

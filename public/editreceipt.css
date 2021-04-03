@@ -3,7 +3,7 @@
   height: 95%;
   margin: 1fr;
 } */
-#editReceipt-previewImage button,
+/* #editReceipt-previewImage button,
 #friend-div button,
 #add-item,
 .submit-button {
@@ -24,21 +24,21 @@
   border-radius: 4px;
   letter-spacing: 0.02857em;
   border: 0;
-}
+} */
 
-.x-item {
+/* .x-item {
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
   background-color: #3f51b5;
   color: white;
-  /* padding: 2px 2px; */
+  padding: 2px 2px;
   box-sizing: border-box;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
   line-height: 1.75;
   border-radius: 4px;
   letter-spacing: 0.02857em;
   border: 0;
-}
+} */
 
 #add-item {
   margin-left: 50px;
@@ -46,9 +46,9 @@
 
 #edit-receipt-div {
   border: solid black;
-  margin: 3em 10em 0 10em;
+  margin: 5vw;
   height: 95%;
-  width: 80vw;
+  width: 90vw;
 }
 
 .input-eventAndDate {
@@ -64,8 +64,10 @@
 
 #input-div {
   display: flex;
-  margin-bottom: 25px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
+
 #input-div div {
   display: flex;
   margin-left: 50px;
@@ -100,34 +102,28 @@
 .grid-item {
   display: grid;
   grid-template-columns: 0.15fr 0.4fr 2fr 0.7fr 0.8fr;
-  background-color: #2196f3;
   padding-left: 50px;
   padding-right: 28%;
   place-items: start;
   padding-bottom: 5px;
 }
 
+section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  font-size: 3em;
+}
+
 .grid-item-allocate,
 .grid-header-allocate {
   display: grid;
   grid-template-columns: 0.15fr 0.4fr 2fr 0.7fr 0.8fr 1.5fr;
-  background-color: #2196f3;
   padding-left: 50px;
   padding-right: 2%;
   min-width: fit-content;
   place-items: start;
-}
-
-.qty-input {
-  width: 3vw;
-}
-.PPI-input,
-.totalprice-input {
-  width: 6vw;
-}
-
-.description-input {
-  width: 25vw;
 }
 
 .makeStyles-root-21 {

@@ -7,9 +7,10 @@ import FriendList from './SelectFriends';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import Modal from '@material-ui/core/Modal';
-import { Switch } from '@material-ui/core';
+import { Switch, Button } from '@material-ui/core';
 
 ReactModal.setAppElement('#app');
+
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
@@ -150,7 +151,16 @@ const EditReceipt = () => {
       <div>
         <div id='editReceipt-previewImage'>
           <h2>Edit Receipt</h2>
-          <button onClick={() => setIsOpen(true)}>Preview Image</button>
+
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => setIsOpen(true)}
+            size='small'
+            name={'preview-image'}
+          >
+            Preview image
+          </Button>
           <ReactModal
             isOpen={modalIsOpen}
             onRequestClose={() => setIsOpen(false)}
@@ -186,20 +196,27 @@ const EditReceipt = () => {
               onChange={(e) => setDateInput(e.target.value)}
             />
           </div>
+
+          <Button
+            variant='text'
+            color='primary'
+            onClick={addItem}
+            size='medium'
+            name={'add-item'}
+          >
+            Add Item
+          </Button>
         </div>
-        <button id='add-item' type='button' onClick={addItem}>
-          Add Item
-        </button>
-        <div id='item-div'>
+        <div>
           {receiptDataState.items && (
-            <div>
+            <div id='item-div'>
               {receiptDataState.items.length && (
                 <div
                   className={
                     splitEvenly ? 'grid-header' : 'grid-header-allocate'
                   }
                 >
-                  <div></div>
+                  <div>Remove</div>
                   <div>Qty</div>
                   <div>Description</div>
                   <div>Price Per Item</div>
@@ -212,6 +229,7 @@ const EditReceipt = () => {
                 receiptDataState.items.map((item, index) => {
                   return (
                     <IndividualItem
+                      key={index}
                       item={item}
                       itemIndex={index}
                       splitEvenly={splitEvenly}
@@ -226,14 +244,17 @@ const EditReceipt = () => {
       <div id='friend-subtotal'>
         <div id='friend-div'>
           <div id='button-div'>
-            <button
-              type='button'
+            <Button
+              variant='outlined'
+              color='primary'
               onClick={() => {
                 setOpenAdd(true);
               }}
+              size='small'
+              name={'add-friend'}
             >
-              Add Friend
-            </button>
+              Add To Friend List
+            </Button>
             <Modal
               open={openAdd}
               onClose={closeAddModal}
@@ -242,14 +263,17 @@ const EditReceipt = () => {
             >
               <AddFriend closeAddModal={closeAddModal} />
             </Modal>
-            <button
-              type='button'
+            <Button
+              variant='contained'
+              color='primary'
               onClick={() => {
                 setOpenSelect(true);
               }}
+              size='small'
+              name={'select-friend'}
             >
-              Select Friends
-            </button>
+              Select From Friends
+            </Button>
           </div>
           <div>
             Friends selected:{' '}
@@ -314,9 +338,10 @@ const EditReceipt = () => {
             />
           </label>
           <label>Total: ${total.toFixed(2)}</label>
-          <button
-            type='submit'
-            class='submit-button'
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={submitReceipt}
             disabled={
               splitEvenly
                 ? pool.length < 1 || !receiptDataState.items
@@ -324,10 +349,9 @@ const EditReceipt = () => {
                 ? !everyItemAssigned
                 : true
             }
-            onClick={submitReceipt}
           >
-            Submit Receipt
-          </button>
+            SUBMIT
+          </Button>
         </div>
       </div>
     </div>

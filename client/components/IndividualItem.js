@@ -4,8 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Checkbox from '@material-ui/core/Checkbox';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import { CheckBoxOutlineBlankIcon, Delete } from '@material-ui/icons';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Button } from '@material-ui/core';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='medium' />;
 const checkedIcon = <CheckBoxIcon fontSize='medium' />;
@@ -13,6 +15,9 @@ const checkedIcon = <CheckBoxIcon fontSize='medium' />;
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
+  },
+  button: {
+    margin: theme.spacing(1),
   },
   checkedIcon: {
     backgroundColor: '#137cbd',
@@ -112,79 +117,79 @@ const IndividualItem = (props) => {
   };
   return (
     <div className={splitEvenly ? 'grid-item' : 'grid-item-allocate'}>
-      <button className='x-item' type='button' onClick={deleteItem}>
-        X
-      </button>
-      <div>
-        <input
-          className='qty-input'
-          type='number'
-          min='1'
-          value={quantity}
-          onChange={changeQuantity}
-        />
-      </div>
-      <div>
-        <input
-          className='description-input'
-          type='text'
-          value={description}
-          onChange={editDescription}
-        />
-      </div>
-      <div>
-        <input
-          className='PPI-input'
-          type='number'
-          min='0'
-          step='0.01'
-          value={pricePerItem}
-          onChange={changePricePerItem}
-        />
-      </div>
-      <div>
-        <input
-          className='totalprice-input'
-          type='number'
-          min='0'
-          step='0.01'
-          value={totalPrice}
-          onChange={changeTotalPrice}
-        />
-      </div>
-      <div>
-        {!splitEvenly && (
-          <Autocomplete
-            className={classes.root}
-            noOptionsText='Please add some friends...'
-            multiple
-            onChange={assignFriends}
-            id='autocomplete'
-            options={pool}
-            disableCloseOnSelect
-            getOptionLabel={(option) => option.name}
-            renderOption={(option, state) => (
-              <React.Fragment>
-                <Checkbox
-                  checkedIcon={<span className={classes.checkedIcon} />}
-                  icon={<span className={classes.icon} />}
-                  checked={state.selected}
-                />
-                {option.name}
-              </React.Fragment>
-            )}
-            style={{ width: '18em' }}
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant='outlined'
-                label='Friends List'
-                placeholder='Select friends...'
+      <Button
+        variant='contained'
+        color='secondary'
+        startIcon={<DeleteIcon />}
+        size='small'
+        fontSize='small'
+        onClick={deleteItem}
+      ></Button>
+      <input
+        className='qty-input'
+        type='number'
+        min='1'
+        value={quantity}
+        onChange={changeQuantity}
+      />
+
+      <input
+        className='description-input'
+        type='text'
+        value={description}
+        onChange={editDescription}
+      />
+
+      <input
+        className='PPI-input'
+        type='number'
+        min='0'
+        step='0.01'
+        value={pricePerItem}
+        onChange={changePricePerItem}
+      />
+
+      <input
+        className='totalprice-input'
+        type='number'
+        min='0'
+        step='0.01'
+        value={totalPrice}
+        onChange={changeTotalPrice}
+      />
+
+      {!splitEvenly && (
+        <Autocomplete
+          className={classes.root}
+          noOptionsText='Please add some friends...'
+          multiple
+          size='small'
+          onChange={assignFriends}
+          id='autocomplete'
+          options={pool}
+          disableCloseOnSelect
+          getOptionLabel={(option) => option.name}
+          renderOption={(option, state) => (
+            <React.Fragment>
+              <Checkbox
+                checkedIcon={<span className={classes.checkedIcon} />}
+                icon={<span className={classes.icon} />}
+                checked={state.selected}
               />
-            )}
-          />
-        )}
-      </div>
+              {option.name}
+            </React.Fragment>
+          )}
+          style={{ width: '18em' }}
+          renderInput={(params) => (
+            <TextField
+              {...params}
+              variant='outlined'
+              label='Friends List'
+              placeholder='Select friends...'
+            />
+          )}
+        />
+      )}
     </div>
   );
 };
