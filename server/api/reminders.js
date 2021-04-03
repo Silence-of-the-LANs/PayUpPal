@@ -4,7 +4,7 @@ const sendInitialEmail = require('./email');
 // api/reminders/send
 router.put('/send', async (req, res, next) => {
   try {
-    const { total, friend, receipt, userInformation } = req.body;
+    const { total, friend, receipt, userInformation, checkboxes } = req.body;
     const alias = friend.name;
     const userName = userInformation.name;
     const requesteeEmail = friend.email;
@@ -24,16 +24,21 @@ router.put('/send', async (req, res, next) => {
       debts = receipt.debts;
     }
 
-    sendInitialEmail(
-      alias,
-      userName,
-      requesteeEmail,
-      eventName,
-      paypalLink,
-      transactionDate,
-      debts,
-      total
-    );
+    if (checkboxes.email) {
+      sendInitialEmail(
+        alias,
+        userName,
+        requesteeEmail,
+        eventName,
+        paypalLink,
+        transactionDate,
+        debts,
+        total
+      );
+    }
+    if (checkboxes.textMessage) {
+      // Send text message
+    }
     res.send();
   } catch (error) {
     next(error);
