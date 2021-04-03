@@ -117,13 +117,12 @@ const IndividualItem = (props) => {
   };
   return (
     <div className={splitEvenly ? 'grid-item' : 'grid-item-allocate'}>
-      <div className='grid-content'>
+      <div className='grid-content-delete'>
         <Button
           variant='contained'
           color='secondary'
           startIcon={<DeleteIcon />}
-          size='small'
-          fontSize='small'
+          size='large'
           onClick={deleteItem}
         ></Button>
       </div>
@@ -164,7 +163,7 @@ const IndividualItem = (props) => {
           onChange={changeTotalPrice}
         />
       </div>
-      <div className='grid-content'>
+      <div className='allocate-friends'>
         {!splitEvenly && (
           <Autocomplete
             className={classes.root}

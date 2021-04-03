@@ -46,10 +46,22 @@
   /* padding: 10px; */
 }
 
+.grid-content-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#allocate-friends {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 .grid-content {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: groove;
 }
 
 #edit-receipt-bottom-panel {
@@ -64,6 +76,7 @@
   display: flex;
   flex-direction: column;
   border: solid 1px green;
+  width: 500px;
 }
 
 .list-heading {
@@ -115,6 +128,7 @@
 #misc-form {
   display: flex;
   flex-direction: column;
+  margin: 5px;
   border: solid 2px brown;
 }
 
@@ -175,6 +189,16 @@
 .totalprice-input,
 .description-input {
   width: 100%;
+  padding: 9px;
+}
+
+.qty-input {
+  text-align: center;
+}
+
+.PPI-input,
+.totalprice-input {
+  text-align: right;
 }
 
 .x-item {

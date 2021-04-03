@@ -22,12 +22,13 @@
 .grid-header,
 .grid-item {
   display: grid;
-  grid-template-columns: 0.15fr 0.4fr 2fr 0.7fr 0.8fr;
-  /* padding-left: 50px; */
-  /* padding-right: 28%; */
-  /* place-items: start; */
+  grid-template-columns: 0.1fr 0.6fr 1.8fr 0.8fr 0.8fr;
   align-items: center;
   padding-bottom: 5px;
+}
+
+.grid-header {
+  align-items: end;
 }
 
 .grid-labels {
@@ -46,7 +47,7 @@ section {
 .grid-item-allocate,
 .grid-header-allocate {
   display: grid;
-  grid-template-columns: 0.15fr 0.4fr 2fr 0.7fr 0.8fr 1.5fr;
+  grid-template-columns: 0.15fr 0.8fr 1.8fr 0.7fr 0.8fr 1.5fr;
   /* padding-left: 50px; */
   /* padding-right: 2%; */
   /* min-width: fit-content; */
@@ -56,10 +57,4 @@ section {
 .makeStyles-root-21 {
   margin: 20em auto 0 auto;
   width: 250px;
-}
-
-.friendlist-modal {
-  margin-top: 20em;
-  margin-left: 20em;
-  width: 500x;
 }

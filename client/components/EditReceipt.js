@@ -202,8 +202,8 @@ const EditReceipt = () => {
             </div>
             <div id='add-item-div'>
               <Button
-                variant='text'
-                color='primary'
+                variant='contained'
+                color='secondary'
                 onClick={addItem}
                 size='large'
                 name={'add-item'}
