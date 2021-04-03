@@ -217,7 +217,7 @@ const EditReceipt = () => {
         <div id='edit-receipt-middle-panel'>
           {receiptDataState.items && (
             <div id='item-div'>
-              {receiptDataState.items.length && (
+              {receiptDataState.items.length && window.innerWidth > 550 && (
                 <div
                   className={
                     splitEvenly ? 'grid-header' : 'grid-header-allocate'
@@ -238,7 +238,7 @@ const EditReceipt = () => {
                 receiptDataState.items.map((item, index) => {
                   return (
                     <IndividualItem
-                      key={index}
+                      key={`${item.description}-index: ${index}`}
                       item={item}
                       itemIndex={index}
                       splitEvenly={splitEvenly}

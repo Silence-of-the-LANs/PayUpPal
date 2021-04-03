@@ -199,6 +199,38 @@
   padding: 9px;
 }
 
+@media screen and (max-width: 550px) {
+  .grid-item-allocate,
+  .grid-header-allocate {
+    display: grid;
+    grid-template-columns: 1fr;
+
+    /* padding-left: 50px; */
+    /* padding-right: 2%; */
+    /* min-width: fit-content; */
+    /* place-items: start; */
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .qty-input,
+  .PPI-input,
+  .totalprice-input,
+  .description-input {
+    width: 100%;
+    padding: 9px;
+    margin: 2px;
+  }
+}
+
+.qty-input,
+.PPI-input,
+.totalprice-input,
+.description-input {
+  width: 100%;
+  padding: 9px;
+}
+
 .qty-input {
   text-align: center;
 }

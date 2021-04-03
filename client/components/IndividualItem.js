@@ -63,6 +63,7 @@ const IndividualItem = (props) => {
 
   // grab each item and index from parent prop
   const { item, itemIndex, splitEvenly, pool } = props;
+  console.log('this is the item id fed in: ', item, 'with index: ', itemIndex);
   // set quantity, description, pricePerItem, and totalPrice to state
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
@@ -113,59 +114,76 @@ const IndividualItem = (props) => {
   };
   const deleteItem = () => {
     dispatch({ type: 'DELETE_ITEM', itemIndex });
+    console.log('item deleted');
   };
 
   const assignFriends = (event, value) => {
     dispatch({ type: 'ASSIGN_FRIEND', itemIndex, friends: value });
   };
+
   return (
     <div className={splitEvenly ? 'grid-item' : 'grid-item-allocate'}>
       <div className='grid-content-delete'>
         <Button
           variant='contained'
           color='secondary'
-          startIcon={<DeleteIcon />}
+          startIcon={<DeleteIcon style={{ width: '1rem' }} />}
           size='large'
           onClick={deleteItem}
-        ></Button>
+        >
+          {window.innerWidth < 550 ? 'REMOVE' : ''}
+        </Button>
       </div>
+      {window.innerWidth < 550 ? <label>Quantity</label> : ''}
       <div className='grid-content'>
         <input
           className='qty-input'
           type='number'
+          placeholder='Quantity'
           min='1'
           value={quantity}
           onChange={changeQuantity}
         />
       </div>
+      {window.innerWidth < 550 ? <label>Description</label> : ''}
       <div className='grid-content'>
         <input
           className='description-input'
           type='text'
+          placeholder='Description'
           value={description}
           onChange={editDescription}
         />
       </div>
+      {window.innerWidth < 550 ? <label>Price Per Item</label> : ''}
       <div className='grid-content'>
         <input
           className='PPI-input'
           type='number'
+          placeholder='Price per item'
           min='0'
           step='0.01'
           value={pricePerItem}
           onChange={changePricePerItem}
         />
       </div>
+      {window.innerWidth < 550 ? <label>Total</label> : ''}
       <div className='grid-content'>
         <input
           className='totalprice-input'
           type='number'
+          placeholder='Total'
           min='0'
           step='0.01'
           value={totalPrice}
           onChange={changeTotalPrice}
         />
       </div>
+      {!splitEvenly && window.innerWidth < 550 ? (
+        <label>Assign Friends</label>
+      ) : (
+        ''
+      )}
       <div id='allocate-friends'>
         {!splitEvenly && (
           <Autocomplete

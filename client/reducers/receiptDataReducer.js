@@ -43,7 +43,7 @@ export default (state = {}, action) => {
               totalPrice: 0,
             },
           ]);
-      console.log(newItemList);
+      console.log('this is the new stuff: ', newItemList);
       return { ...state, items: newItemList };
     case 'ADD_ITEM':
       if (!state.items) {
