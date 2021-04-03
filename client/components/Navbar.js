@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Navbar() {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
+
   useEffect(() => {
     const loggedInStatus = async () => {
       const { data } = await axios.get('auth/me');

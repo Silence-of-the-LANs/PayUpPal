@@ -7,13 +7,17 @@ import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
+    top: '20%',
     display: 'flex',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'ghostwhite',
+    width: 'fit-content',
+    height: 'fit-content',
     padding: '1rem',
   },
   button: {
-    // marginLeft: '8px',
-    // marginTop: '8px',
+    marginTop: '5px',
+    marginRight: '5px',
   },
 }));
 const initialState = {

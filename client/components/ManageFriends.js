@@ -14,13 +14,17 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'relative',
     width: 'fit-content',
     height: 'fit-content',
     backgroundColor: 'white',
     // border: '2px solid #000',
     // boxShadow: theme.shadows[5],
-    padding: '4px',
+  },
+  modal: {
+    display: 'flex',
+    top: '50%',
+    justifyContent: 'center',
+    alignContent: 'center',
   },
   root: {
     minWidth: 275,
@@ -37,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
   },
   pos: {
     marginBottom: 12,
+  },
+  buttons: {
+    marginLeft: '5px',
   },
 }));
 
@@ -158,39 +165,42 @@ const ManageFriends = () => {
         )}
       </div>
       <Modal
-        className={classes.paper}
+        className={classes.modal}
         open={openAdd}
         onClose={() => setOpenAdd(false)}
         aria-labelledby='Add a friend'
         aria-describedby='Add a friend to your friend list'
       >
         <AddFriend
+          className={classes.paper}
           closeAddModal={closeAddModal}
           currentFriends={friends}
           addToFriends={setFriends}
         />
       </Modal>
       <Modal
-        className={classes.paper}
+        className={classes.modal}
         open={openEdit}
         onClose={() => setOpenEdit(false)}
         aria-labelledby='Edit friend info'
         aria-describedby='Edit a friend on your friend list'
       >
         <EditFriend
+          className={classes.paper}
           friendInfo={friendInfo}
           closeEditModal={closeEditModal}
           updateFriendList={updateFriendList}
         />
       </Modal>
       <Modal
-        className={classes.paper}
+        className={classes.modal}
         open={openRemove}
         onClose={() => setOpenRemove(false)}
         aria-labelledby='Remove friend'
         aria-describedby='Remove a friend on your friend list'
       >
         <RemoveFriendPopup
+          className={classes.paper}
           updateFriendList={updateFriendList}
           closeRemoveModal={closeRemoveModal}
           friendToRemove={friendToRemove}

@@ -6,12 +6,17 @@ import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
+    top: '20%',
     display: 'flex',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'ghostwhite',
     padding: '1rem',
+    width: 'fit-content',
+    height: 'fit-content',
   },
-  button: {
-    padding: '4px',
+  buttons: {
+    marginTop: '5px',
+    marginRight: '5px',
   },
 }));
 
@@ -116,7 +121,7 @@ const EditFriend = (props) => {
           </p>
         )}
         <Button
-          className={classes.button}
+          className={classes.buttons}
           variant='contained'
           type='submit'
           color='primary'
@@ -126,7 +131,7 @@ const EditFriend = (props) => {
           CONFIRM
         </Button>
         <Button
-          className={classes.button}
+          className={classes.buttons}
           variant='outlined'
           type='submit'
           color='primary'

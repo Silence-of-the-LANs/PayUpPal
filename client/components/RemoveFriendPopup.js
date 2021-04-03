@@ -6,15 +6,22 @@ import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
+    top: '40%',
     display: 'flex',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'ghostwhite',
     padding: '1rem',
     flexDirection: 'column',
+    width: 'fit-content',
+    height: 'fit-content',
   },
   removeButtons: {
     display: 'flex',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
+  },
+  buttons: {
+    marginLeft: '5px',
   },
 }));
 
@@ -48,6 +55,7 @@ const RemoveFriendPopup = (props) => {
       <div>Are you sure you want to remove this friend?</div>
       <div className={classes.removeButtons}>
         <Button
+          className={classes.buttons}
           variant='outlined'
           color='primary'
           onClick={closeRemoveModal}
@@ -57,6 +65,7 @@ const RemoveFriendPopup = (props) => {
           CANCEL
         </Button>
         <Button
+          className={classes.buttons}
           variant='contained'
           color='secondary'
           onClick={closeRemoveModal}
