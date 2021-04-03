@@ -6,6 +6,8 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { Button } from '@material-ui/core';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize='medium' />;
 const checkedIcon = <CheckBoxIcon fontSize='medium' />;
@@ -13,6 +15,12 @@ const checkedIcon = <CheckBoxIcon fontSize='medium' />;
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
+  },
+  autocompleteWidth: {
+    width: '100%',
+  },
+  button: {
+    margin: theme.spacing(1),
   },
   checkedIcon: {
     backgroundColor: '#137cbd',
@@ -55,6 +63,7 @@ const IndividualItem = (props) => {
 
   // grab each item and index from parent prop
   const { item, itemIndex, splitEvenly, pool } = props;
+  console.log('this is the item id fed in: ', item, 'with index: ', itemIndex);
   // set quantity, description, pricePerItem, and totalPrice to state
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
@@ -105,59 +114,83 @@ const IndividualItem = (props) => {
   };
   const deleteItem = () => {
     dispatch({ type: 'DELETE_ITEM', itemIndex });
+    console.log('item deleted');
   };
 
   const assignFriends = (event, value) => {
     dispatch({ type: 'ASSIGN_FRIEND', itemIndex, friends: value });
   };
+
   return (
     <div className={splitEvenly ? 'grid-item' : 'grid-item-allocate'}>
-      <button className='x-item' type='button' onClick={deleteItem}>
-        X
-      </button>
-      <div>
+      <div className='grid-content-delete'>
+        <Button
+          variant='contained'
+          color='secondary'
+          startIcon={<DeleteIcon style={{ width: '1rem' }} />}
+          size='large'
+          onClick={deleteItem}
+        >
+          {window.innerWidth < 550 ? 'REMOVE' : ''}
+        </Button>
+      </div>
+      {window.innerWidth < 550 ? <label>Quantity</label> : ''}
+      <div className='grid-content'>
         <input
           className='qty-input'
           type='number'
+          placeholder='Quantity'
           min='1'
           value={quantity}
           onChange={changeQuantity}
         />
       </div>
-      <div>
+      {window.innerWidth < 550 ? <label>Description</label> : ''}
+      <div className='grid-content'>
         <input
           className='description-input'
           type='text'
+          placeholder='Description'
           value={description}
           onChange={editDescription}
         />
       </div>
-      <div>
+      {window.innerWidth < 550 ? <label>Price Per Item</label> : ''}
+      <div className='grid-content'>
         <input
           className='PPI-input'
           type='number'
+          placeholder='Price per item'
           min='0'
           step='0.01'
           value={pricePerItem}
           onChange={changePricePerItem}
         />
       </div>
-      <div>
+      {window.innerWidth < 550 ? <label>Total</label> : ''}
+      <div className='grid-content'>
         <input
           className='totalprice-input'
           type='number'
+          placeholder='Total'
           min='0'
           step='0.01'
           value={totalPrice}
           onChange={changeTotalPrice}
         />
       </div>
-      <div>
+      {!splitEvenly && window.innerWidth < 550 ? (
+        <label>Assign Friends</label>
+      ) : (
+        ''
+      )}
+      <div id='allocate-friends'>
         {!splitEvenly && (
           <Autocomplete
-            className={classes.root}
+            className={classes.autocompleteWidth}
             noOptionsText='Please add some friends...'
             multiple
+            size='small'
             onChange={assignFriends}
             id='autocomplete'
             options={pool}
@@ -173,12 +206,12 @@ const IndividualItem = (props) => {
                 {option.name}
               </React.Fragment>
             )}
-            style={{ width: '18em' }}
+            style={{ width: '100%' }}
             renderInput={(params) => (
               <TextField
                 {...params}
                 variant='outlined'
-                label='Friends List'
+                label='Assign Friends'
                 placeholder='Select friends...'
               />
             )}
