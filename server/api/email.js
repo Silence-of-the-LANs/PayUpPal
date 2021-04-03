@@ -24,12 +24,13 @@ const sendInitialEmail = (
     },
   });
 
-  console.log('It was sent to this following email address:', requesteeEmail);
-
-  let htmlCode = debts.reduce(function (accumulator, currentItem) {
-    return (
-      accumulator +
-      `   <tr>
+  let htmlCode = ``;
+  if (debts[0].friendId) {
+    // This is for the FriendView
+    htmlCode = debts.reduce(function (accumulator, currentItem) {
+      return (
+        accumulator +
+        `   <tr>
                                       <td style="width: 70%; padding: 0px 20px">
                                         ${currentItem.item.description}
                                       </td>
@@ -37,15 +38,43 @@ const sendInitialEmail = (
                                         style="width: 30%; padding: 0px 20px"
                                         align="right"
                                       >
-                                        ${
-                                          currentItem.item.pricePerItem / 100 +
+                                        ${(
+                                          (currentItem.item.pricePerItem *
+                                            currentItem.item.quantity) /
+                                            100 +
                                           currentItem.proratedTip / 100 +
                                           currentItem.proratedTax / 100
-                                        }
+                                        ).toFixed(2)}
                                       </td>
                                     </tr>`
-    );
-  }, ``);
+      );
+    }, ``);
+  } else {
+    htmlCode = debts.reduce(function (accumulator, currentItem) {
+      // This is for the ReceiptView
+      return (
+        accumulator +
+        `   <tr>
+                                      <td style="width: 70%; padding: 0px 20px">
+                                        ${currentItem.description}
+                                      </td>
+                                      <td
+                                        style="width: 30%; padding: 0px 20px"
+                                        align="right"
+                                      >
+                                        ${(
+                                          (currentItem.pricePerItem *
+                                            currentItem.quantity) /
+                                            100 +
+                                          currentItem.debts[0].proratedTip /
+                                            100 +
+                                          currentItem.debts[0].proratedTax / 100
+                                        ).toFixed(2)}
+                                      </td>
+                                    </tr>`
+      );
+    }, ``);
+  }
 
   const emailOptions = {
     from: email,

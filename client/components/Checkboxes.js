@@ -4,7 +4,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
 export default function CheckboxLabels(props) {
-  const { getCheckboxContents } = props;
+  const { getCheckboxContents, requesteePhoneNumber } = props;
   const [checkboxValues, setCheckboxValues] = useState({
     email: false,
     textMessage: false,
@@ -21,6 +21,8 @@ export default function CheckboxLabels(props) {
       [event.target.name]: event.target.checked,
     });
   };
+
+  // console.log('The phone number of your friend is:', requesteePhoneNumber);
 
   return (
     <div>
@@ -45,7 +47,7 @@ export default function CheckboxLabels(props) {
               onChange={handleChange}
               name='textMessage'
               color='primary'
-              disabled={textMessageState}
+              disabled={requesteePhoneNumber}
             />
           }
           label='Text Message'
