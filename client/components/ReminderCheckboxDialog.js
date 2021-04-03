@@ -47,7 +47,6 @@ export default function ReminderCheckboxDialog(props) {
     // This results in the value being passed back to the FriendView
     // component where we set selectedValue to that value
     // setSendButtonActivity(true);
-    console.log('This hit!');
     onClose(value, checkboxContents);
   };
 

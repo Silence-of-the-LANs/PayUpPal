@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sendInitialEmail = require('./email');
 
-// api/reminder/send
+// api/reminders/send
 router.put('/send', async (req, res, next) => {
   try {
     const { total, friend, receipt, userInformation } = req.body;
@@ -11,18 +11,29 @@ router.put('/send', async (req, res, next) => {
     const eventName = receipt.eventName;
     const paypalLink = userInformation.paypalLink;
     const transactionDate = receipt.date;
-    const debts = receipt.debts;
+    let debts = [];
 
-    // sendInitialEmail(
-    //   alias,
-    //   userName,
-    //   requesteeEmail,
-    //   eventName,
-    //   paypalLink,
-    //   transactionDate,
-    //   debts,
-    //   total
-    // );
+    // Since the receipt information comes in differently from the FriendView
+    // and ReceiptView components, we need make sure we send it in the same
+    // format
+    if (friend.items) {
+      // This is the information from ReceiptView
+      debts = friend.items;
+    } else {
+      // This is the information from FriendView
+      debts = receipt.debts;
+    }
+
+    sendInitialEmail(
+      alias,
+      userName,
+      requesteeEmail,
+      eventName,
+      paypalLink,
+      transactionDate,
+      debts,
+      total
+    );
     res.send();
   } catch (error) {
     next(error);

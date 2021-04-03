@@ -59,7 +59,6 @@ const ReceiptView = (props) => {
     // initial data fetch of debts
     const fetchData = async () => {
       let { data } = await axios.get('api/debts/displayDebts/receipt');
-      console.log('useEffect from Receipt', data);
       setDebts(data);
     };
     setLoaded(true);
@@ -102,8 +101,7 @@ const ReceiptView = (props) => {
     const sendReminder = async (reminderInfo) => {
       const { data } = await axios.get('auth/me');
       reminderInfo.userInformation = data;
-      console.log('Your reminder info in ReceiptView is:', reminderInfo);
-      // const response = await axios.put('api/reminders/send', reminderInfo);
+      const response = await axios.put('api/reminders/send', reminderInfo);
     };
 
     // This closes the dialog window
@@ -112,9 +110,7 @@ const ReceiptView = (props) => {
     // ReminderCheckboxDialog
     setSelectedValue(value);
     setCheckboxContents(checkboxBooleans);
-    // console.log('Your selected value is:', value);
-    console.log('Your value in ReceiptView is:', value);
-    console.log('Your checkbox contents in ReceiptView are:', checkboxBooleans);
+    // This attaches the checkbox values to our reminder information
     reminderInfo.checkboxes = checkboxBooleans;
     if (value === 'Send') {
       sendReminder(reminderInfo);
@@ -178,6 +174,7 @@ const ReceiptView = (props) => {
                                 }
                               }, 0) / 100
                             ).toFixed(2),
+
                             receipt,
                             friend
                           );
