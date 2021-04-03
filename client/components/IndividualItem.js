@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
   },
+  autocompleteWidth: {
+    width: '100%',
+  },
   button: {
     margin: theme.spacing(1),
   },
@@ -163,10 +166,10 @@ const IndividualItem = (props) => {
           onChange={changeTotalPrice}
         />
       </div>
-      <div className='allocate-friends'>
+      <div id='allocate-friends'>
         {!splitEvenly && (
           <Autocomplete
-            className={classes.root}
+            className={classes.autocompleteWidth}
             noOptionsText='Please add some friends...'
             multiple
             size='small'
@@ -185,12 +188,12 @@ const IndividualItem = (props) => {
                 {option.name}
               </React.Fragment>
             )}
-            style={{ width: '18em' }}
+            style={{ width: '100%' }}
             renderInput={(params) => (
               <TextField
                 {...params}
                 variant='outlined'
-                label='Friends List'
+                label='Assign Friends'
                 placeholder='Select friends...'
               />
             )}

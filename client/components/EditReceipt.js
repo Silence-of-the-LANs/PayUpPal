@@ -202,6 +202,7 @@ const EditReceipt = () => {
             </div>
             <div id='add-item-div'>
               <Button
+                className='edit-receipt-friend-buttons'
                 variant='contained'
                 color='secondary'
                 onClick={addItem}
@@ -228,7 +229,7 @@ const EditReceipt = () => {
                   <div className='grid-labels'>Price Per Item</div>
                   <div className='grid-labels'>Item total</div>
                   {!splitEvenly && (
-                    <div className='grid-labels'>Add friends to an item</div>
+                    <div className='grid-labels'>Assign friends to an item</div>
                   )}
                 </div>
               )}
@@ -253,12 +254,13 @@ const EditReceipt = () => {
         <div id='friend-div'>
           <div id='friend-management-div'>
             <Button
+              className='edit-receipt-friend-buttons'
               variant='outlined'
               color='primary'
               onClick={() => {
                 setOpenAdd(true);
               }}
-              size='small'
+              size='medium'
               name={'add-friend'}
             >
               Add To Friend List
@@ -273,11 +275,12 @@ const EditReceipt = () => {
             </Modal>
             <Button
               variant='contained'
+              className='edit-receipt-friend-buttons'
               color='primary'
               onClick={() => {
                 setOpenSelect(true);
               }}
-              size='small'
+              size='medium'
               name={'select-friend'}
             >
               Select From Friends
@@ -324,30 +327,37 @@ const EditReceipt = () => {
             </p>
           </div>
           {/* if receiptData exists show subTotal */}
-          <label>Subtotal: {receiptDataState.items && subTotal}</label>
-          <div>
-            <label>Tax: </label>
-            <input
-              type='number'
-              min='0'
-              value={tax}
-              step='0.01'
-              onChange={(e) => setTax(parseFloat(e.target.value))}
-            />
-          </div>
-
-          <div>
-            <label>Tip: </label>
-            <input
-              type='number'
-              min='0'
-              value={tip}
-              step='0.01'
-              onChange={(e) => setTip(parseFloat(e.target.value))}
-            />
-          </div>
-          <div>
-            <label>Total: ${total.toFixed(2)}</label>
+          <div className='receipt-summary'>
+            <label>
+              Subtotal: {receiptDataState.items && subTotal.toFixed(2)}
+            </label>
+            <div>
+              <label>Tax: </label>
+              <input
+                className='tax-tip'
+                type='number'
+                min='0'
+                value={tax}
+                step='0.01'
+                onChange={(e) => setTax(parseFloat(e.target.value))}
+              />
+            </div>
+            <div>
+              <div>
+                <label>Tip: </label>
+                <input
+                  className='tax-tip'
+                  type='number'
+                  min='0'
+                  value={tip}
+                  step='0.01'
+                  onChange={(e) => setTip(parseFloat(e.target.value))}
+                />
+              </div>
+              <div id='total'>
+                <label>TOTAL: ${total.toFixed(2)}</label>
+              </div>
+            </div>
           </div>
           <Button
             variant='contained'

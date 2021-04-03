@@ -47,7 +47,8 @@ section {
 .grid-item-allocate,
 .grid-header-allocate {
   display: grid;
-  grid-template-columns: 0.15fr 0.8fr 1.8fr 0.7fr 0.8fr 1.5fr;
+  grid-template-columns: 0.15fr 0.8fr 1.8fr 0.7fr 0.8fr 1fr;
+
   /* padding-left: 50px; */
   /* padding-right: 2%; */
   /* min-width: fit-content; */
