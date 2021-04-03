@@ -30,6 +30,7 @@ const ReceiptHistory = () => {
       receipt.items = receipt.items.sort((a, b) => {
         return a.id > b.id ? 1 : -1;
       });
+      console.log(sortItems);
       return receipt;
     });
     setSelectedReceipt(sortItems[0]);
@@ -254,12 +255,6 @@ const ReceiptHistory = () => {
                         <AccordionDetails>
                           {item.debts &&
                             item.debts.map((debt) => {
-                              console.log(
-                                item,
-                                debt.balance,
-                                debt.proratedTip,
-                                debt.proratedTax
-                              );
                               return (
                                 <Typography>
                                   {debt.friend.name} owes $
