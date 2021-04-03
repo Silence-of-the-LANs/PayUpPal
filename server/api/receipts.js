@@ -104,6 +104,7 @@ router.delete('/:id', async (req, res, next) => {
           model: Debt,
           include: {
             model: Friend,
+            order: [['name', 'ASC']],
           },
         },
       },
@@ -131,9 +132,7 @@ router.post('/upload', upload, async (req, res, next) => {
     const { info } = await sharp(req.file.buffer).toBuffer({
       resolveWithObject: true,
     });
-    console.log(info);
     const pictureWidth = info.width;
-    console.log('width', pictureWidth);
     const params = {
       Bucket: AWS_BUCKET_NAME,
       Key: fileName + `.${fileType}`,
@@ -320,9 +319,6 @@ router.post('/submit', async (req, res, next) => {
       splitEvenly,
     } = req.body;
 
-    console.log('splitEvenly: ', splitEvenly);
-    console.log('pool: ', pool);
-
     const newReceipt = await Receipt.create({
       imageUrl,
       eventName,
@@ -387,4 +383,5 @@ router.post('/submit', async (req, res, next) => {
     next(err);
   }
 });
+
 module.exports = router;
