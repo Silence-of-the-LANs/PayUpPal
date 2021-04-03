@@ -1,11 +1,13 @@
 const router = require('express').Router();
 const sendInitialEmail = require('./email');
+const sendTextMessage = require('./twilio');
 
 // api/reminders/send
 router.put('/send', async (req, res, next) => {
   try {
     const { total, friend, receipt, userInformation, checkboxes } = req.body;
     const alias = friend.name;
+    const requesteePhone = friend.phone;
     const userName = userInformation.name;
     const requesteeEmail = friend.email;
     const eventName = receipt.eventName;
@@ -37,7 +39,7 @@ router.put('/send', async (req, res, next) => {
       );
     }
     if (checkboxes.textMessage) {
-      // Send text message
+      sendTextMessage(userName, total, eventName, paypalLink, requesteePhone);
     }
     res.send();
   } catch (error) {

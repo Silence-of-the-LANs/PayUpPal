@@ -112,6 +112,7 @@ const ReceiptView = (props) => {
     setCheckboxContents(checkboxBooleans);
     // This attaches the checkbox values to our reminder information
     reminderInfo.checkboxes = checkboxBooleans;
+    // Only send the information gathered if they clicked Send
     if (value === 'Send') {
       sendReminder(reminderInfo);
     }
@@ -188,6 +189,7 @@ const ReceiptView = (props) => {
                         open={open}
                         onClose={handleClose}
                         selectedValue={selectedValue}
+                        requesteePhoneNumber={!friend.phone}
                       />
                       {friend.items.every((item) =>
                         item.debts.every((debt) => debt.paid === true)

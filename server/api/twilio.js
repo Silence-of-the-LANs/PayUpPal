@@ -9,14 +9,18 @@ const phoneNumber =
   require('../../secrets').TWILIO_PHONE_NUMBER;
 const client = require('twilio')(accountSid, authToken);
 
-const sendTextMessage = (userName, total, phoneNumber, paypalLink) => {
+const sendTextMessage = (
+  userName,
+  total,
+  eventName,
+  paypalLink,
+  requesteePhone
+) => {
   client.messages
     .create({
-      body: `${userName} has requested a payment from you of ${total} for your meal at evenName. Please use the below link to send payment
-      /n
-      ${paypalLink}`,
+      body: `${userName} has requested a payment from you of $${total} for your meal at ${eventName}. Please use the below link to send payment:${'\n\n'}${paypalLink}`,
       from: phoneNumber,
-      to: '+15558675310',
+      to: `+1${requesteePhone}`,
     })
     .then((message) => console.log(message.sid));
 };

@@ -85,7 +85,6 @@ const FriendView = (props) => {
     setSelectedValue(value);
     setCheckboxContents(checkboxBooleans);
     reminderInfo.checkboxes = checkboxBooleans;
-
     // Only send the information gathered if they clicked Send
     if (value === 'Send') {
       sendReminder(reminderInfo);
@@ -149,6 +148,7 @@ const FriendView = (props) => {
                         open={open}
                         onClose={handleClose}
                         selectedValue={selectedValue}
+                        requesteePhoneNumber={!info.currentFriend.phone}
                       />
                       {receipt.debts.every((debt) => debt.paid === true) ? (
                         <button
