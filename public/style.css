@@ -1,3 +1,71 @@
+#edit-receipt-parent {
+  display: flex;
+  flex-direction: column;
+  border: solid black;
+  margin: 5vw;
+  height: 95%;
+  width: 90vw;
+}
+
+#edit-receipt-top-panel {
+  border: solid 2px red;
+  /* background-color: #3f51b5; */
+}
+
+#editReceipt-previewImage {
+  display: flex;
+  border: solid 1px green;
+  /* background-color: white; */
+  margin: 25px;
+  padding: 10px;
+  justify-content: flex-end;
+}
+
+#edit-receipt-middle-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#add-item-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#item-div {
+  width: 90%;
+}
+
+#input-div {
+  display: flex;
+  border: solid 1px orange;
+  flex-wrap: wrap;
+  margin: 25px;
+  /* background-color: white; */
+  /* padding: 10px; */
+}
+
+.grid-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#edit-receipt-bottom-panel {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border: solid 1px teal;
+  padding: 2vh 5vw;
+}
+
+#friend-div {
+  display: flex;
+  flex-direction: column;
+  border: solid 1px green;
+}
+
 .list-heading {
   color: white;
   background-color: rgb(73, 164, 248);
@@ -47,10 +115,15 @@
 #misc-form {
   display: flex;
   flex-direction: column;
+  border: solid 2px brown;
+}
+
+#split-toggle p {
+  padding: 5px;
 }
 
 #successful-submit {
-  margin: auto;
+  padding: auto;
 }
 
 .userinfo-form {
@@ -97,16 +170,11 @@
   border: 0;
 } */
 
-.qty-input {
-  width: 3vw;
-}
+.qty-input,
 .PPI-input,
-.totalprice-input {
-  width: 6vw;
-}
-
+.totalprice-input,
 .description-input {
-  width: 25vw;
+  width: 100%;
 }
 
 .x-item {
@@ -120,4 +188,37 @@
   border-radius: 100%;
   /* background-color: white;
   border-color: white; */
+}
+.input-event-date-add {
+  /* display: flex; */
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.input-eventAndDate {
+  display: flex;
+  flex-direction: column;
+}
+
+#event-name {
+  width: 250px;
+}
+
+#event-input {
+  width: 250px;
+}
+
+#friend-management-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  border: solid 2px orange;
+}
+
+#friends-selected-box {
+  padding: 10px;
+  border: solid 20px red;
 }

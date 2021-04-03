@@ -7,6 +7,7 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
+import { Button } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 ReactModal.setAppElement('#app');
@@ -189,8 +190,24 @@ const ReceiptHistory = () => {
                   })}
                 </p>
                 <div id='receipt-history-button-div'>
-                  <button onClick={() => setIsOpen(true)}>Preview Image</button>
-                  <button onClick={editReceipt}>Edit Receipt</button>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={() => setIsOpen(true)}
+                    size='small'
+                    name={'preview-image'}
+                  >
+                    Preview Image
+                  </Button>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={editReceipt}
+                    size='small'
+                    name={'edit-receipt'}
+                  >
+                    Edit Receipt
+                  </Button>
                 </div>
               </div>
               <ReactModal

@@ -147,11 +147,10 @@ const EditReceipt = () => {
     : 'false';
 
   return !successfulSubmit ? (
-    <div id='edit-receipt-div'>
-      <div>
+    <div id='edit-receipt-parent'>
+      <div id='edit-receipt-top-panel'>
         <div id='editReceipt-previewImage'>
           <h2>Edit Receipt</h2>
-
           <Button
             variant='contained'
             color='primary'
@@ -172,42 +171,49 @@ const EditReceipt = () => {
           </ReactModal>
         </div>
         <div id='input-div'>
-          <div className='input-eventAndDate'>
-            {hasSubmitted && !eventInput && (
-              <p style={{ color: 'red' }}>Event name cannot be empty</p>
-            )}
-            <label>Event Name:</label>
-            <input
-              type='text'
-              placeholder='Label this event here...'
-              value={eventInput}
-              onChange={(e) => setEventInput(e.target.value)}
-            />
+          <div className='input-event-date-add'>
+            <div>
+              <div className='input-eventAndDate'>
+                {hasSubmitted && !eventInput && (
+                  <p style={{ color: 'red' }}>Event name cannot be empty</p>
+                )}
+                <label>Event Name:</label>
+                <input
+                  id='event-name'
+                  type='text'
+                  placeholder='Label this event here...'
+                  value={eventInput}
+                  onChange={(e) => setEventInput(e.target.value)}
+                />
+              </div>
+              <div className='input-eventAndDate'>
+                {hasSubmitted && !dateInput && (
+                  <p style={{ color: 'red' }}>Date name cannot be empty</p>
+                )}
+                <label>Event Date:</label>
+                <input
+                  id='event-input'
+                  type='date'
+                  placeholder=''
+                  value={dateInput}
+                  onChange={(e) => setDateInput(e.target.value)}
+                />
+              </div>
+            </div>
+            <div id='add-item-div'>
+              <Button
+                variant='text'
+                color='primary'
+                onClick={addItem}
+                size='large'
+                name={'add-item'}
+              >
+                Add Item
+              </Button>
+            </div>
           </div>
-          <div className='input-eventAndDate'>
-            {hasSubmitted && !dateInput && (
-              <p style={{ color: 'red' }}>Date name cannot be empty</p>
-            )}
-            <label>Event Date:</label>
-            <input
-              type='date'
-              placeholder=''
-              value={dateInput}
-              onChange={(e) => setDateInput(e.target.value)}
-            />
-          </div>
-
-          <Button
-            variant='text'
-            color='primary'
-            onClick={addItem}
-            size='medium'
-            name={'add-item'}
-          >
-            Add Item
-          </Button>
         </div>
-        <div>
+        <div id='edit-receipt-middle-panel'>
           {receiptDataState.items && (
             <div id='item-div'>
               {receiptDataState.items.length && (
@@ -216,12 +222,14 @@ const EditReceipt = () => {
                     splitEvenly ? 'grid-header' : 'grid-header-allocate'
                   }
                 >
-                  <div>Remove</div>
-                  <div>Qty</div>
-                  <div>Description</div>
-                  <div>Price Per Item</div>
-                  <div>Item total</div>
-                  {!splitEvenly && <div>Add friends to an item</div>}
+                  <div className='grid-labels'>Remove</div>
+                  <div className='grid-labels'>Qty</div>
+                  <div className='grid-labels'>Description</div>
+                  <div className='grid-labels'>Price Per Item</div>
+                  <div className='grid-labels'>Item total</div>
+                  {!splitEvenly && (
+                    <div className='grid-labels'>Add friends to an item</div>
+                  )}
                 </div>
               )}
               {/* maps thru each indivial item */}
@@ -241,9 +249,9 @@ const EditReceipt = () => {
           )}
         </div>
       </div>
-      <div id='friend-subtotal'>
+      <div id='edit-receipt-bottom-panel'>
         <div id='friend-div'>
-          <div id='button-div'>
+          <div id='friend-management-div'>
             <Button
               variant='outlined'
               color='primary'
@@ -275,8 +283,8 @@ const EditReceipt = () => {
               Select From Friends
             </Button>
           </div>
-          <div>
-            Friends selected:{' '}
+          <div id='friends-selected-box'>
+            Friends selected:
             {pool.map((friend, index) => (
               <span>
                 {index === pool.length - 1 ? friend.name : friend.name + ', '}
@@ -317,8 +325,8 @@ const EditReceipt = () => {
           </div>
           {/* if receiptData exists show subTotal */}
           <label>Subtotal: {receiptDataState.items && subTotal}</label>
-          <label>
-            Tax:{' '}
+          <div>
+            <label>Tax: </label>
             <input
               type='number'
               min='0'
@@ -326,9 +334,10 @@ const EditReceipt = () => {
               step='0.01'
               onChange={(e) => setTax(parseFloat(e.target.value))}
             />
-          </label>
-          <label>
-            Tip:{' '}
+          </div>
+
+          <div>
+            <label>Tip: </label>
             <input
               type='number'
               min='0'
@@ -336,8 +345,10 @@ const EditReceipt = () => {
               step='0.01'
               onChange={(e) => setTip(parseFloat(e.target.value))}
             />
-          </label>
-          <label>Total: ${total.toFixed(2)}</label>
+          </div>
+          <div>
+            <label>Total: ${total.toFixed(2)}</label>
+          </div>
           <Button
             variant='contained'
             color='primary'
