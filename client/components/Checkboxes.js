@@ -9,6 +9,7 @@ export default function CheckboxLabels(props) {
     email: false,
     textMessage: false,
   });
+  const [textMessageState, setTextMessageState] = useState(true);
 
   React.useEffect(() => {
     getCheckboxContents(checkboxValues);
@@ -44,6 +45,7 @@ export default function CheckboxLabels(props) {
               onChange={handleChange}
               name='textMessage'
               color='primary'
+              disabled={textMessageState}
             />
           }
           label='Text Message'

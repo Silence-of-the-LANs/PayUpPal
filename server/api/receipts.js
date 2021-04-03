@@ -104,6 +104,7 @@ router.delete('/:id', async (req, res, next) => {
           model: Debt,
           include: {
             model: Friend,
+            order: [['name', 'ASC']],
           },
         },
       },
@@ -320,9 +321,6 @@ router.post('/submit', async (req, res, next) => {
       splitEvenly,
     } = req.body;
 
-    console.log('splitEvenly: ', splitEvenly);
-    console.log('pool: ', pool);
-
     const newReceipt = await Receipt.create({
       imageUrl,
       eventName,
@@ -387,4 +385,5 @@ router.post('/submit', async (req, res, next) => {
     next(err);
   }
 });
+
 module.exports = router;

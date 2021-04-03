@@ -9,6 +9,7 @@ const ScanReceipt = () => {
   const [fileName, setFilename] = useState('Choose File');
   const [tempImageUrl, setTempImageUrl] = useState({});
   const [isLoading, setLoading] = useState(false);
+  const [imageStaged, setImageStaged] = useState(false);
   // uploadField is ref used for click & upload
   // ref gives access to manipulate the HTML element directly
   const uploadField = React.useRef(null);
@@ -103,7 +104,6 @@ const ScanReceipt = () => {
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
-        <h6>Drag and drop an image or click to upload!</h6>
         <input
           // ref is used as a reference to manipulate dom in our functions
           id='invisible-input-div'
@@ -112,7 +112,11 @@ const ScanReceipt = () => {
           onChange={handleFileUpload}
         />
         <button id='drop-image-div' onClick={onClick}>
-          {file && <img id='image-preview' src={tempImageUrl} />}
+          {file ? (
+            <img id='image-preview' src={tempImageUrl} />
+          ) : (
+            <img id='drop-image' src='upload-image.png' />
+          )}
         </button>
       </div>
       <div id='submit-div'>
@@ -120,7 +124,7 @@ const ScanReceipt = () => {
         {isLoading && (
           <div>
             Reading receipt...{' '}
-            <img src='loading-spinner.gif' width='50vw' height='50vh' />
+            <img src='loading-spinner.gif' width='50px' height='50px' />
           </div>
         )}
       </div>
