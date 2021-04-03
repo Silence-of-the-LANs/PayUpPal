@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     backgroundColor: 'lightgray',
     padding: '1rem',
+  },
+  button: {
+    padding: '4px',
   },
 }));
 
@@ -111,12 +115,27 @@ const EditFriend = (props) => {
             An email or phone number is required
           </p>
         )}
-        <button type='submit' className='button'>
+        <Button
+          className={classes.button}
+          variant='contained'
+          type='submit'
+          color='primary'
+          size='small'
+          name={'confirm'}
+        >
           CONFIRM
-        </button>
-        <button type='button' className='button' onClick={closeEditModal}>
+        </Button>
+        <Button
+          className={classes.button}
+          variant='outlined'
+          type='submit'
+          color='primary'
+          size='small'
+          onClick={closeEditModal}
+          name={'close'}
+        >
           CANCEL
-        </button>
+        </Button>
       </form>
     </div>
   );

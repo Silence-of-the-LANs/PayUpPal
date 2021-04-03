@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'lightgray',
     padding: '1rem',
   },
+  button: {
+    // marginLeft: '8px',
+    // marginTop: '8px',
+  },
 }));
 const initialState = {
   name: '',
@@ -127,6 +131,7 @@ const AddFriend = (props) => {
           </p>
         )}
         <Button
+          className={classes.button}
           variant='contained'
           type='submit'
           color='primary'
@@ -136,7 +141,8 @@ const AddFriend = (props) => {
           ADD
         </Button>
         <Button
-          variant='contained'
+          className={classes.button}
+          variant='outlined'
           color='primary'
           onClick={closeAddModal}
           size='small'

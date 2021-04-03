@@ -2,18 +2,41 @@ import React, { useState, useEffect } from 'react';
 import bootstrap from 'bootstrap';
 import axios from 'axios';
 import { AddFriend, EditFriend, RemoveFriendPopup } from './index';
-import { Modal, Button } from '@material-ui/core';
+import {
+  Modal,
+  Typography,
+  Card,
+  CardActions,
+  CardContent,
+  Button,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
-    width: 400,
-    height: 400,
+    position: 'relative',
+    width: 'fit-content',
+    height: 'fit-content',
     backgroundColor: 'white',
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    // border: '2px solid #000',
+    // boxShadow: theme.shadows[5],
+    padding: '4px',
+  },
+  root: {
+    minWidth: 275,
+    margin: 10,
+    backgroundColor: 'ghostwhite',
+  },
+  bullet: {
+    display: 'inline-block',
+    margin: '0 2px',
+    transform: 'scale(0.8)',
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
   },
 }));
 
@@ -85,13 +108,26 @@ const ManageFriends = () => {
       <div className='friends-container'>
         {friends.length > 0 ? (
           friends.map((friend, index) => (
-            <div className='friend-box' key={friend.id}>
-              <div className='friend-info'>
-                <p>Name: {friend.name}</p>
-                <p>Email: {friend.email}</p>
-                <p>Phone: {friend.phone}</p>
-              </div>
-              <div>
+            <Card className={classes.root} key={friend.id}>
+              <CardContent>
+                <Typography
+                  className={classes.title}
+                  color='textSecondary'
+                  gutterBottom
+                >
+                  Friend
+                </Typography>
+                <Typography variant='h5' component='h2'>
+                  {friend.name}
+                </Typography>
+                <Typography className={classes.pos} color='textSecondary'>
+                  {friend.email || 'No email added'}
+                </Typography>
+                <Typography variant='body2' component='p'>
+                  Phone: {friend.phone || 'No number added'}
+                </Typography>
+              </CardContent>
+              <CardActions>
                 <Button
                   variant='contained'
                   color='primary'
@@ -112,8 +148,8 @@ const ManageFriends = () => {
                 >
                   Remove Friend
                 </Button>
-              </div>
-            </div>
+              </CardActions>
+            </Card>
           ))
         ) : (
           <div>
