@@ -98,7 +98,19 @@ const EditFriend = (props) => {
             value={friend.phone}
             onChange={dataInput}
           />
+          {!friend.email &&
+            (isNaN(friend.phone) ||
+              (friend.phone && friend.phone.length !== 10)) && (
+              <p style={{ color: 'red', fontSize: '.75rem' }}>
+                A valid phone number is required
+              </p>
+            )}
         </div>
+        {!friend.email && !friend.phone && (
+          <p style={{ color: 'red', fontSize: '.75rem' }}>
+            An email or phone number is required
+          </p>
+        )}
         <button type='submit' className='button'>
           CONFIRM
         </button>

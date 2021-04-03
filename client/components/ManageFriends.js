@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import bootstrap from 'bootstrap';
 import axios from 'axios';
 import { AddFriend, EditFriend, RemoveFriendPopup } from './index';
-import Modal from '@material-ui/core/Modal';
+import { Modal, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ManageFriends = () => {
   const [friends, setFriends] = useState([]);
+  const [openAdd, setOpenAdd] = useState(false);
   const [friendInfo, setFriendInfo] = useState({});
   const [friendToRemove, setFriendToRemove] = useState({});
   const [openEdit, setOpenEdit] = useState(false);
@@ -52,6 +53,10 @@ const ManageFriends = () => {
     setOpenRemove(false);
   };
 
+  const closeAddModal = () => {
+    setOpenAdd(false);
+  };
+
   const updateFriendList = (data) => {
     setFriends(data);
   };
@@ -63,6 +68,20 @@ const ManageFriends = () => {
 
   return (
     <div className='friends-wrapper'>
+      <div id='manage-friends-add-button'>
+        <Button
+          className='edit-receipt-friend-buttons'
+          variant='text'
+          color='primary'
+          onClick={() => {
+            setOpenAdd(true);
+          }}
+          size='large'
+          name={'add-a-friend'}
+        >
+          Add a Friend
+        </Button>
+      </div>
       <div className='friends-container'>
         {friends.length > 0 ? (
           friends.map((friend, index) => (
@@ -73,22 +92,26 @@ const ManageFriends = () => {
                 <p>Phone: {friend.phone}</p>
               </div>
               <div>
-                <button
-                  type='button'
-                  className='button'
+                <Button
+                  variant='contained'
+                  color='primary'
                   onClick={() => {
                     handleClick(friend);
                   }}
+                  size='small'
+                  name={'edit-friend'}
                 >
                   Edit Friend
-                </button>
-                <button
-                  className='button'
-                  disabled={friend.name === 'Myself'}
+                </Button>
+                <Button
+                  variant='outlined'
+                  color='secondary'
                   onClick={() => handleRemoveFriend(friend)}
+                  size='small'
+                  name={'remove-friend'}
                 >
                   Remove Friend
-                </button>
+                </Button>
               </div>
             </div>
           ))
@@ -98,7 +121,19 @@ const ManageFriends = () => {
           </div>
         )}
       </div>
-      <AddFriend currentFriends={friends} addToFriends={setFriends} />{' '}
+      <Modal
+        className={classes.paper}
+        open={openAdd}
+        onClose={() => setOpenAdd(false)}
+        aria-labelledby='Add a friend'
+        aria-describedby='Add a friend to your friend list'
+      >
+        <AddFriend
+          closeAddModal={closeAddModal}
+          currentFriends={friends}
+          addToFriends={setFriends}
+        />
+      </Modal>
       <Modal
         className={classes.paper}
         open={openEdit}

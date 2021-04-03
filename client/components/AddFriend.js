@@ -3,6 +3,7 @@ import axios from 'axios';
 import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -11,29 +12,32 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem',
   },
 }));
-
 const initialState = {
   name: '',
   email: '',
   phone: '',
 };
-
 const AddFriend = (props) => {
   const classes = useStyles();
   const { closeAddModal } = props;
   const [friend, setFriend] = useState(initialState);
   const [hasSubmitted, setHasSubmitted] = useState(false);
-
   const dataInput = (event) => {
     setFriend({ ...friend, [event.target.name]: event.target.value });
+  };
+
+  const changeHasSubmittedTrue = () => {
+    setHasSubmitted(true);
+  };
+
+  const changeHasSubmittedFalse = () => {
+    setHasSubmitted(false);
   };
 
   const submitFriendInfo = async (event) => {
     event.preventDefault();
     try {
-      setHasSubmitted(true);
-
-      if (hasSubmitted) {
+      if (friend.email || friend.phone) {
         const { data } = await axios.post('api/friends/addFriend', friend);
 
         store.addNotification({
@@ -49,12 +53,12 @@ const AddFriend = (props) => {
             onScreen: true,
           },
         });
-
         if (props.addToFriends) {
           props.addToFriends(data);
         }
 
         setFriend(initialState);
+        changeHasSubmittedFalse();
       }
     } catch (err) {
       console.log(err);
@@ -63,7 +67,13 @@ const AddFriend = (props) => {
 
   return (
     <div className={classes.root}>
-      <form className='form-inline' onSubmit={submitFriendInfo}>
+      <form
+        className='form-inline'
+        onSubmit={(event) => {
+          changeHasSubmittedTrue();
+          submitFriendInfo(event);
+        }}
+      >
         <div className='form-group mr-2'>
           <label className='sr-only' htmlFor='inputName'>
             Name
@@ -116,19 +126,26 @@ const AddFriend = (props) => {
             An email or phone number is required
           </p>
         )}
-        <button type='submit' className='button'>
+        <Button
+          variant='contained'
+          type='submit'
+          color='primary'
+          size='small'
+          name={'add'}
+        >
           ADD
-        </button>
-        {closeAddModal ? (
-          <button type='button' className='button' onClick={closeAddModal}>
-            CLOSE
-          </button>
-        ) : (
-          ''
-        )}
+        </Button>
+        <Button
+          variant='contained'
+          color='primary'
+          onClick={closeAddModal}
+          size='small'
+          name={'close'}
+        >
+          CLOSE
+        </Button>
       </form>
     </div>
   );
 };
-
 export default AddFriend;
