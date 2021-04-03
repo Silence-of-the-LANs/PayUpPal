@@ -7,9 +7,10 @@ import FriendList from './SelectFriends';
 import axios from 'axios';
 import { useHistory } from 'react-router';
 import Modal from '@material-ui/core/Modal';
-import { Switch } from '@material-ui/core';
+import { Switch, Button } from '@material-ui/core';
 
 ReactModal.setAppElement('#app');
+
 const EditReceipt = () => {
   const history = useHistory();
   // grab receiptData from store
@@ -146,11 +147,19 @@ const EditReceipt = () => {
     : 'false';
 
   return !successfulSubmit ? (
-    <div id='edit-receipt-div'>
-      <div>
+    <div id='edit-receipt-parent'>
+      <div id='edit-receipt-top-panel'>
         <div id='editReceipt-previewImage'>
           <h2>Edit Receipt</h2>
-          <button onClick={() => setIsOpen(true)}>Preview Image</button>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={() => setIsOpen(true)}
+            size='small'
+            name={'preview-image'}
+          >
+            Preview image
+          </Button>
           <ReactModal
             isOpen={modalIsOpen}
             onRequestClose={() => setIsOpen(false)}
@@ -162,49 +171,66 @@ const EditReceipt = () => {
           </ReactModal>
         </div>
         <div id='input-div'>
-          <div className='input-eventAndDate'>
-            {hasSubmitted && !eventInput && (
-              <p style={{ color: 'red' }}>Event name cannot be empty</p>
-            )}
-            <label>Event Name:</label>
-            <input
-              type='text'
-              placeholder='Label this event here...'
-              value={eventInput}
-              onChange={(e) => setEventInput(e.target.value)}
-            />
-          </div>
-          <div className='input-eventAndDate'>
-            {hasSubmitted && !dateInput && (
-              <p style={{ color: 'red' }}>Date name cannot be empty</p>
-            )}
-            <label>Event Date:</label>
-            <input
-              type='date'
-              placeholder=''
-              value={dateInput}
-              onChange={(e) => setDateInput(e.target.value)}
-            />
+          <div className='input-event-date-add'>
+            <div>
+              <div className='input-eventAndDate'>
+                {hasSubmitted && !eventInput && (
+                  <p style={{ color: 'red' }}>Event name cannot be empty</p>
+                )}
+                <label>Event Name:</label>
+                <input
+                  id='event-name'
+                  type='text'
+                  placeholder='Label this event here...'
+                  value={eventInput}
+                  onChange={(e) => setEventInput(e.target.value)}
+                />
+              </div>
+              <div className='input-eventAndDate'>
+                {hasSubmitted && !dateInput && (
+                  <p style={{ color: 'red' }}>Date name cannot be empty</p>
+                )}
+                <label>Event Date:</label>
+                <input
+                  id='event-input'
+                  type='date'
+                  placeholder=''
+                  value={dateInput}
+                  onChange={(e) => setDateInput(e.target.value)}
+                />
+              </div>
+            </div>
+            <div id='add-item-div'>
+              <Button
+                className='edit-receipt-friend-buttons'
+                variant='contained'
+                color='secondary'
+                onClick={addItem}
+                size='large'
+                name={'add-item'}
+              >
+                Add Item
+              </Button>
+            </div>
           </div>
         </div>
-        <button id='add-item' type='button' onClick={addItem}>
-          Add Item
-        </button>
-        <div id='item-div'>
+        <div id='edit-receipt-middle-panel'>
           {receiptDataState.items && (
-            <div>
-              {receiptDataState.items.length && (
+            <div id='item-div'>
+              {receiptDataState.items.length && window.innerWidth > 550 && (
                 <div
                   className={
                     splitEvenly ? 'grid-header' : 'grid-header-allocate'
                   }
                 >
-                  <div></div>
-                  <div>Qty</div>
-                  <div>Description</div>
-                  <div>Price Per Item</div>
-                  <div>Item total</div>
-                  {!splitEvenly && <div>Add friends to an item</div>}
+                  <div className='grid-labels'>Remove</div>
+                  <div className='grid-labels'>Qty</div>
+                  <div className='grid-labels'>Description</div>
+                  <div className='grid-labels'>Price Per Item</div>
+                  <div className='grid-labels'>Item total</div>
+                  {!splitEvenly && (
+                    <div className='grid-labels'>Assign friends to an item</div>
+                  )}
                 </div>
               )}
               {/* maps thru each indivial item */}
@@ -225,17 +251,21 @@ const EditReceipt = () => {
           )}
         </div>
       </div>
-      <div id='friend-subtotal'>
+      <div id='edit-receipt-bottom-panel'>
         <div id='friend-div'>
-          <div id='button-div'>
-            <button
-              type='button'
+          <div id='friend-management-div'>
+            <Button
+              className='edit-receipt-friend-buttons'
+              variant='outlined'
+              color='primary'
               onClick={() => {
                 setOpenAdd(true);
               }}
+              size='medium'
+              name={'add-friend'}
             >
-              Add Friend
-            </button>
+              Add To Friend List
+            </Button>
             <Modal
               open={openAdd}
               onClose={closeAddModal}
@@ -244,17 +274,21 @@ const EditReceipt = () => {
             >
               <AddFriend closeAddModal={closeAddModal} />
             </Modal>
-            <button
-              type='button'
+            <Button
+              variant='contained'
+              className='edit-receipt-friend-buttons'
+              color='primary'
               onClick={() => {
                 setOpenSelect(true);
               }}
+              size='medium'
+              name={'select-friend'}
             >
-              Select Friends
-            </button>
+              Select From Friends
+            </Button>
           </div>
-          <div>
-            Friends selected:{' '}
+          <div id='friends-selected-box'>
+            Friends selected:
             {pool.map((friend, index) => (
               <span>
                 {index === pool.length - 1 ? friend.name : friend.name + ', '}
@@ -294,31 +328,42 @@ const EditReceipt = () => {
             </p>
           </div>
           {/* if receiptData exists show subTotal */}
-          <label>Subtotal: {receiptDataState.items && subTotal}</label>
-          <label>
-            Tax:{' '}
-            <input
-              type='number'
-              min='0'
-              value={tax}
-              step='0.01'
-              onChange={(e) => setTax(parseFloat(e.target.value))}
-            />
-          </label>
-          <label>
-            Tip:{' '}
-            <input
-              type='number'
-              min='0'
-              value={tip}
-              step='0.01'
-              onChange={(e) => setTip(parseFloat(e.target.value))}
-            />
-          </label>
-          <label>Total: ${total.toFixed(2)}</label>
-          <button
-            type='submit'
-            className='submit-button'
+          <div className='receipt-summary'>
+            <label>
+              Subtotal: {receiptDataState.items && subTotal.toFixed(2)}
+            </label>
+            <div>
+              <label>Tax: </label>
+              <input
+                className='tax-tip'
+                type='number'
+                min='0'
+                value={tax}
+                step='0.01'
+                onChange={(e) => setTax(parseFloat(e.target.value))}
+              />
+            </div>
+            <div>
+              <div>
+                <label>Tip: </label>
+                <input
+                  className='tax-tip'
+                  type='number'
+                  min='0'
+                  value={tip}
+                  step='0.01'
+                  onChange={(e) => setTip(parseFloat(e.target.value))}
+                />
+              </div>
+              <div id='total'>
+                <label>TOTAL: ${total.toFixed(2)}</label>
+              </div>
+            </div>
+          </div>
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={submitReceipt}
             disabled={
               splitEvenly
                 ? pool.length < 1 || !receiptDataState.items
@@ -326,10 +371,9 @@ const EditReceipt = () => {
                 ? !everyItemAssigned
                 : true
             }
-            onClick={submitReceipt}
           >
-            Submit Receipt
-          </button>
+            SUBMIT
+          </Button>
         </div>
       </div>
     </div>
