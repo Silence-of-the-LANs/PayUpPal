@@ -132,9 +132,7 @@ router.post('/upload', upload, async (req, res, next) => {
     const { info } = await sharp(req.file.buffer).toBuffer({
       resolveWithObject: true,
     });
-    console.log(info);
     const pictureWidth = info.width;
-    console.log('width', pictureWidth);
     const params = {
       Bucket: AWS_BUCKET_NAME,
       Key: fileName + `.${fileType}`,
