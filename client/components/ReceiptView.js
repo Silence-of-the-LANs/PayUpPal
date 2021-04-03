@@ -4,8 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ReminderCheckboxDialog from './ReminderCheckboxDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,6 +72,55 @@ const ReceiptView = (props) => {
     setDebts(data);
   };
 
+  // For dialog window
+  const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState('');
+  const [checkboxContents, setCheckboxContents] = useState({});
+  const [reminderInfo, setReminderInfo] = useState({
+    total: '',
+    receipt: {},
+    friend: {},
+  });
+
+  const handleClickOpen = (total, receipt, friend) => {
+    // We save the info needed for the reminder to state
+    setReminderInfo({
+      total,
+      receipt,
+      friend,
+    });
+
+    // This opens the dialog window
+    setOpen(true);
+  };
+
+  // This takes in either "Cancel" or "Send" as a value and the boolean
+  // values of the checkboxes in the Checkboxes component which are contained
+  // in an object
+  const handleClose = (value, checkboxBooleans) => {
+    // This sends our reminder to the backend
+    const sendReminder = async (reminderInfo) => {
+      const { data } = await axios.get('auth/me');
+      reminderInfo.userInformation = data;
+      console.log('Your reminder info in ReceiptView is:', reminderInfo);
+      // const response = await axios.put('api/reminders/send', reminderInfo);
+    };
+
+    // This closes the dialog window
+    setOpen(false);
+    // This sets the selected value to the captured value we got from
+    // ReminderCheckboxDialog
+    setSelectedValue(value);
+    setCheckboxContents(checkboxBooleans);
+    // console.log('Your selected value is:', value);
+    console.log('Your value in ReceiptView is:', value);
+    console.log('Your checkbox contents in ReceiptView are:', checkboxBooleans);
+    reminderInfo.checkboxes = checkboxBooleans;
+    if (value === 'Send') {
+      sendReminder(reminderInfo);
+    }
+  };
+
   return loaded
     ? listOfGroups.map((receipt) => {
         return (
@@ -108,7 +159,39 @@ const ReceiptView = (props) => {
                           }
                         }, 0) / 100
                       ).toFixed(2)}{' '}
-                      <button className='button'>Send Reminder (WIP)</button>
+                      <Button
+                        variant='outlined'
+                        color='primary'
+                        onClick={() => {
+                          handleClickOpen(
+                            (
+                              friend.items.reduce((total, item) => {
+                                if (!item.debts[0].paid) {
+                                  total =
+                                    total +
+                                    item.debts[0].balance +
+                                    item.debts[0].proratedTip +
+                                    item.debts[0].proratedTax;
+                                  return total;
+                                } else {
+                                  return total;
+                                }
+                              }, 0) / 100
+                            ).toFixed(2),
+                            receipt,
+                            friend
+                          );
+                        }}
+                        size='small'
+                        name={friend.name}
+                      >
+                        Remind
+                      </Button>
+                      <ReminderCheckboxDialog
+                        open={open}
+                        onClose={handleClose}
+                        selectedValue={selectedValue}
+                      />
                       {friend.items.every((item) =>
                         item.debts.every((debt) => debt.paid === true)
                       ) ? (

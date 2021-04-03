@@ -4,45 +4,6 @@ import { useHistory } from 'react-router';
 import { ReceiptDataContext } from '../Store';
 import { store } from 'react-notifications-component';
 
-const divStyle = {
-  // width: '100vw',
-  maxWidth: '80vw',
-  height: '75vh',
-  // margin: '5em auto auto auto',
-  border: 'orange solid',
-};
-
-const headerStyle = {
-  textAlign: 'center',
-};
-
-const dragDrop = {
-  maxWidth: '80vh',
-  // width: '40vw',
-  height: '60vh',
-  margin: '0em auto 1em auto',
-  border: 'black solid',
-};
-
-const imageStyle = {
-  width: '25vw',
-  height: '95%',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-};
-
-const buttonStyle = {
-  width: '100%',
-  height: '92%',
-  background: 'white',
-  border: 'none',
-  cursor: 'pointer',
-};
-
-const submitStyle = {
-  textAlign: 'center',
-};
-
 const ScanReceipt = () => {
   const [file, setFile] = useState('');
   const [fileName, setFilename] = useState('Choose File');
@@ -134,40 +95,35 @@ const ScanReceipt = () => {
     }
   };
   return (
-    <div style={divStyle}>
-      <h2 style={headerStyle}>Scan Receipt</h2>
+    <div id='scan-receipt-div'>
+      <h2>Scan Receipt</h2>
       <div
         // ref is used as a reference to manipulate dom in our functions
-        id='drag-drop'
-        style={dragDrop}
+        id='drag-drop-div'
         onDragOver={handleDrag}
         onDrop={handleDrop}
       >
-        <h6 style={{ textAlign: 'center' }}>
-          Drag and drop an image or click to upload!
-        </h6>
+        <h6>Drag and drop an image or click to upload!</h6>
         <input
           // ref is used as a reference to manipulate dom in our functions
+          id='invisible-input-div'
           type='file'
           ref={uploadField}
-          style={{ display: 'none' }}
           onChange={handleFileUpload}
         />
-        <button style={buttonStyle} onClick={onClick}>
-          {file && (
-            <img id='image-preview' style={imageStyle} src={tempImageUrl} />
-          )}
+        <button id='drop-image-div' onClick={onClick}>
+          {file && <img id='image-preview' src={tempImageUrl} />}
         </button>
       </div>
-      <button className='button' onClick={onSubmit} style={submitStyle}>
-        Submit Image
-      </button>
-      {isLoading && (
-        <div>
-          Reading receipt...{' '}
-          <img src='loading-spinner.gif' width='50vw' height='50vh' />
-        </div>
-      )}
+      <div id='submit-div'>
+        <button onClick={onSubmit}>Submit Image</button>
+        {isLoading && (
+          <div>
+            Reading receipt...{' '}
+            <img src='loading-spinner.gif' width='50vw' height='50vh' />
+          </div>
+        )}
+      </div>
     </div>
   );
 };

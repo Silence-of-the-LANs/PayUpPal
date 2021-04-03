@@ -20,6 +20,7 @@ const ReceiptHistory = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [hasNoReceipts, setNoReceipts] = useState(false);
   const [isDeleteClicked, setDeleteClicked] = useState(false);
+  const [isPreviewClicked, setPreviewClicked] = useState(false);
   const [buttonId, setButtonId] = useState(0);
   const [deleteReceipt, setDeleteReceipt] = useState({});
   // useEffect, similar to component did mount if the second argument is empty
@@ -118,6 +119,35 @@ const ReceiptHistory = () => {
     <div id='receipthistory-div'>
       <h1>Receipt History</h1>
       <div id='receiptList-details-div'>
+        {isDeleteClicked && (
+          <ReactModal
+            isOpen={modalIsOpen}
+            id='delete-history-modal'
+            onRequestClose={() => {
+              setIsOpen(false);
+              setDeleteClicked(false);
+            }}
+          >
+            <div className='delete-history-div'>
+              <h4>
+                Are you sure you want to delete {deleteReceipt.eventName}{' '}
+                {deleteReceipt.date}
+              </h4>
+              <div>
+                <button onClick={() => confirmDeleteReceipt(deleteReceipt.id)}>
+                  Delete
+                </button>
+                <button
+                  onClick={() => {
+                    setIsOpen(false), setDeleteClicked(false);
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </ReactModal>
+        )}
         <div id='receipt-list'>
           {receipts.length && !hasNoReceipts ? (
             receipts.map((receipt, i) => {
@@ -146,26 +176,6 @@ const ReceiptHistory = () => {
                   >
                     {receipt.eventName} {receipt.date}
                   </button>
-                  {isDeleteClicked && (
-                    <ReactModal
-                      isOpen={modalIsOpen}
-                      // onAfterOpen={afterOpenModal}
-                      onRequestClose={() => setIsOpen(false)}
-                    >
-                      <div className='preview-image-div'>
-                        <h4>
-                          Are you sure you want to delete{' '}
-                          {deleteReceipt.eventName} {deleteReceipt.date}
-                        </h4>
-                        <button
-                          onClick={() => confirmDeleteReceipt(deleteReceipt.id)}
-                        >
-                          Delete
-                        </button>
-                        <button onClick={() => setIsOpen(false)}>Cancel</button>
-                      </div>
-                    </ReactModal>
-                  )}
                 </div>
               );
             })
@@ -190,6 +200,7 @@ const ReceiptHistory = () => {
                   })}
                 </p>
                 <div id='receipt-history-button-div'>
+<<<<<<< HEAD
                   <Button
                     variant='contained'
                     color='primary'
@@ -208,21 +219,43 @@ const ReceiptHistory = () => {
                   >
                     Edit Receipt
                   </Button>
+=======
+                  <button
+                    onClick={() => {
+                      setIsOpen(true);
+                      setPreviewClicked(true);
+                    }}
+                  >
+                    View Receipt
+                  </button>
+                  <button onClick={editReceipt}>Edit Receipt</button>
+>>>>>>> main
                 </div>
               </div>
-              <ReactModal
-                isOpen={modalIsOpen}
-                // onAfterOpen={afterOpenModal}
-                onRequestClose={() => setIsOpen(false)}
-              >
-                <div className='preview-image-div'>
-                  <button onClick={() => setIsOpen(false)}>Close</button>
-                  <img
-                    className='preview-image'
-                    src={selectedReceipt.imageUrl}
-                  />
-                </div>
-              </ReactModal>
+              {isPreviewClicked && (
+                <ReactModal
+                  isOpen={modalIsOpen}
+                  // onAfterOpen={afterOpenModal}
+                  onRequestClose={() => {
+                    setIsOpen(false);
+                    setPreviewClicked(false);
+                  }}
+                >
+                  <div className='preview-image-div'>
+                    <img
+                      className='preview-image'
+                      src={selectedReceipt.imageUrl}
+                    />
+                    <button
+                      onClick={() => {
+                        setIsOpen(false), setPreviewClicked(false);
+                      }}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </ReactModal>
+              )}
               <ol>
                 Items
                 {selectedReceipt.items.map((item) => {
@@ -243,6 +276,12 @@ const ReceiptHistory = () => {
                         <AccordionDetails>
                           {item.debts &&
                             item.debts.map((debt) => {
+                              console.log(
+                                item,
+                                debt.balance,
+                                debt.proratedTip,
+                                debt.proratedTax
+                              );
                               return (
                                 <Typography>
                                   {debt.friend.name} owes $
