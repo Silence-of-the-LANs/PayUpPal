@@ -120,7 +120,9 @@ const ScanReceipt = () => {
         </button>
       </div>
       <div id='submit-div'>
-        <button onClick={onSubmit}>Submit Image</button>
+        <button id='scan-submit-button' onClick={onSubmit}>
+          Submit Image
+        </button>
         {isLoading && (
           <div>
             Reading receipt...{' '}
