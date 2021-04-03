@@ -210,8 +210,10 @@ const EditReceipt = () => {
               {/* maps thru each indivial item */}
               {receiptDataState.items.length &&
                 receiptDataState.items.map((item, index) => {
+                  console.log('inside editreceipt mapping', receiptDataState);
                   return (
                     <IndividualItem
+                      key={`${item.description}-index: ${index}`}
                       item={item}
                       itemIndex={index}
                       splitEvenly={splitEvenly}
