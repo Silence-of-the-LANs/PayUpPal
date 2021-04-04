@@ -97,11 +97,12 @@ const ManageFriends = () => {
   };
 
   return (
-    <div className='friends-wrapper'>
-      <div id='manage-friends-add-button'>
+    <div id='friend-parent-container'>
+      <div id='manage-friends-add-container'>
+        <h2 className='friend-header'>FRIEND LIST</h2>
         <Button
           className='edit-receipt-friend-buttons'
-          variant='text'
+          variant='contained'
           color='primary'
           onClick={() => {
             setOpenAdd(true);
@@ -112,100 +113,102 @@ const ManageFriends = () => {
           Add a Friend
         </Button>
       </div>
-      <div className='friends-container'>
-        {friends.length > 0 ? (
-          friends.map((friend, index) => (
-            <Card className={classes.root} key={friend.id}>
-              <CardContent>
-                <Typography
-                  className={classes.title}
-                  color='textSecondary'
-                  gutterBottom
-                >
-                  Friend
-                </Typography>
-                <Typography variant='h5' component='h2'>
-                  {friend.name}
-                </Typography>
-                <Typography className={classes.pos} color='textSecondary'>
-                  {friend.email || 'No email added'}
-                </Typography>
-                <Typography variant='body2' component='p'>
-                  Phone: {friend.phone || 'No number added'}
-                </Typography>
-              </CardContent>
-              <CardActions>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={() => {
-                    handleClick(friend);
-                  }}
-                  size='small'
-                  name={'edit-friend'}
-                >
-                  Edit Friend
-                </Button>
-                <Button
-                  variant='outlined'
-                  color='secondary'
-                  onClick={() => handleRemoveFriend(friend)}
-                  size='small'
-                  name={'remove-friend'}
-                >
-                  Remove Friend
-                </Button>
-              </CardActions>
-            </Card>
-          ))
-        ) : (
-          <div>
-            <h2>Please add some friends to use this feature.. </h2>
-          </div>
-        )}
+      <div className='friends-wrapper'>
+        <div className='friends-container'>
+          {friends.length > 0 ? (
+            friends.map((friend, index) => (
+              <Card className={classes.root} key={friend.id}>
+                <CardContent>
+                  <Typography
+                    className={classes.title}
+                    color='textSecondary'
+                    gutterBottom
+                  >
+                    Friend
+                  </Typography>
+                  <Typography variant='h5' component='h2'>
+                    {friend.name}
+                  </Typography>
+                  <Typography className={classes.pos} color='textSecondary'>
+                    {friend.email || 'No email added'}
+                  </Typography>
+                  <Typography variant='body2' component='p'>
+                    Phone: {friend.phone || 'No number added'}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    onClick={() => {
+                      handleClick(friend);
+                    }}
+                    size='small'
+                    name={'edit-friend'}
+                  >
+                    Edit Friend
+                  </Button>
+                  <Button
+                    variant='outlined'
+                    color='secondary'
+                    onClick={() => handleRemoveFriend(friend)}
+                    size='small'
+                    name={'remove-friend'}
+                  >
+                    Remove Friend
+                  </Button>
+                </CardActions>
+              </Card>
+            ))
+          ) : (
+            <div>
+              <h2>Please add some friends to use this feature.. </h2>
+            </div>
+          )}
+        </div>
+        <Modal
+          className={classes.modal}
+          open={openAdd}
+          onClose={() => setOpenAdd(false)}
+          aria-labelledby='Add a friend'
+          aria-describedby='Add a friend to your friend list'
+        >
+          <AddFriend
+            className={classes.paper}
+            closeAddModal={closeAddModal}
+            currentFriends={friends}
+            addToFriends={setFriends}
+          />
+        </Modal>
+        <Modal
+          className={classes.modal}
+          open={openEdit}
+          onClose={() => setOpenEdit(false)}
+          aria-labelledby='Edit friend info'
+          aria-describedby='Edit a friend on your friend list'
+        >
+          <EditFriend
+            className={classes.paper}
+            friendInfo={friendInfo}
+            closeEditModal={closeEditModal}
+            updateFriendList={updateFriendList}
+          />
+        </Modal>
+        <Modal
+          className={classes.modal}
+          open={openRemove}
+          onClose={() => setOpenRemove(false)}
+          aria-labelledby='Remove friend'
+          aria-describedby='Remove a friend on your friend list'
+        >
+          <RemoveFriendPopup
+            className={classes.paper}
+            updateFriendList={updateFriendList}
+            closeRemoveModal={closeRemoveModal}
+            friendToRemove={friendToRemove}
+          />
+        </Modal>
       </div>
-      <Modal
-        className={classes.modal}
-        open={openAdd}
-        onClose={() => setOpenAdd(false)}
-        aria-labelledby='Add a friend'
-        aria-describedby='Add a friend to your friend list'
-      >
-        <AddFriend
-          className={classes.paper}
-          closeAddModal={closeAddModal}
-          currentFriends={friends}
-          addToFriends={setFriends}
-        />
-      </Modal>
-      <Modal
-        className={classes.modal}
-        open={openEdit}
-        onClose={() => setOpenEdit(false)}
-        aria-labelledby='Edit friend info'
-        aria-describedby='Edit a friend on your friend list'
-      >
-        <EditFriend
-          className={classes.paper}
-          friendInfo={friendInfo}
-          closeEditModal={closeEditModal}
-          updateFriendList={updateFriendList}
-        />
-      </Modal>
-      <Modal
-        className={classes.modal}
-        open={openRemove}
-        onClose={() => setOpenRemove(false)}
-        aria-labelledby='Remove friend'
-        aria-describedby='Remove a friend on your friend list'
-      >
-        <RemoveFriendPopup
-          className={classes.paper}
-          updateFriendList={updateFriendList}
-          closeRemoveModal={closeRemoveModal}
-          friendToRemove={friendToRemove}
-        />
-      </Modal>
     </div>
   );
 };

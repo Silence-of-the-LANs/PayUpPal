@@ -138,6 +138,24 @@
   background-color: rgb(73, 164, 248);
 }
 
+#manage-friends-add-container {
+  height: 100px;
+  display: flex;
+  color: white;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  border-radius: 30px 30px 0px 0px;
+  padding: 0.5em 0.5em 0em 0.5em;
+  background: linear-gradient(
+    135deg,
+    rgba(23, 155, 224, 1) 0%,
+    rgba(255, 255, 255, 0.4962359943977591) 100%
+  );
+}
+
 .item-header {
   display: table-header-group;
 }
@@ -150,11 +168,13 @@
 .friends-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 2vw;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
 }
 
 .friends-container {
-  margin: 5vw;
+  margin: 2vw 2vw 2vw 2vw;
   display: flex;
   flex-wrap: wrap;
 }
@@ -222,7 +242,7 @@
 }
 
 .edit-receipt-friend-buttons {
-  margin-left: 5vw;
+  margin: 0.5rem 0;
 }
 
 .qty-input,
@@ -276,11 +296,9 @@
   margin-left: 0.5rem;
   max-width: fit-content;
   max-height: max-content;
-  /* border: none; */
   border-radius: 100%;
-  /* background-color: white;
-  border-color: white; */
 }
+
 .input-event-date-add {
   /* display: flex; */
   flex-wrap: wrap;
@@ -413,20 +431,17 @@
 
 .debt-header {
   display: flex;
+  border-radius: 30px 30px 0px 0px;
   height: 100px;
   padding-bottom: 10px;
   justify-content: center;
   align-items: center;
-  font-size: 2em;
-  font-weight: bolder;
-  border-radius: 20px 20px 0px 0px;
-  padding: 0.5em 0.5em 0em 0.5em;
-  background: rgb(23, 155, 224);
   background: linear-gradient(
     135deg,
     rgba(23, 155, 224, 1) 0%,
     rgba(255, 255, 255, 0.4962359943977591) 100%
   );
+  color: white;
 }
 
 .indented {
@@ -459,4 +474,22 @@
   font-size: 1rem;
   font-weight: lighter;
   color: black;
+}
+
+#friend-parent-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5vw;
+  flex-direction: column;
+  font-size: 2em;
+  font-weight: bolder;
+  border-radius: 40px;
+  border: 9px solid #179be0;
+  background-color: ghostwhite;
+  box-shadow: 4px 4px 12px 4px #000000;
+}
+
+.friend-header {
+  margin-left: 4vw;
 }
