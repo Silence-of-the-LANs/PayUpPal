@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   border: solid black;
+  /* background-color: white; */
   margin: 5vw;
   height: 95%;
   width: 90vw;
@@ -118,7 +119,7 @@
 }
 
 #manage-friends-add-button {
-  border: solid 1px green
+  border: solid 1px green;
 }
 
 .friends-wrapper {
@@ -336,7 +337,7 @@
     display: grid;
     grid-template-columns: 1fr;
   }
-
+}
 @media screen and (max-width: 550px) {
   .grid-item,
   .grid-header {
@@ -348,4 +349,9 @@
 .makeStyles-root-21 {
   margin: 20em auto 0 auto;
   width: 250px;
+}
+
+.bgImage {
+  /* background-color:#c00303 */
+  background-image: url('bg.jpeg');
 }
