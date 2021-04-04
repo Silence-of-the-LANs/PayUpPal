@@ -1,8 +1,8 @@
 #edit-receipt-parent {
   display: flex;
   flex-direction: column;
-    border: solid 1px black;
-    border-radius: 20px;
+  border: solid 1px black;
+  border-radius: 20px;
   margin: 5vw;
   height: 95%;
   width: 90vw;
@@ -17,19 +17,20 @@
   display: flex;
   /* border: solid 1px green; */
   /* background-color: white; */
-padding: 0.6em 0 0 1.4em;
-border-bottom: 1px solid black;
-    background: linear-gradient(
-135deg
-, rgba(23, 155, 224, 1) 0%, rgba(255, 255, 255, 0.4962359943977591) 100% );
-    border-radius: 20px 20px 0px 0px;
-
+  padding: 0.6em 0 0 1.4em;
+  border-bottom: 1px solid black;
+  background: linear-gradient(
+    135deg,
+    rgba(23, 155, 224, 1) 0%,
+    rgba(255, 255, 255, 0.4962359943977591) 100%
+  );
+  border-radius: 20px 20px 0px 0px;
 }
 
 #editReceipt-header p {
-  font-size:2em;
+  font-size: 2em;
   font-weight: bolder;
-  color:white
+  color: white;
 }
 
 #edit-receipt-middle-panel {
@@ -88,10 +89,10 @@ border-bottom: 1px solid black;
 }
 
 #submit-receipt-button {
-    width: auto;
-    max-width: 95%;
-    /* margin-bottom: .3em; */
-    align-self: center;
+  width: auto;
+  max-width: 95%;
+  /* margin-bottom: .3em; */
+  align-self: center;
 }
 
 #total {
@@ -112,29 +113,47 @@ border-bottom: 1px solid black;
 }
 
 #edit-receipt-bottom-panel {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    border-top: solid 1px black;
-    /* padding: 2vh 5vw; */
-    background: aliceblue;
-    border-radius: 0px 0px 20px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  border-top: solid 1px black;
+  /* padding: 2vh 5vw; */
+  background: aliceblue;
+  border-radius: 0px 0px 20px 20px;
 }
 
 #friend-div {
-     display: flex;
-    flex-direction: column;
-    /* background-color: #daddff; */
-    border-right: solid 1px black;
-    width: 521px;
-    padding: 1em 2.5em 0 2.5em;
-    margin-right: 3em;
-    flex-grow: 1.5;
+  display: flex;
+  flex-direction: column;
+  /* background-color: #daddff; */
+  border-right: solid 1px black;
+  width: 521px;
+  padding: 1em 2.5em 0 2.5em;
+  margin-right: 3em;
+  flex-grow: 1.5;
 }
 
 .list-heading {
   color: white;
   background-color: rgb(73, 164, 248);
+}
+
+#manage-friends-add-container {
+  height: 100px;
+  display: flex;
+  color: white;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10vw;
+  padding-right: 10vw;
+  border-radius: 30px 30px 0px 0px;
+  padding: 0.5em 0.5em 0em 0.5em;
+  background: linear-gradient(
+    135deg,
+    rgba(23, 155, 224, 1) 0%,
+    rgba(255, 255, 255, 0.4962359943977591) 100%
+  );
 }
 
 .item-header {
@@ -143,22 +162,19 @@ border-bottom: 1px solid black;
 
 .paid {
   text-decoration: line-through;
-  text-decoration-style: double;
   color: lightgray;
-}
-
-#manage-friends-add-button {
-  border: solid 1px green;
 }
 
 .friends-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 2vw;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
 }
 
 .friends-container {
-  margin: 5vw;
+  margin: 2vw 2vw 2vw 2vw;
   display: flex;
   flex-wrap: wrap;
 }
@@ -184,13 +200,13 @@ border-bottom: 1px solid black;
 }
 
 #misc-form {
-    display: flex;
-    flex-direction: column;
-    margin: 1em 7em 1em 5em;
-    /* border: solid 2px brown; */
-    background: #efefff;
-    border: 1px solid;
-    border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 1em 7em 1em 5em;
+  /* border: solid 2px brown; */
+  background: #efefff;
+  border: 1px solid;
+  border-radius: 20px;
 }
 
 #split-toggle p {
@@ -226,7 +242,7 @@ border-bottom: 1px solid black;
 }
 
 .edit-receipt-friend-buttons {
-  margin: 10px;
+  margin: 0.5rem 0;
 }
 
 .qty-input,
@@ -280,11 +296,9 @@ border-bottom: 1px solid black;
   margin-left: 0.5rem;
   max-width: fit-content;
   max-height: max-content;
-  /* border: none; */
   border-radius: 100%;
-  /* background-color: white;
-  border-color: white; */
 }
+
 .input-event-date-add {
   /* display: flex; */
   flex-wrap: wrap;
@@ -299,10 +313,12 @@ border-bottom: 1px solid black;
   flex-direction: column;
 }
 
-#edit-receipt-parent label, .grid-item label, .grid-item-allocate label, .grid-labels {
+#edit-receipt-parent label,
+.grid-item label,
+.grid-item-allocate label,
+.grid-labels {
   color: #179be0;
 }
-
 
 #event-name {
   width: 250px;
@@ -320,8 +336,8 @@ border-bottom: 1px solid black;
 }
 
 #friends-selected-box {
-    padding: 10px;
-    border: solid 15px #bdc2ff;
+  padding: 10px;
+  border: solid 15px #bdc2ff;
 }
 
 #editReceipt-previewImage {
@@ -399,19 +415,129 @@ border-bottom: 1px solid black;
 }
 
 #debt-info-container {
-  padding: 25px;
-  margin: 3em auto 0 auto;
-  border: 9px solid #179be0;
-  border-radius: 40px;
-  background-color: ghostwhite;
-  box-shadow: 4px 4px 12px 4px #000000;
+  padding: 10px 25px;
   display: flex;
   flex-direction: column;
 }
 
+#debt-parent-wrapper {
+  border: 9px solid #179be0;
+  border-radius: 40px;
+  background-color: ghostwhite;
+  box-shadow: 4px 4px 12px 4px #000000;
+  color: white;
+  width: 90vw;
+}
+
 .debt-header {
+  display: flex;
+  border-radius: 30px 30px 0px 0px;
+  height: 100px;
+  padding-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(23, 155, 224, 1) 0%,
+    rgba(255, 255, 255, 0.4962359943977591) 100%
+  );
+  color: white;
+}
+
+.indented {
+  padding-left: 2rem;
+}
+
+.MuiAccordionSummary-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.total-labels {
+  font-size: 1.5rem;
+  /* color: #f5005691; */
+  color: #179be0;
+}
+
+.dollar-labels {
+  font-size: 1.5rem;
+  color: black;
+}
+
+.event-labels {
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  color: #179be0;
+}
+
+.inner-labels {
+  font-size: 1.3rem;
+  text-transform: capitalize;
+  color: black;
+}
+
+.listed-item {
+  font-size: 1rem;
+  /* font-weight: lighter; */
+  color: black;
+}
+
+.receipt-history-button-text {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.1rem;
+}
+
+.gray-text {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.1rem;
+}
+
+.gray-text-small {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+#friend-parent-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin: 5vw;
+  flex-direction: column;
+  font-size: 2em;
+  font-weight: bolder;
+  border-radius: 40px;
+  border: 9px solid #179be0;
+  background-color: ghostwhite;
+  box-shadow: 4px 4px 12px 4px #000000;
+}
+
+.friend-header {
+  margin-left: 4vw;
+}
+
+.delete-event-button-div {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 5px;
+}
+
+.delete-event-button {
+  margin-left: 5px;
+}
+
+.not-selected,
+.preview-image-div button,
+.x-button-receipt-history {
+  display: inline-block;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: #179be0;
+  border-radius: 4px;
+  background-color: white;
+  transition: all 0.2s;
+  border: 1px solid rgba(63, 81, 181, 0.5);
+  font-size: 13.5px;
+}
+
+.x-button-receipt-history {
+  border: none;
 }

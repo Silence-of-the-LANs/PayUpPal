@@ -13,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
     padding: '1rem',
     width: 'fit-content',
     height: 'fit-content',
+    border: '1px solid #CCCCCC',
+    borderRadius: '4px',
   },
   buttons: {
     marginTop: '5px',
