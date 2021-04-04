@@ -254,18 +254,20 @@ const EditReceipt = () => {
       <div id='edit-receipt-bottom-panel'>
         <div id='friend-div'>
           <div id='friend-management-div'>
-            <Button
-              className='edit-receipt-friend-buttons'
-              variant='outlined'
-              color='primary'
-              onClick={() => {
-                setOpenAdd(true);
-              }}
-              size='medium'
-              name={'add-friend'}
-            >
-              Add To Friend List
-            </Button>
+            <div id='add-friend-button'>
+              <Button
+                className='edit-receipt-friend-buttons'
+                variant='outlined'
+                color='primary'
+                onClick={() => {
+                  setOpenAdd(true);
+                }}
+                size='medium'
+                name={'add-friend'}
+              >
+                Add To Friend List
+              </Button>
+            </div>
             <Modal
               open={openAdd}
               onClose={closeAddModal}

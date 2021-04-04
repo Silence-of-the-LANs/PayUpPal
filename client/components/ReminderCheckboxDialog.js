@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ReminderCheckboxDialog(props) {
   const classes = useStyles();
-  const { onClose, selectedValue, open } = props;
+  const { onClose, selectedValue, open, requesteePhoneNumber } = props;
   const [sendButtonActivity, setSendButtonActivity] = useState(false);
   const [checkboxContents, setCheckboxContents] = useState({});
 
@@ -47,7 +47,6 @@ export default function ReminderCheckboxDialog(props) {
     // This results in the value being passed back to the FriendView
     // component where we set selectedValue to that value
     // setSendButtonActivity(true);
-    console.log('This hit!');
     onClose(value, checkboxContents);
   };
 
@@ -65,7 +64,10 @@ export default function ReminderCheckboxDialog(props) {
           Please select the method(s) of delivery for the reminder.
         </DialogContentText>
         {/* We send the getCheckboxContents function as a prop */}
-        <CheckBoxLabels getCheckboxContents={getCheckboxContents} />
+        <CheckBoxLabels
+          getCheckboxContents={getCheckboxContents}
+          requesteePhoneNumber={requesteePhoneNumber}
+        />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => handleButtonClick('Cancel')} color='primary'>

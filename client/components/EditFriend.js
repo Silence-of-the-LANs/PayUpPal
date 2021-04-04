@@ -2,12 +2,21 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
+    top: '20%',
     display: 'flex',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'ghostwhite',
     padding: '1rem',
+    width: 'fit-content',
+    height: 'fit-content',
+  },
+  buttons: {
+    marginTop: '5px',
+    marginRight: '5px',
   },
 }));
 
@@ -98,13 +107,40 @@ const EditFriend = (props) => {
             value={friend.phone}
             onChange={dataInput}
           />
+          {!friend.email &&
+            (isNaN(friend.phone) ||
+              (friend.phone && friend.phone.length !== 10)) && (
+              <p style={{ color: 'red', fontSize: '.75rem' }}>
+                A valid phone number is required
+              </p>
+            )}
         </div>
-        <button type='submit' className='button'>
+        {!friend.email && !friend.phone && (
+          <p style={{ color: 'red', fontSize: '.75rem' }}>
+            An email or phone number is required
+          </p>
+        )}
+        <Button
+          className={classes.buttons}
+          variant='contained'
+          type='submit'
+          color='primary'
+          size='small'
+          name={'confirm'}
+        >
           CONFIRM
-        </button>
-        <button type='button' className='button' onClick={closeEditModal}>
+        </Button>
+        <Button
+          className={classes.buttons}
+          variant='outlined'
+          type='submit'
+          color='primary'
+          size='small'
+          onClick={closeEditModal}
+          name={'close'}
+        >
           CANCEL
-        </button>
+        </Button>
       </form>
     </div>
   );

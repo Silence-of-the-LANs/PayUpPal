@@ -2,12 +2,26 @@ import React from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    position: 'absolute',
+    top: '40%',
     display: 'flex',
-    backgroundColor: 'lightgray',
+    backgroundColor: 'ghostwhite',
     padding: '1rem',
+    flexDirection: 'column',
+    width: 'fit-content',
+    height: 'fit-content',
+  },
+  removeButtons: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+  },
+  buttons: {
+    marginLeft: '5px',
   },
 }));
 
@@ -37,21 +51,33 @@ const RemoveFriendPopup = (props) => {
     updateFunc(data);
   };
   return (
-    <div>
-      Are you sure you want to remove this friend?
-      <button type='button' className='button' onClick={closeRemoveModal}>
-        Cancel
-      </button>
-      <button
-        type='button'
-        className='button'
-        onClick={closeRemoveModal}
-        onClick={() =>
-          removeSelectedFriend(friendToRemove.id, updateFriendList)
-        }
-      >
-        Confirm
-      </button>
+    <div className={classes.root}>
+      <div>Are you sure you want to remove this friend?</div>
+      <div className={classes.removeButtons}>
+        <Button
+          className={classes.buttons}
+          variant='outlined'
+          color='primary'
+          onClick={closeRemoveModal}
+          size='small'
+          name={'cancel-remove-friend'}
+        >
+          CANCEL
+        </Button>
+        <Button
+          className={classes.buttons}
+          variant='contained'
+          color='secondary'
+          onClick={closeRemoveModal}
+          onClick={() =>
+            removeSelectedFriend(friendToRemove.id, updateFriendList)
+          }
+          size='small'
+          name={'confirm-remove-friend'}
+        >
+          CONFIRM
+        </Button>
+      </div>
     </div>
   );
 };
