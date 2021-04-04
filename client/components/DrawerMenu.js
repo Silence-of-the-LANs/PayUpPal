@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../Store';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,11 +26,11 @@ const useStyles = makeStyles({
 
 export default function DrawerMenu() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     left: false,
   });
   const [user, setUser] = useContext(UserContext);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = useState();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);

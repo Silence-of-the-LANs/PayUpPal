@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  title: {
+    fontSize: 14,
+  },
 }));
 
 const FriendView = (props) => {
@@ -129,6 +132,7 @@ const FriendView = (props) => {
                         {receipt.eventName} - Total Owed: ${' '}
                         {(calcTotalOwed(receipt.debts) / 100).toFixed(2)}
                       </span>{' '}
+                      {<br />}
                       <Button
                         variant='outlined'
                         color='primary'
@@ -165,7 +169,7 @@ const FriendView = (props) => {
                           size='small'
                           name={'mark-as-unpaid'}
                         >
-                          Mark as Unpaid
+                          Mark Unpaid
                         </Button>
                       ) : (
                         <Button

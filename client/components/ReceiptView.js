@@ -156,6 +156,7 @@ const ReceiptView = (props) => {
                           }
                         }, 0) / 100
                       ).toFixed(2)}{' '}
+                      {<br />}
                       <Button
                         variant='outlined'
                         color='primary'
@@ -206,7 +207,7 @@ const ReceiptView = (props) => {
                           size='small'
                           name={'mark-as-unpaid'}
                         >
-                          Mark as Unpaid
+                          Mark Unpaid
                         </Button>
                       ) : (
                         <Button
