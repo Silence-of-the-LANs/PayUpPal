@@ -545,4 +545,5 @@
 .bgImage {
   /* background-color:#c00303 */
   background-image: url('bg.jpeg');
+  height: 500px;
 }
