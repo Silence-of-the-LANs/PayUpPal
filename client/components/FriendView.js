@@ -107,9 +107,9 @@ const FriendView = (props) => {
                 <span className='event-labels'>{info.currentFriend.name}</span>
               </Typography>
               <Typography>
-                <span className='total-labels'>
-                  {' '}
-                  Total Owed: $
+                <span className='total-labels'> Total Owed:</span>{' '}
+                <span className='dollar-labels'>
+                  $
                   {(
                     info.receipts.reduce((total, receipt) => {
                       total += calcTotalOwed(receipt.debts);
@@ -135,9 +135,14 @@ const FriendView = (props) => {
                             : ''
                         }`}
                       >
-                        {receipt.eventName} - Total Owed: ${' '}
+                        {receipt.eventName}
+                      </span>
+                      {<br />}
+                      <span className='gray-text'>
+                        Total: $
                         {(calcTotalOwed(receipt.debts) / 100).toFixed(2)}
-                      </span>{' '}
+                      </span>
+
                       {<br />}
                       <Button
                         variant='outlined'

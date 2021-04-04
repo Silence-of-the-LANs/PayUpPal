@@ -450,30 +450,42 @@
 
 .MuiAccordionSummary-content {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .total-labels {
   font-size: 1.5rem;
-  color: #f5005691;
+  /* color: #f5005691; */
+  color: #179be0;
+}
+
+.dollar-labels {
+  font-size: 1.5rem;
+  color: black;
 }
 
 .event-labels {
   font-size: 1.5rem;
-  text-transform: uppercase;
+  text-transform: capitalize;
   color: #179be0;
 }
 
 .inner-labels {
-  font-size: 1rem;
-  text-transform: uppercase;
+  font-size: 1.3rem;
+  text-transform: capitalize;
   color: black;
 }
 
 .listed-item {
   font-size: 1rem;
-  font-weight: lighter;
+  /* font-weight: lighter; */
   color: black;
+}
+
+.gray-text {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.1rem;
 }
 
 #friend-parent-container {

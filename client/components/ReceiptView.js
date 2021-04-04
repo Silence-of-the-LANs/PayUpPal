@@ -13,11 +13,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '50%',
   },
-  // content: {
-  //   display: 'flex',
-  //   flexWrap: 'wrap',
-  //   justifyContent: 'space-between',
-  // },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -144,8 +139,9 @@ const ReceiptView = (props) => {
                 </span>
               </Typography>
               <Typography className={classes.heading}>
-                <span className='total-labels'>
-                  Total Owed: ${calcEventTotal(receipt).toFixed(2)}
+                <span className='total-labels'>Total Owed:</span>{' '}
+                <span className='dollar-labels'>
+                  ${calcEventTotal(receipt).toFixed(2)}
                 </span>
               </Typography>
             </AccordionSummary>
@@ -159,7 +155,11 @@ const ReceiptView = (props) => {
                   >
                     <Typography className={classes.heading}>
                       <span className='inner-labels'>
-                        {friend.name}'s Total: $
+                        {friend.name}
+                        {<br />}
+                      </span>
+                      <span className='gray-text'>
+                        Total: $
                         {(
                           friend.items.reduce((total, item) => {
                             if (!item.debts[0].paid) {
@@ -175,6 +175,7 @@ const ReceiptView = (props) => {
                           }, 0) / 100
                         ).toFixed(2)}{' '}
                       </span>
+
                       {<br />}
                       {<br />}
                       <Button

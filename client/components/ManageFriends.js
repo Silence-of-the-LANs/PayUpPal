@@ -99,7 +99,7 @@ const ManageFriends = () => {
   return (
     <div id='friend-parent-container'>
       <div id='manage-friends-add-container'>
-        <h2 className='friend-header'>FRIEND LIST</h2>
+        <h2 className='friend-header'>Friends List</h2>
         <Button
           className='edit-receipt-friend-buttons'
           variant='contained'
