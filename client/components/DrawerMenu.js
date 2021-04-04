@@ -82,7 +82,7 @@ export default function DrawerMenu() {
           <div
             style={{
               color: 'white',
-              backgroundColor: '#3f51b5',
+              backgroundColor: '#179be0',
               padding: '25px 25px 10px 25px',
             }}
           >
@@ -101,7 +101,7 @@ export default function DrawerMenu() {
               <NavLink
                 style={{
                   textDecoration: 'none',
-                  color: '#3f51b5',
+                  color: '#179be0;',
                 }}
                 activeStyle={{ fill: 'red' }}
                 key={listItemObj.text}
