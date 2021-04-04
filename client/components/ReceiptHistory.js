@@ -229,13 +229,17 @@ const ReceiptHistory = () => {
                       src={selectedReceipt.imageUrl || 'no-image.png'}
                       alt='Receipt not uploaded'
                     />
-                    <button
+                    <Button
+                      className='close-preview'
+                      variant='contained'
+                      color='secondary'
+                      size='small'
                       onClick={() => {
                         setIsOpen(false), setPreviewClicked(false);
                       }}
                     >
-                      Close
-                    </button>
+                      CLOSE
+                    </Button>
                   </div>
                 </ReactModal>
               )}
