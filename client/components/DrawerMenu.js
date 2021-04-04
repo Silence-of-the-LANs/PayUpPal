@@ -9,11 +9,11 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
   list: {
-    width: 250,
+    width: 225,
   },
   fullList: {
     width: 'auto',
@@ -30,6 +30,11 @@ export default function DrawerMenu() {
     left: false,
   });
   const [user, setUser] = useContext(UserContext);
+  const [selectedIndex, setSelectedIndex] = React.useState(1);
+
+  const handleListItemClick = (event, index) => {
+    setSelectedIndex(index);
+  };
 
   const toggleDrawer = (anchor, open) => (event) => {
     if (
@@ -56,17 +61,33 @@ export default function DrawerMenu() {
           <div>Welcome</div>
           <Divider />
           <List>
-            <Link className='drawer-link' key='Home' to={`/home`}>
+            <NavLink
+              style={{ textDecoration: 'none', color: '#3f51b5' }}
+              key='Home'
+              to={`/home`}
+            >
               <ListItem button>
                 <ListItemText primary='Home' />
               </ListItem>
-            </Link>
+            </NavLink>
           </List>
         </div>
       ) : (
-        <div>
-          <div>Welcome {user.email}</div>
-          <Divider />
+        <div
+          style={{
+            backgroundColor: 'ghostwhite',
+            height: '100vh',
+          }}
+        >
+          <div
+            style={{
+              color: 'white',
+              backgroundColor: '#3f51b5',
+              padding: '25px 25px 10px 25px',
+            }}
+          >
+            <p>Welcome</p> <p>{user.email}</p>
+          </div>
           <List>
             {[
               { text: 'Home', url: 'home' },
@@ -75,17 +96,27 @@ export default function DrawerMenu() {
               { text: 'Manage Debts', url: 'managedebts' },
               { text: 'Manage Friends', url: 'managefriends' },
               { text: 'Receipt History', url: 'receipthistory' },
-              { text: 'User Info', url: 'userinfo' },
+              { text: 'User Profile', url: 'userinfo' },
             ].map((listItemObj, index) => (
-              <Link
-                className='drawer-link'
+              <NavLink
+                style={{
+                  textDecoration: 'none',
+                  color: '#3f51b5',
+                }}
+                activeStyle={{ fill: 'red' }}
                 key={listItemObj.text}
                 to={`/${listItemObj.url}`}
               >
-                <ListItem button key={listItemObj.text}>
+                <ListItem
+                  selected={selectedIndex === index}
+                  onClick={(event) => handleListItemClick(event, index)}
+                  autoFocus
+                  button
+                  key={listItemObj.text}
+                >
                   <ListItemText primary={listItemObj.text} />
                 </ListItem>
-              </Link>
+              </NavLink>
             ))}
           </List>
         </div>
