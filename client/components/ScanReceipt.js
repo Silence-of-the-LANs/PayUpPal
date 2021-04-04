@@ -98,7 +98,9 @@ const ScanReceipt = () => {
   };
   return (
     <div id='scan-receipt-div'>
-      <h2>Scan Receipt</h2>
+      <div id='scan-receipt-header'>
+        <h2>Scan Receipt</h2>
+      </div>
       <div
         // ref is used as a reference to manipulate dom in our functions
         id='drag-drop-div'
