@@ -483,9 +483,18 @@
   color: black;
 }
 
+.receipt-history-button-text {
+  color: rgba(0, 0, 0, 0.54);
+  font-size: 1.1rem;
+}
+
 .gray-text {
   color: rgba(0, 0, 0, 0.54);
   font-size: 1.1rem;
+}
+
+.gray-text-small {
+  color: rgba(0, 0, 0, 0.54);
 }
 
 #friend-parent-container {
@@ -504,4 +513,31 @@
 
 .friend-header {
   margin-left: 4vw;
+}
+
+.delete-event-button-div {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 5px;
+}
+
+.delete-event-button {
+  margin-left: 5px;
+}
+
+.not-selected,
+.preview-image-div button,
+.x-button-receipt-history {
+  display: inline-block;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  color: #179be0;
+  border-radius: 4px;
+  background-color: white;
+  transition: all 0.2s;
+  border: 1px solid rgba(63, 81, 181, 0.5);
+  font-size: 13.5px;
+}
+
+.x-button-receipt-history {
+  border: none;
 }

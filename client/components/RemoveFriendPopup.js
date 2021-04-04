@@ -12,6 +12,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: 'ghostwhite',
     padding: '1rem',
     flexDirection: 'column',
+    border: '1px solid #CCCCCC',
+    borderRadius: '4px',
     width: 'fit-content',
     height: 'fit-content',
   },
