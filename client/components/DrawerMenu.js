@@ -62,7 +62,7 @@ export default function DrawerMenu() {
           <Divider />
           <List>
             <NavLink
-              style={{ textDecoration: 'none', color: '#3f51b5' }}
+              style={{ textDecoration: 'none', color: '#179be0' }}
               key='Home'
               to={`/home`}
             >

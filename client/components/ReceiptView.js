@@ -11,7 +11,12 @@ import ReminderCheckboxDialog from './ReminderCheckboxDialog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: '50%',
+  },
+  content: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -75,11 +80,16 @@ const ReceiptView = (props) => {
   const [open, setOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState('');
   const [checkboxContents, setCheckboxContents] = useState({});
+  const [expanded, setExpanded] = useState(true);
   const [reminderInfo, setReminderInfo] = useState({
     total: '',
     receipt: {},
     friend: {},
   });
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const handleClickOpen = (total, receipt, friend) => {
     // We save the info needed for the reminder to state
@@ -123,13 +133,20 @@ const ReceiptView = (props) => {
         return (
           <Accordion key={receipt.id}>
             <AccordionSummary
+              className={`test-content ${classes.content}`}
               expandIcon={<ExpandMoreIcon />}
               aria-controls='panel1a-content'
               id='panel1a-header'
             >
               <Typography className={classes.heading}>
-                Event: {receipt.eventName} Date: {receipt.date} - Total Owed: $
-                {calcEventTotal(receipt).toFixed(2)}
+                <span className='event-labels'>
+                  {receipt.eventName} {receipt.date}
+                </span>
+              </Typography>
+              <Typography className={classes.heading}>
+                <span className='total-labels'>
+                  Total Owed: ${calcEventTotal(receipt).toFixed(2)}
+                </span>
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -141,21 +158,24 @@ const ReceiptView = (props) => {
                     id='panel1a-header'
                   >
                     <Typography className={classes.heading}>
-                      {friend.name}'s' Total: $
-                      {(
-                        friend.items.reduce((total, item) => {
-                          if (!item.debts[0].paid) {
-                            total =
-                              total +
-                              item.debts[0].balance +
-                              item.debts[0].proratedTip +
-                              item.debts[0].proratedTax;
-                            return total;
-                          } else {
-                            return total;
-                          }
-                        }, 0) / 100
-                      ).toFixed(2)}{' '}
+                      <b>
+                        {friend.name}'s Total: $
+                        {(
+                          friend.items.reduce((total, item) => {
+                            if (!item.debts[0].paid) {
+                              total =
+                                total +
+                                item.debts[0].balance +
+                                item.debts[0].proratedTip +
+                                item.debts[0].proratedTax;
+                              return total;
+                            } else {
+                              return total;
+                            }
+                          }, 0) / 100
+                        ).toFixed(2)}{' '}
+                      </b>
+                      {<br />}
                       {<br />}
                       <Button
                         variant='outlined'
@@ -231,7 +251,9 @@ const ReceiptView = (props) => {
                     {friend.items.map((item) => (
                       <span
                         key={item.id}
-                        className={item.debts[0].paid ? 'paid' : ''}
+                        className={`indented ${
+                          item.debts[0].paid ? 'paid' : ''
+                        }`}
                       >
                         {item.description} - $
                         {(

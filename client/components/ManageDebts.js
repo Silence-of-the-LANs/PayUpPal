@@ -34,8 +34,11 @@ const markReceiptUnpaid = async (receiptId, friendId) => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: 'auto',
     margin: '5vw',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -88,59 +91,62 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <div id='debt-info-container'>
+      <br />
+      <div id='debt-parent-wrapper'>
         {view === 'receipt' ? (
           <h2 className='debt-header'>Receipt View</h2>
         ) : (
           <h2 className='debt-header'>Friend View</h2>
         )}
-        <div id='view-by-buttons'>
-          <Button
-            className={classes.button}
-            variant={view === 'person' ? 'contained' : 'outlined'}
-            color='primary'
-            onClick={() => changeView('person')}
-            size='small'
-            name={'view-by-person'}
-          >
-            View by Person
-          </Button>
-          <Button
-            className={classes.button}
-            variant={view === 'receipt' ? 'contained' : 'outlined'}
-            color='primary'
-            onClick={() => changeView('receipt')}
-            size='small'
-            name={'view-by-person'}
-          >
-            View by Receipt
-          </Button>
+        <div id='debt-info-container'>
+          <div id='view-by-buttons'>
+            <Button
+              className={classes.button}
+              variant={view === 'person' ? 'contained' : 'outlined'}
+              color='primary'
+              onClick={() => changeView('person')}
+              size='large'
+              name={'view-by-person'}
+            >
+              View by Person
+            </Button>
+            <Button
+              className={classes.button}
+              variant={view === 'receipt' ? 'contained' : 'outlined'}
+              color='primary'
+              onClick={() => changeView('receipt')}
+              size='large'
+              name={'view-by-person'}
+            >
+              View by Receipt
+            </Button>
+          </div>
+          {view === 'receipt' ? (
+            <ReceiptView
+              calcTotalOwed={calcTotalOwed}
+              setTotalOwed={setTotalOwed}
+              markPaid={markPaid}
+              markReceiptPaid={markReceiptPaid}
+              markReceiptUnpaid={markReceiptUnpaid}
+              total={totalOwed}
+              listOfGroups={listOfGroups}
+              setDebts={setDebts}
+            />
+          ) : (
+            <FriendView
+              calcTotalOwed={calcTotalOwed}
+              listOfGroups={listOfGroups}
+              debts={debts}
+              total={totalOwed}
+              setTotalOwed={setTotalOwed}
+              markPaid={markPaid}
+              markReceiptPaid={markReceiptPaid}
+              markReceiptUnpaid={markReceiptUnpaid}
+              setDebts={setDebts}
+              debts={debts}
+            />
+          )}
         </div>
-        {view === 'receipt' ? (
-          <ReceiptView
-            calcTotalOwed={calcTotalOwed}
-            setTotalOwed={setTotalOwed}
-            markPaid={markPaid}
-            markReceiptPaid={markReceiptPaid}
-            markReceiptUnpaid={markReceiptUnpaid}
-            total={totalOwed}
-            listOfGroups={listOfGroups}
-            setDebts={setDebts}
-          />
-        ) : (
-          <FriendView
-            calcTotalOwed={calcTotalOwed}
-            listOfGroups={listOfGroups}
-            debts={debts}
-            total={totalOwed}
-            setTotalOwed={setTotalOwed}
-            markPaid={markPaid}
-            markReceiptPaid={markReceiptPaid}
-            markReceiptUnpaid={markReceiptUnpaid}
-            setDebts={setDebts}
-            debts={debts}
-          />
-        )}
       </div>
     </div>
   );
