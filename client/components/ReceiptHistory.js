@@ -204,6 +204,7 @@ const ReceiptHistory = () => {
               </div>
               {isPreviewClicked && (
                 <ReactModal
+                  id='receipt-history-preview-img'
                   isOpen={modalIsOpen}
                   // onAfterOpen={afterOpenModal}
                   onRequestClose={() => {

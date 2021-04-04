@@ -1,9 +1,9 @@
 #scan-receipt-div {
   width: 50vw;
   margin: 3em auto 0 auto;
-  border: 9px solid #3f51b5;
-  border-radius: 40px;
-  box-shadow: 4px 4px 12px 4px #000000;
+  border: 3px solid #179be0;
+  border-radius: 20px;
+  /* box-shadow: 4px 4px 12px 4px #000000; */
 }
 
 #scan-receipt-div h2,
@@ -38,8 +38,9 @@
 }
 
 #drop-image {
-  width: px;
-  height: 65%;
+  width: 100%;
+  /* max-width: 500px;
+  height: 65%; */
 }
 
 #submit-div {
@@ -91,3 +92,29 @@
 
 /* #scan-submit-button:active {
 } */
+
+@media screen and (max-width: 550px) {
+  #scan-receipt-div {
+    width: 98%;
+    margin: 10px 2px 0 2px;
+    border: 3px solid #179be0;
+    border-radius: 20px;
+  }
+  #drag-drop-div {
+    width: 95%;
+    height: 60vh;
+    margin: 0em auto 1em auto;
+    border: black solid 1px;
+  }
+  #image-preview {
+    width: 67vw;
+    height: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #drop-image {
+    width: 100%;
+    max-width: 700px;
+    height: 50%;
+  }
+}
