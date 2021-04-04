@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import bootstrap from 'bootstrap';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FriendView from './FriendView';
 import ReceiptView from './ReceiptView';
+import { Button } from '@material-ui/core';
 
 const markPaid = async (debtId) => {
   const { data } = await axios.put(`api/debts/markPaid/${debtId}`);
@@ -92,12 +87,26 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <button className='button' onClick={() => changeView('person')}>
-        By Person
-      </button>
-      <button className='button' onClick={() => changeView('receipt')}>
-        By Receipt
-      </button>
+      <Button
+        className={classes.button}
+        variant={view === 'person' ? 'contained' : 'outlined'}
+        color='primary'
+        onClick={() => changeView('person')}
+        size='small'
+        name={'view-by-person'}
+      >
+        View by Person
+      </Button>
+      <Button
+        className={classes.button}
+        variant={view === 'receipt' ? 'contained' : 'outlined'}
+        color='primary'
+        onClick={() => changeView('receipt')}
+        size='small'
+        name={'view-by-person'}
+      >
+        View by Receipt
+      </Button>
       {view === 'receipt' ? (
         <ReceiptView
           calcTotalOwed={calcTotalOwed}
