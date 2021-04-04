@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  title: {
+    fontSize: 14,
+  },
 }));
 
 const FriendView = (props) => {
@@ -100,7 +103,7 @@ const FriendView = (props) => {
               aria-controls='panel1a-content'
               id='panel1a-header'
             >
-              <Typography className={classes.heading}>
+              <Typography>
                 {info.currentFriend.name} - $
                 {(
                   info.receipts.reduce((total, receipt) => {
@@ -129,6 +132,7 @@ const FriendView = (props) => {
                         {receipt.eventName} - Total Owed: ${' '}
                         {(calcTotalOwed(receipt.debts) / 100).toFixed(2)}
                       </span>{' '}
+                      {<br />}
                       <Button
                         variant='outlined'
                         color='primary'
@@ -151,8 +155,10 @@ const FriendView = (props) => {
                         requesteePhoneNumber={!info.currentFriend.phone}
                       />
                       {receipt.debts.every((debt) => debt.paid === true) ? (
-                        <button
-                          className='button'
+                        <Button
+                          className={classes.button}
+                          variant='contained'
+                          color='primary'
                           onClick={async () => {
                             await markReceiptUnpaid(
                               receipt.id,
@@ -160,12 +166,16 @@ const FriendView = (props) => {
                             );
                             setTotalOwed(0);
                           }}
+                          size='small'
+                          name={'mark-as-unpaid'}
                         >
-                          Mark as Unpaid
-                        </button>
+                          Mark Unpaid
+                        </Button>
                       ) : (
-                        <button
-                          className='button'
+                        <Button
+                          className={classes.button}
+                          variant='contained'
+                          color='primary'
                           onClick={async () => {
                             await markReceiptPaid(
                               receipt.id,
@@ -173,9 +183,11 @@ const FriendView = (props) => {
                             );
                             setTotalOwed(0);
                           }}
+                          size='small'
+                          name={'mark-as-paid'}
                         >
                           Mark as Paid
-                        </button>
+                        </Button>
                       )}
                     </Typography>
                   </AccordionSummary>

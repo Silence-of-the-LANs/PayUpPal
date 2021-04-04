@@ -156,6 +156,7 @@ const ReceiptView = (props) => {
                           }
                         }, 0) / 100
                       ).toFixed(2)}{' '}
+                      {<br />}
                       <Button
                         variant='outlined'
                         color='primary'
@@ -194,27 +195,35 @@ const ReceiptView = (props) => {
                       {friend.items.every((item) =>
                         item.debts.every((debt) => debt.paid === true)
                       ) ? (
-                        <button
-                          className='button'
+                        <Button
+                          className={classes.button}
+                          variant='contained'
+                          color='primary'
                           onClick={async () => {
                             await markReceiptUnpaid(receipt.id, friend.id);
                             setTotalOwed(0);
                             fetchNewdata();
                           }}
+                          size='small'
+                          name={'mark-as-unpaid'}
                         >
-                          Mark as Unpaid
-                        </button>
+                          Mark Unpaid
+                        </Button>
                       ) : (
-                        <button
-                          className='button'
+                        <Button
+                          className={classes.button}
+                          variant='contained'
+                          color='primary'
                           onClick={async () => {
                             await markReceiptPaid(receipt.id, friend.id);
                             setTotalOwed(0);
                             fetchNewdata();
                           }}
+                          size='small'
+                          name={'mark-as-unpaid'}
                         >
                           Mark as Paid
-                        </button>
+                        </Button>
                       )}
                     </Typography>
                   </AccordionSummary>
