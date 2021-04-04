@@ -1,24 +1,35 @@
 #edit-receipt-parent {
   display: flex;
   flex-direction: column;
-  border: solid black;
+    border: solid 1px black;
+    border-radius: 20px;
   margin: 5vw;
   height: 95%;
   width: 90vw;
 }
 
 #edit-receipt-top-panel {
-  border: solid 2px red;
+  /* border: solid 2px red; */
   /* background-color: #3f51b5; */
 }
 
-#editReceipt-previewImage {
+#editReceipt-header {
   display: flex;
-  border: solid 1px green;
+  /* border: solid 1px green; */
   /* background-color: white; */
-  margin: 25px;
-  padding: 10px;
-  justify-content: flex-end;
+padding: 0.6em 0 0 1.4em;
+border-bottom: 1px solid black;
+    background: linear-gradient(
+135deg
+, rgba(23, 155, 224, 1) 0%, rgba(255, 255, 255, 0.4962359943977591) 100% );
+    border-radius: 20px 20px 0px 0px;
+
+}
+
+#editReceipt-header p {
+  font-size:2em;
+  font-weight: bolder;
+  color:white
 }
 
 #edit-receipt-middle-panel {
@@ -39,11 +50,17 @@
 
 #input-div {
   display: flex;
-  border: solid 1px orange;
+  /* border: solid 1px orange; */
   flex-wrap: wrap;
-  margin: 25px;
+  /* margin: 25px; */
   /* background-color: white; */
-  /* padding: 10px; */
+  padding: 0.6em 0 0 1em;
+}
+
+#input-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .grid-content-delete {
@@ -70,6 +87,13 @@
   font-size: large;
 }
 
+#submit-receipt-button {
+    width: auto;
+    max-width: 95%;
+    /* margin-bottom: .3em; */
+    align-self: center;
+}
+
 #total {
   display: flex;
   justify-content: center;
@@ -88,18 +112,24 @@
 }
 
 #edit-receipt-bottom-panel {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  border: solid 1px teal;
-  padding: 2vh 5vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    border-top: solid 1px black;
+    /* padding: 2vh 5vw; */
+    background: aliceblue;
+    border-radius: 0px 0px 20px 20px;
 }
 
 #friend-div {
-  display: flex;
-  flex-direction: column;
-  border: solid 1px green;
-  width: 500px;
+     display: flex;
+    flex-direction: column;
+    /* background-color: #daddff; */
+    border-right: solid 1px black;
+    width: 521px;
+    padding: 1em 2.5em 0 2.5em;
+    margin-right: 3em;
+    flex-grow: 1.5;
 }
 
 .list-heading {
@@ -154,10 +184,13 @@
 }
 
 #misc-form {
-  display: flex;
-  flex-direction: column;
-  margin: 5px;
-  border: solid 2px brown;
+    display: flex;
+    flex-direction: column;
+    margin: 1em 7em 1em 5em;
+    /* border: solid 2px brown; */
+    background: #efefff;
+    border: 1px solid;
+    border-radius: 20px;
 }
 
 #split-toggle p {
@@ -266,6 +299,11 @@
   flex-direction: column;
 }
 
+#edit-receipt-parent label, .grid-item label, .grid-item-allocate label, .grid-labels {
+  color: #179be0;
+}
+
+
 #event-name {
   width: 250px;
 }
@@ -278,12 +316,12 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  border: solid 2px orange;
+  /* border: solid 2px orange; */
 }
 
 #friends-selected-box {
-  padding: 10px;
-  border: solid 20px red;
+    padding: 10px;
+    border: solid 15px #bdc2ff;
 }
 
 #editReceipt-previewImage {

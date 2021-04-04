@@ -87,6 +87,7 @@ const ScanReceipt = () => {
         // send formData on as our request
         const { data } = await axios.post('/api/receipts/upload', formData);
         // dispatch data onto our store
+        console.log(data);
         dispatch({ type: 'GET_ITEMS', itemsInfo: data });
         // direct user to edit receipt page
         history.push('/editreceipt');
@@ -120,7 +121,9 @@ const ScanReceipt = () => {
         </button>
       </div>
       <div id='submit-div'>
-        <button onClick={onSubmit}>Submit Image</button>
+        <button id='scan-submit-button' onClick={onSubmit}>
+          Submit Image
+        </button>
         {isLoading && (
           <div>
             Reading receipt...{' '}

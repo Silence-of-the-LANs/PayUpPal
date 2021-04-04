@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import * as ReactModal from 'react-modal';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
@@ -75,6 +76,7 @@ const EditReceipt = () => {
   // adds an empty item to our item list
   const addItem = () => {
     let newItem = {
+      id: uuidv4(),
       quantity: 1,
       description: '',
       pricePerItem: 0,
@@ -145,21 +147,11 @@ const EditReceipt = () => {
         (item) => item.friends && item.friends.length > 0
       ))
     : 'false';
-
   return !successfulSubmit ? (
     <div id='edit-receipt-parent'>
       <div id='edit-receipt-top-panel'>
-        <div id='editReceipt-previewImage'>
-          <h2>Edit Receipt</h2>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={() => setIsOpen(true)}
-            size='small'
-            name={'preview-image'}
-          >
-            Preview image
-          </Button>
+        <div id='editReceipt-header'>
+          <p>Edit Receipt</p>
           <ReactModal
             isOpen={modalIsOpen}
             onRequestClose={() => setIsOpen(false)}
@@ -172,7 +164,7 @@ const EditReceipt = () => {
         </div>
         <div id='input-div'>
           <div className='input-event-date-add'>
-            <div>
+            <div id='input-wrapper'>
               <div className='input-eventAndDate'>
                 {hasSubmitted && !eventInput && (
                   <p style={{ color: 'red' }}>Event name cannot be empty</p>
@@ -202,11 +194,20 @@ const EditReceipt = () => {
             </div>
             <div id='add-item-div'>
               <Button
-                className='edit-receipt-friend-buttons'
                 variant='contained'
-                color='secondary'
+                color='primary'
+                onClick={() => setIsOpen(true)}
+                size='medium'
+                name={'preview-image'}
+              >
+                Preview image
+              </Button>
+              <Button
+                className='edit-receipt-friend-buttons'
+                variant='outlined'
+                color='primary'
                 onClick={addItem}
-                size='large'
+                size='medium'
                 name={'add-item'}
               >
                 Add Item
@@ -236,10 +237,9 @@ const EditReceipt = () => {
               {/* maps thru each indivial item */}
               {receiptDataState.items.length &&
                 receiptDataState.items.map((item, index) => {
-                  console.log('inside editreceipt mapping', receiptDataState);
                   return (
                     <IndividualItem
-                      key={`${item.description}-index: ${index}`}
+                      key={item.id}
                       item={item}
                       itemIndex={index}
                       splitEvenly={splitEvenly}
@@ -332,7 +332,8 @@ const EditReceipt = () => {
           {/* if receiptData exists show subTotal */}
           <div className='receipt-summary'>
             <label>
-              Subtotal: {receiptDataState.items && subTotal.toFixed(2)}
+              Subtotal: $
+              {(receiptDataState.items && subTotal.toFixed(2)) || '0.00'}
             </label>
             <div>
               <label>Tax: </label>
@@ -363,6 +364,7 @@ const EditReceipt = () => {
             </div>
           </div>
           <Button
+            id='submit-receipt-button'
             variant='contained'
             color='primary'
             onClick={submitReceipt}

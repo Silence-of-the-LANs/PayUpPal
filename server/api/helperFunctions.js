@@ -1,3 +1,5 @@
+const { v4: uuidv4 } = require('uuid');
+
 const checkIfItem = (textByLines) => {
   let itemArr = [];
   // checks index if contains '.' and if the -1,1,2 index are numbers.
@@ -110,6 +112,7 @@ const convertToArrObj = (itemArr) => {
         obj.totalPrice = Number(splitLine[splitLine.length - 1]);
       }
     }
+    obj.id = uuidv4();
     return obj;
   });
   // filters out empty description and totalPrice values

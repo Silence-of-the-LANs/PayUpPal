@@ -4,6 +4,7 @@ import { UserContext, ReceiptDataContext } from '../Store';
 import * as ReactModal from 'react-modal';
 import { useHistory } from 'react-router';
 import Accordion from '@material-ui/core/Accordion';
+import Button from '@material-ui/core/Button';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
@@ -30,6 +31,7 @@ const ReceiptHistory = () => {
       receipt.items = receipt.items.sort((a, b) => {
         return a.id > b.id ? 1 : -1;
       });
+      console.log(sortItems);
       return receipt;
     });
     setSelectedReceipt(sortItems[0]);
@@ -116,7 +118,9 @@ const ReceiptHistory = () => {
 
   return (
     <div id='receipthistory-div'>
-      <h1>Receipt History</h1>
+      <div id='receipt-header-div'>
+        <p>Receipt History</p>
+      </div>
       <div id='receiptList-details-div'>
         {isDeleteClicked && (
           <ReactModal
@@ -171,7 +175,6 @@ const ReceiptHistory = () => {
                     onClick={() => {
                       handleSelectReceipt(receipt, i);
                     }}
-                    // onClick={() => setSelectedReceipt(receipt)}
                   >
                     {receipt.eventName} {receipt.date}
                   </button>
@@ -188,30 +191,20 @@ const ReceiptHistory = () => {
           {!hasNoReceipts && selectedReceipt.items ? (
             <>
               <div id='history-heading'>
-                <h3>Event: {selectedReceipt.eventName}</h3>
-                <h3>Date: {selectedReceipt.date}</h3>
+                <p>Event: {selectedReceipt.eventName}</p>
+                <p>Date: {selectedReceipt.date}</p>
               </div>
-              <div id='friends-and-buttons'>
+              <div id='friends-div'>
                 <p>
                   Friend(s) on receipt:{' '}
                   {getFriends(selectedReceipt).map((friend, i, arr) => {
                     return i === arr.length - 1 ? friend : friend + ', ';
                   })}
                 </p>
-                <div id='receipt-history-button-div'>
-                  <button
-                    onClick={() => {
-                      setIsOpen(true);
-                      setPreviewClicked(true);
-                    }}
-                  >
-                    View Receipt
-                  </button>
-                  <button onClick={editReceipt}>Edit Receipt</button>
-                </div>
               </div>
               {isPreviewClicked && (
                 <ReactModal
+                  id='receipt-history-preview-img'
                   isOpen={modalIsOpen}
                   // onAfterOpen={afterOpenModal}
                   onRequestClose={() => {
@@ -222,7 +215,8 @@ const ReceiptHistory = () => {
                   <div className='preview-image-div'>
                     <img
                       className='preview-image'
-                      src={selectedReceipt.imageUrl}
+                      src={selectedReceipt.imageUrl || 'no-image.png'}
+                      alt='Receipt not uploaded'
                     />
                     <button
                       onClick={() => {
@@ -235,7 +229,7 @@ const ReceiptHistory = () => {
                 </ReactModal>
               )}
               <ol>
-                Items
+                <span>Items</span>
                 {selectedReceipt.items.map((item) => {
                   return (
                     <li>
@@ -254,12 +248,6 @@ const ReceiptHistory = () => {
                         <AccordionDetails>
                           {item.debts &&
                             item.debts.map((debt) => {
-                              console.log(
-                                item,
-                                debt.balance,
-                                debt.proratedTip,
-                                debt.proratedTax
-                              );
                               return (
                                 <Typography>
                                   {debt.friend.name} owes $
@@ -278,18 +266,58 @@ const ReceiptHistory = () => {
                   );
                 })}
               </ol>
-              <p>
-                Subtotal: $
-                {(
-                  selectedReceipt.items.reduce(
-                    (a, b) => a + b.pricePerItem * b.quantity,
-                    0
-                  ) / 100
-                ).toFixed(2)}
-              </p>
-              <p>Tip: ${(selectedReceipt.tip / 100).toFixed(2)}</p>
-              <p>Tax: ${(selectedReceipt.tax / 100).toFixed(2)}</p>
-              <p>Total: ${(selectedReceipt.total / 100).toFixed(2)}</p>
+              <div id='right-bottom-panel'>
+                <div id='total-div'>
+                  <p>
+                    <span>Subtotal:</span> $
+                    {(
+                      selectedReceipt.items.reduce(
+                        (a, b) => a + b.pricePerItem * b.quantity,
+                        0
+                      ) / 100
+                    ).toFixed(2)}
+                  </p>
+                  <p>
+                    <span>Tip: </span> ${(selectedReceipt.tip / 100).toFixed(2)}
+                  </p>
+                  <p>
+                    <span>Tax: </span>${(selectedReceipt.tax / 100).toFixed(2)}
+                  </p>
+                  <p>
+                    <span>Total:</span> $
+                    {(selectedReceipt.total / 100).toFixed(2)}
+                  </p>
+                </div>
+                <div id='receipt-button-div'>
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    size='small'
+                    onClick={() => {
+                      setIsOpen(true);
+                      setPreviewClicked(true);
+                    }}
+                  >
+                    View Receipt
+                  </Button>
+                  {/* <button
+                    onClick={() => {
+                      setIsOpen(true);
+                      setPreviewClicked(true);
+                    }}
+                  >
+                    View Receipt
+                  </button> */}
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    size='small'
+                    onClick={editReceipt}
+                  >
+                    Edit Receipt
+                  </Button>
+                </div>
+              </div>
             </>
           ) : (
             <a href='scanreceipt'>Scan a receipt now!</a>
