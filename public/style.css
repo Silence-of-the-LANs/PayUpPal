@@ -118,7 +118,7 @@
 }
 
 #manage-friends-add-button {
-  border: solid 1px green
+  border: solid 1px green;
 }
 
 .friends-wrapper {
@@ -336,6 +336,7 @@
     display: grid;
     grid-template-columns: 1fr;
   }
+}
 
 @media screen and (max-width: 550px) {
   .grid-item,
@@ -348,4 +349,9 @@
 .makeStyles-root-21 {
   margin: 20em auto 0 auto;
   width: 250px;
+}
+
+#view-by-buttons {
+  display: flex;
+  justify-content: flex-end;
 }

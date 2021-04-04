@@ -151,8 +151,10 @@ const FriendView = (props) => {
                         requesteePhoneNumber={!info.currentFriend.phone}
                       />
                       {receipt.debts.every((debt) => debt.paid === true) ? (
-                        <button
-                          className='button'
+                        <Button
+                          className={classes.button}
+                          variant='contained'
+                          color='primary'
                           onClick={async () => {
                             await markReceiptUnpaid(
                               receipt.id,
@@ -160,12 +162,16 @@ const FriendView = (props) => {
                             );
                             setTotalOwed(0);
                           }}
+                          size='small'
+                          name={'mark-as-unpaid'}
                         >
                           Mark as Unpaid
-                        </button>
+                        </Button>
                       ) : (
-                        <button
-                          className='button'
+                        <Button
+                          className={classes.button}
+                          variant='contained'
+                          color='primary'
                           onClick={async () => {
                             await markReceiptPaid(
                               receipt.id,
@@ -173,9 +179,11 @@ const FriendView = (props) => {
                             );
                             setTotalOwed(0);
                           }}
+                          size='small'
+                          name={'mark-as-paid'}
                         >
                           Mark as Paid
-                        </button>
+                        </Button>
                       )}
                     </Typography>
                   </AccordionSummary>

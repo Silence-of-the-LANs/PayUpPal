@@ -87,26 +87,28 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <Button
-        className={classes.button}
-        variant={view === 'person' ? 'contained' : 'outlined'}
-        color='primary'
-        onClick={() => changeView('person')}
-        size='small'
-        name={'view-by-person'}
-      >
-        View by Person
-      </Button>
-      <Button
-        className={classes.button}
-        variant={view === 'receipt' ? 'contained' : 'outlined'}
-        color='primary'
-        onClick={() => changeView('receipt')}
-        size='small'
-        name={'view-by-person'}
-      >
-        View by Receipt
-      </Button>
+      <div id='view-by-buttons'>
+        <Button
+          className={classes.button}
+          variant={view === 'person' ? 'contained' : 'outlined'}
+          color='primary'
+          onClick={() => changeView('person')}
+          size='small'
+          name={'view-by-person'}
+        >
+          View by Person
+        </Button>
+        <Button
+          className={classes.button}
+          variant={view === 'receipt' ? 'contained' : 'outlined'}
+          color='primary'
+          onClick={() => changeView('receipt')}
+          size='small'
+          name={'view-by-person'}
+        >
+          View by Receipt
+        </Button>
+      </div>
       {view === 'receipt' ? (
         <ReceiptView
           calcTotalOwed={calcTotalOwed}
