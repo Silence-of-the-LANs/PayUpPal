@@ -103,7 +103,7 @@ const FriendView = (props) => {
               aria-controls='panel1a-content'
               id='panel1a-header'
             >
-              <Typography className={classes.heading}>
+              <Typography>
                 {info.currentFriend.name} - $
                 {(
                   info.receipts.reduce((total, receipt) => {
