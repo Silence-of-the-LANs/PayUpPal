@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: '50%',
   },
-  content: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-  },
+  // content: {
+  //   display: 'flex',
+  //   flexWrap: 'wrap',
+  //   justifyContent: 'space-between',
+  // },
   heading: {
     fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
@@ -140,7 +140,7 @@ const ReceiptView = (props) => {
             >
               <Typography className={classes.heading}>
                 <span className='event-labels'>
-                  {receipt.eventName} {receipt.date}
+                  {receipt.eventName} - {receipt.date}
                 </span>
               </Typography>
               <Typography className={classes.heading}>
@@ -158,7 +158,7 @@ const ReceiptView = (props) => {
                     id='panel1a-header'
                   >
                     <Typography className={classes.heading}>
-                      <b>
+                      <span className='inner-labels'>
                         {friend.name}'s Total: $
                         {(
                           friend.items.reduce((total, item) => {
@@ -174,7 +174,7 @@ const ReceiptView = (props) => {
                             }
                           }, 0) / 100
                         ).toFixed(2)}{' '}
-                      </b>
+                      </span>
                       {<br />}
                       {<br />}
                       <Button
@@ -251,7 +251,7 @@ const ReceiptView = (props) => {
                     {friend.items.map((item) => (
                       <span
                         key={item.id}
-                        className={`indented ${
+                        className={`indented listed-item ${
                           item.debts[0].paid ? 'paid' : ''
                         }`}
                       >

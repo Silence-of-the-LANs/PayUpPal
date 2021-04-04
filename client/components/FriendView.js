@@ -104,13 +104,19 @@ const FriendView = (props) => {
               id='panel1a-header'
             >
               <Typography>
-                {info.currentFriend.name} - $
-                {(
-                  info.receipts.reduce((total, receipt) => {
-                    total += calcTotalOwed(receipt.debts);
-                    return total;
-                  }, 0) / 100
-                ).toFixed(2)}
+                <span className='event-labels'>{info.currentFriend.name}</span>
+              </Typography>
+              <Typography>
+                <span className='total-labels'>
+                  {' '}
+                  Total Owed: $
+                  {(
+                    info.receipts.reduce((total, receipt) => {
+                      total += calcTotalOwed(receipt.debts);
+                      return total;
+                    }, 0) / 100
+                  ).toFixed(2)}
+                </span>
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
@@ -123,11 +129,11 @@ const FriendView = (props) => {
                   >
                     <Typography className={classes.heading}>
                       <span
-                        className={
+                        className={`inner-labels ${
                           receipt.debts.every((debt) => debt.paid === true)
                             ? 'paid'
                             : ''
-                        }
+                        }`}
                       >
                         {receipt.eventName} - Total Owed: ${' '}
                         {(calcTotalOwed(receipt.debts) / 100).toFixed(2)}
@@ -194,7 +200,12 @@ const FriendView = (props) => {
                   <AccordionDetails>
                     {receipt.debts.map((debt) => {
                       return (
-                        <span key={debt.id} className={debt.paid ? 'paid' : ''}>
+                        <span
+                          key={debt.id}
+                          className={`indented listed-item ${
+                            debt.paid ? 'paid' : ''
+                          }`}
+                        >
                           {debt.item.description} - $
                           {(
                             (debt.balance +

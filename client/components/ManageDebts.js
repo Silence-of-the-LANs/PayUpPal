@@ -60,7 +60,7 @@ const calcTotalOwed = (balances) => {
 
 const ManageDebts = () => {
   const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('receipt');
+  const [view, setView] = useState('person');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
