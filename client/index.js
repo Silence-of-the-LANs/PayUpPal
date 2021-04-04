@@ -8,13 +8,13 @@ import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#3F51B5', // This is an orange looking color
+      main: '#179be0;',
     },
     secondary: {
-      main: '#F50057', //Another orange-ish color
+      main: '#F50057',
     },
   },
-  fontFamily: 'Roboto', // as an aside, highly recommend importing roboto font for Material UI projects! Looks really nice
+  fontFamily: 'Roboto',
 });
 
 ReactDOM.render(

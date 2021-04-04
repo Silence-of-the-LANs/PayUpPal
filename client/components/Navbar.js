@@ -49,7 +49,7 @@ export default function Navbar() {
     <div className={classes.root}>
       <AppBar
         position='static'
-        style={{ background: 'black', boxShadow: 'none' }}
+        // style={{ background: 'black', boxShadow: 'none' }}
       >
         <Toolbar>
           <DrawerMenu className='hamburger' />

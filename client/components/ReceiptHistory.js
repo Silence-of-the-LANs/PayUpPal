@@ -132,21 +132,29 @@ const ReceiptHistory = () => {
             }}
           >
             <div className='delete-history-div'>
-              <h4>
-                Are you sure you want to delete {deleteReceipt.eventName}{' '}
-                {deleteReceipt.date}
-              </h4>
-              <div>
-                <button onClick={() => confirmDeleteReceipt(deleteReceipt.id)}>
-                  Delete
-                </button>
-                <button
+              Are you sure you want to delete {deleteReceipt.eventName}{' '}
+              {deleteReceipt.date}?
+              <div className='delete-event-button-div'>
+                <Button
+                  className='delete-event-button'
+                  variant='outlined'
+                  color='primary'
+                  size='small'
                   onClick={() => {
                     setIsOpen(false), setDeleteClicked(false);
                   }}
                 >
-                  Cancel
-                </button>
+                  CANCEL
+                </Button>
+                <Button
+                  className='delete-event-button'
+                  variant='contained'
+                  color='secondary'
+                  size='small'
+                  onClick={() => confirmDeleteReceipt(deleteReceipt.id)}
+                >
+                  DELETE
+                </Button>
               </div>
             </div>
           </ReactModal>
@@ -157,9 +165,7 @@ const ReceiptHistory = () => {
               return (
                 <div className='single-history-button-div'>
                   <button
-                    className={
-                      buttonId === i ? 'selected-receipt' : 'not-selected'
-                    }
+                    className='x-button-receipt-history'
                     onClick={() => {
                       deleteClicked(receipt);
                     }}
@@ -176,7 +182,12 @@ const ReceiptHistory = () => {
                       handleSelectReceipt(receipt, i);
                     }}
                   >
-                    {receipt.eventName} {receipt.date}
+                    <span className='receipt-history-event-name'>
+                      {receipt.eventName}
+                    </span>{' '}
+                    <span className={buttonId === i ? '' : 'gray-text-small'}>
+                      {receipt.date}
+                    </span>
                   </button>
                 </div>
               );
@@ -204,6 +215,7 @@ const ReceiptHistory = () => {
               </div>
               {isPreviewClicked && (
                 <ReactModal
+                  id='receipt-history-preview-img'
                   isOpen={modalIsOpen}
                   // onAfterOpen={afterOpenModal}
                   onRequestClose={() => {

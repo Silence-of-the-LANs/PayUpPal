@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { UserContext } from '../Store';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -26,11 +26,11 @@ const useStyles = makeStyles({
 
 export default function DrawerMenu() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     left: false,
   });
   const [user, setUser] = useContext(UserContext);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = useState();
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -62,7 +62,7 @@ export default function DrawerMenu() {
           <Divider />
           <List>
             <NavLink
-              style={{ textDecoration: 'none', color: '#3f51b5' }}
+              style={{ textDecoration: 'none', color: '#179be0' }}
               key='Home'
               to={`/home`}
             >
@@ -82,7 +82,7 @@ export default function DrawerMenu() {
           <div
             style={{
               color: 'white',
-              backgroundColor: '#3f51b5',
+              backgroundColor: '#179be0',
               padding: '25px 25px 10px 25px',
             }}
           >
@@ -101,7 +101,7 @@ export default function DrawerMenu() {
               <NavLink
                 style={{
                   textDecoration: 'none',
-                  color: '#3f51b5',
+                  color: '#179be0;',
                 }}
                 activeStyle={{ fill: 'red' }}
                 key={listItemObj.text}

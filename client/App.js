@@ -6,7 +6,7 @@ import 'react-notifications-component/dist/theme.css';
 
 const App = () => {
   return (
-    <div className='bgImage'>
+    <div>
       <ReactNotification />
       <Navbar />
       <Routes />

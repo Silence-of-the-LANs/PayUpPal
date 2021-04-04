@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import bootstrap from 'bootstrap';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Typography from '@material-ui/core/Typography';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FriendView from './FriendView';
 import ReceiptView from './ReceiptView';
+import { Button } from '@material-ui/core';
 
 const markPaid = async (debtId) => {
   const { data } = await axios.put(`api/debts/markPaid/${debtId}`);
@@ -39,7 +34,11 @@ const markReceiptUnpaid = async (receiptId, friendId) => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    margin: '5vw',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -61,7 +60,7 @@ const calcTotalOwed = (balances) => {
 
 const ManageDebts = () => {
   const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('receipt');
+  const [view, setView] = useState('person');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -92,37 +91,63 @@ const ManageDebts = () => {
   return (
     <div className={classes.root}>
       <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <button className='button' onClick={() => changeView('person')}>
-        By Person
-      </button>
-      <button className='button' onClick={() => changeView('receipt')}>
-        By Receipt
-      </button>
-      {view === 'receipt' ? (
-        <ReceiptView
-          calcTotalOwed={calcTotalOwed}
-          setTotalOwed={setTotalOwed}
-          markPaid={markPaid}
-          markReceiptPaid={markReceiptPaid}
-          markReceiptUnpaid={markReceiptUnpaid}
-          total={totalOwed}
-          listOfGroups={listOfGroups}
-          setDebts={setDebts}
-        />
-      ) : (
-        <FriendView
-          calcTotalOwed={calcTotalOwed}
-          listOfGroups={listOfGroups}
-          debts={debts}
-          total={totalOwed}
-          setTotalOwed={setTotalOwed}
-          markPaid={markPaid}
-          markReceiptPaid={markReceiptPaid}
-          markReceiptUnpaid={markReceiptUnpaid}
-          setDebts={setDebts}
-          debts={debts}
-        />
-      )}
+      <br />
+      <div id='debt-parent-wrapper'>
+        {view === 'receipt' ? (
+          <h2 className='debt-header'>Receipt View</h2>
+        ) : (
+          <h2 className='debt-header'>Friend View</h2>
+        )}
+        <div id='debt-info-container'>
+          <div id='view-by-buttons'>
+            <Button
+              className={classes.button}
+              variant={view === 'person' ? 'contained' : 'outlined'}
+              color='primary'
+              onClick={() => changeView('person')}
+              size='large'
+              name={'view-by-person'}
+            >
+              View by Person
+            </Button>
+            <Button
+              className={classes.button}
+              variant={view === 'receipt' ? 'contained' : 'outlined'}
+              color='primary'
+              onClick={() => changeView('receipt')}
+              size='large'
+              name={'view-by-person'}
+            >
+              View by Receipt
+            </Button>
+          </div>
+          {view === 'receipt' ? (
+            <ReceiptView
+              calcTotalOwed={calcTotalOwed}
+              setTotalOwed={setTotalOwed}
+              markPaid={markPaid}
+              markReceiptPaid={markReceiptPaid}
+              markReceiptUnpaid={markReceiptUnpaid}
+              total={totalOwed}
+              listOfGroups={listOfGroups}
+              setDebts={setDebts}
+            />
+          ) : (
+            <FriendView
+              calcTotalOwed={calcTotalOwed}
+              listOfGroups={listOfGroups}
+              debts={debts}
+              total={totalOwed}
+              setTotalOwed={setTotalOwed}
+              markPaid={markPaid}
+              markReceiptPaid={markReceiptPaid}
+              markReceiptUnpaid={markReceiptUnpaid}
+              setDebts={setDebts}
+              debts={debts}
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

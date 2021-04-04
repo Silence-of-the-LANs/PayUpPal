@@ -1,15 +1,25 @@
 #receipt-header-div {
   padding: 0.6em 0 0 0.5em;
   border-bottom: 1px solid black;
-}
-
-#receipt-header-div {
   font-size: 2em;
   font-weight: bolder;
+  /* background: #80cbf3; */
+  border-radius: 20px 20px 0px 0px;
+  padding: 0.5em 0.5em 0em 0.5em;
+  background: rgb(23, 155, 224);
+  background: linear-gradient(
+    135deg,
+    rgba(23, 155, 224, 1) 0%,
+    rgba(255, 255, 255, 0.4962359943977591) 100%
+  );
+}
+
+#receipt-header-div p {
+  color: white;
 }
 
 /* #receipt-history-button-div button, */
-.delete-history-div button {
+/* .delete-history-div button {
   box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
     0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
   background-color: #3f51b5;
@@ -28,7 +38,7 @@
   letter-spacing: 0.02857em;
   border: 0;
   margin-left: 5px;
-}
+} */
 #friends {
   display: flex;
   flex-direction: row;
@@ -93,12 +103,16 @@
 .preview-image-div button {
   display: inline-block;
   font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  color: #3f51b5;
+  color: #179be0;
   border-radius: 4px;
   background-color: white;
   transition: all 0.2s;
   border: 1px solid rgba(63, 81, 181, 0.5);
   font-size: 13.5px;
+}
+
+.not-selected button {
+  border: none;
 }
 
 #receipt-list {
@@ -146,7 +160,8 @@
 }
 
 #delete-history-modal {
-  height: 125px;
+  height: fit-content;
+  width: fit-content;
   display: flex;
   flex-direction: column;
 }
@@ -154,10 +169,10 @@
   text-align: center;
 }
 
-.delete-history-div div {
+/* .delete-history-div div {
   display: flex;
   justify-content: center;
-}
+} */
 
 #right-bottom-panel {
   display: flex;
@@ -224,5 +239,31 @@ ol span {
     align-self: flex-end;
     display: flex;
     flex-direction: column;
+  }
+  #delete-history-modal {
+    position: absolute;
+    inset: 40px;
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    height: fit-content;
+    width: auto;
+  }
+  #receipt-history-preview-img {
+    position: absolute;
+    inset: 40px;
+    border: 1px solid rgb(204, 204, 204);
+    background: rgb(255, 255, 255);
+    overflow: auto;
+    border-radius: 4px;
+    outline: none;
+    padding: 20px;
+    width: auto;
+  }
+  .preview-image {
+    align-self: center;
+    height: 100%;
+    width: 100%;
   }
 }
