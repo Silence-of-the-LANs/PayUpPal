@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import * as ReactModal from 'react-modal';
 import { ReceiptDataContext } from '../Store';
 import IndividualItem from './IndividualItem';
@@ -75,6 +76,7 @@ const EditReceipt = () => {
   // adds an empty item to our item list
   const addItem = () => {
     let newItem = {
+      id: uuidv4(),
       quantity: 1,
       description: '',
       pricePerItem: 0,
@@ -145,7 +147,6 @@ const EditReceipt = () => {
         (item) => item.friends && item.friends.length > 0
       ))
     : 'false';
-
   return !successfulSubmit ? (
     <div id='edit-receipt-parent'>
       <div id='edit-receipt-top-panel'>
@@ -236,10 +237,9 @@ const EditReceipt = () => {
               {/* maps thru each indivial item */}
               {receiptDataState.items.length &&
                 receiptDataState.items.map((item, index) => {
-                  console.log('inside editreceipt mapping', receiptDataState);
                   return (
                     <IndividualItem
-                      key={`${item.description}-index: ${index}`}
+                      key={item.id}
                       item={item}
                       itemIndex={index}
                       splitEvenly={splitEvenly}

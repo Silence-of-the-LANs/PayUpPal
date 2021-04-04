@@ -63,7 +63,7 @@ const IndividualItem = (props) => {
 
   // grab each item and index from parent prop
   const { item, itemIndex, splitEvenly, pool } = props;
-  console.log('this is the item id fed in: ', item, 'with index: ', itemIndex);
+  // console.log('this is the item id fed in: ', item, 'with index: ', itemIndex);
   // set quantity, description, pricePerItem, and totalPrice to state
   const [quantity, setQuantity] = useState(item.quantity);
   const [description, setDescription] = useState(item.description);
@@ -142,7 +142,7 @@ const IndividualItem = (props) => {
           placeholder='Quantity'
           min='1'
           value={quantity}
-          onChange={changeQuantity}
+          onChange={(e) => changeQuantity(e)}
         />
       </div>
       {window.innerWidth < 550 ? <label>Description</label> : ''}
@@ -152,7 +152,7 @@ const IndividualItem = (props) => {
           type='text'
           placeholder='Description'
           value={description}
-          onChange={editDescription}
+          onChange={(e) => editDescription(e)}
         />
       </div>
       {window.innerWidth < 550 ? <label>Price Per Item</label> : ''}
@@ -164,7 +164,7 @@ const IndividualItem = (props) => {
           min='0'
           step='0.01'
           value={pricePerItem}
-          onChange={changePricePerItem}
+          onChange={(e) => changePricePerItem(e)}
         />
       </div>
       {window.innerWidth < 550 ? <label>Total</label> : ''}
@@ -176,7 +176,7 @@ const IndividualItem = (props) => {
           min='0'
           step='0.01'
           value={totalPrice}
-          onChange={changeTotalPrice}
+          onChange={(e) => changeTotalPrice(e)}
         />
       </div>
       {!splitEvenly && window.innerWidth < 550 ? (
