@@ -6,13 +6,11 @@ import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'absolute',
-    top: '20%',
     display: 'flex',
     backgroundColor: 'ghostwhite',
+    padding: '1rem',
     width: 'fit-content',
     height: 'fit-content',
-    padding: '1rem',
   },
   button: {
     marginTop: '5px',
@@ -52,7 +50,7 @@ const AddFriend = (props) => {
           message: `Successfully added to your friend list!`,
           type: 'success',
           insert: 'top',
-          container: 'top-left',
+          container: 'top-right',
           animationIn: ['animate__animated', 'animate__fadeIn'],
           animationOut: ['animate__animated', 'animate__fadeOut'],
           dismiss: {
@@ -73,87 +71,89 @@ const AddFriend = (props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <form
-        className='form-inline'
-        onSubmit={(event) => {
-          changeHasSubmittedTrue();
-          submitFriendInfo(event);
-        }}
-      >
-        <div className='form-group mr-2'>
-          <label className='sr-only' htmlFor='inputName'>
-            Name
-          </label>
-          <input
-            name='name'
-            type='text'
-            className='form-control'
-            id='inputName'
-            placeholder='Name'
-            value={friend.name}
-            onChange={dataInput}
-          />
-          {!friend.name && hasSubmitted && (
+    <div className='add-friends-absolute'>
+      <div className={`${classes.root} add-friend-form`}>
+        <form
+          className='form-inline'
+          onSubmit={(event) => {
+            changeHasSubmittedTrue();
+            submitFriendInfo(event);
+          }}
+        >
+          <div className='form-group mr-2'>
+            <label className='sr-only' htmlFor='inputName'>
+              Name
+            </label>
+            <input
+              name='name'
+              type='text'
+              className='form-control'
+              id='inputName'
+              placeholder='Name'
+              value={friend.name}
+              onChange={dataInput}
+            />
+            {!friend.name && hasSubmitted && (
+              <p style={{ color: 'red', fontSize: '.75rem' }}>
+                Name cannot be empty
+              </p>
+            )}
+          </div>
+          <div className='form-group mr-2'>
+            <label className='sr-only' htmlFor='inputEmail'>
+              Email
+            </label>
+            <input
+              name='email'
+              type='email'
+              className='form-control'
+              id='inputEmail'
+              placeholder='Email'
+              value={friend.email}
+              onChange={dataInput}
+            />
+          </div>
+          <div className='form-group mr-2'>
+            <label className='sr-only' htmlFor='inputPhone'>
+              Phone
+            </label>
+            <input
+              name='phone'
+              type='tel'
+              className='form-control'
+              id='inputPhone'
+              placeholder='Phone Number'
+              value={friend.phone}
+              onChange={dataInput}
+            />
+          </div>
+          {!friend.email && !friend.phone && hasSubmitted && (
             <p style={{ color: 'red', fontSize: '.75rem' }}>
-              Name cannot be empty
+              An email or phone number is required
             </p>
           )}
-        </div>
-        <div className='form-group mr-2'>
-          <label className='sr-only' htmlFor='inputEmail'>
-            Email
-          </label>
-          <input
-            name='email'
-            type='email'
-            className='form-control'
-            id='inputEmail'
-            placeholder='Email'
-            value={friend.email}
-            onChange={dataInput}
-          />
-        </div>
-        <div className='form-group mr-2'>
-          <label className='sr-only' htmlFor='inputPhone'>
-            Phone
-          </label>
-          <input
-            name='phone'
-            type='tel'
-            className='form-control'
-            id='inputPhone'
-            placeholder='Phone Number'
-            value={friend.phone}
-            onChange={dataInput}
-          />
-        </div>
-        {!friend.email && !friend.phone && hasSubmitted && (
-          <p style={{ color: 'red', fontSize: '.75rem' }}>
-            An email or phone number is required
-          </p>
-        )}
-        <Button
-          className={classes.button}
-          variant='contained'
-          type='submit'
-          color='primary'
-          size='small'
-          name={'add'}
-        >
-          ADD
-        </Button>
-        <Button
-          className={classes.button}
-          variant='outlined'
-          color='primary'
-          onClick={closeAddModal}
-          size='small'
-          name={'close'}
-        >
-          CLOSE
-        </Button>
-      </form>
+          <Button
+            className={classes.button}
+            variant='contained'
+            type='submit'
+            color='primary'
+            size='small'
+            name={'add'}
+          >
+            ADD
+          </Button>
+          <Button
+            className={classes.button}
+            variant='outlined'
+            color='primary'
+            onClick={closeAddModal}
+            size='small'
+            name={'close'}
+          >
+            CLOSE
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

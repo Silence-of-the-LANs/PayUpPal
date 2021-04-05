@@ -41,7 +41,7 @@ const items = [
     color: '#59C9A5',
     header: 'white',
     descColor: 'white',
-    imgUrl: 'https://payuppal-bucket.s3.amazonaws.com/money.jpeg',
+    imgUrl: 'https://payuppal-site-images.s3.amazonaws.com/money.jpeg',
   },
 ];
 

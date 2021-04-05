@@ -50,7 +50,7 @@ const EditFriend = (props) => {
         message: `Information successfully updated!`,
         type: 'success',
         insert: 'top',
-        container: 'top-left',
+        container: 'top-right',
         animationIn: ['animate__animated', 'animate__fadeIn'],
         animationOut: ['animate__animated', 'animate__fadeOut'],
         dismiss: {

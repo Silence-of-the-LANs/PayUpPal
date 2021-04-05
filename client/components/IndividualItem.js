@@ -15,6 +15,7 @@ const checkedIcon = <CheckBoxIcon fontSize='medium' />;
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
+    opacity: '100%',
   },
   autocompleteWidth: {
     width: '100%',
@@ -187,7 +188,7 @@ const IndividualItem = (props) => {
       <div id='allocate-friends'>
         {!splitEvenly && (
           <Autocomplete
-            className={classes.autocompleteWidth}
+            className={`${classes.autocompleteWidth} assign-friends`}
             noOptionsText='Please add some friends...'
             multiple
             size='small'
