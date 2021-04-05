@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
 import { Button } from '@material-ui/core';

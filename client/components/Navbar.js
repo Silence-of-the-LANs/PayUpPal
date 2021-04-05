@@ -52,7 +52,7 @@ export default function Navbar() {
         // style={{ background: 'black', boxShadow: 'none' }}
       >
         <Toolbar>
-          <DrawerMenu className='hamburger' />
+          <DrawerMenu />
           <Typography variant='h6' className={classes.title}>
             <Link color='inherit' component={RouterLink} to={'/'}>
               PayUpPal
