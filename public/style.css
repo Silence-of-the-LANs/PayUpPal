@@ -345,8 +345,16 @@
 }
 
 #friends-selected-box {
-  padding: 10px;
-  border: solid 15px #bdc2ff;
+  padding: 20px 10px 20px 10px;
+  border: inset 5px #179be0;
+  border-radius: 30px;
+  margin: 10px;
+  background: linear-gradient(
+    0deg,
+    ghostwhite 0%,
+    rgba(255, 255, 255, 0.4962359943977591) 100%
+  );
+  box-shadow: 1px 1px 1px 1px #000000;
 }
 
 #editReceipt-previewImage {
@@ -896,7 +904,6 @@ ol span {
   width: 48vw;
   height: 60vh;
   margin: 0em auto 1em auto;
-  /* border: black solid 1px; */
 }
 
 #drop-image-div {
@@ -916,8 +923,6 @@ ol span {
 
 #drop-image {
   width: 100%;
-  /* max-width: 500px;
-  height: 65%; */
 }
 
 #submit-div {
@@ -931,17 +936,6 @@ ol span {
   width: auto;
   height: auto;
 }
-
-/* #submit-div button {
-  max-height: 30px;
-  display: inline-block;
-  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
-  color: white;
-  border-radius: 4px;
-  background-color: #3f51b5;
-  transition: all 0.2s;
-  border: 0;
-} */
 
 #scan-submit-button {
   border: 1px solid rgba(63, 81, 181, 0.5);
@@ -1041,5 +1035,19 @@ ol span {
     /* padding: 25px; */
     margin: 2.5em 0.5em;
     border-radius: 20px;
+  }
+}
+
+.add-friend-form {
+  position: absolute;
+  top: 20%;
+  left: 40%;
+}
+
+@media screen and (max-width: 550px) {
+  .add-friend-form {
+    position: absolute;
+    top: 20%;
+    left: 25%;
   }
 }

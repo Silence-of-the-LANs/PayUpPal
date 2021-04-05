@@ -7,8 +7,6 @@ import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    position: 'absolute',
-    top: '20%',
     display: 'flex',
     backgroundColor: 'ghostwhite',
     width: 'fit-content',
@@ -74,7 +72,7 @@ const AddFriend = (props) => {
   };
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root} add-friend-form`}>
       <form
         className='form-inline'
         onSubmit={(event) => {

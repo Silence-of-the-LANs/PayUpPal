@@ -294,7 +294,7 @@ const EditReceipt = () => {
             </Button>
           </div>
           <div id='friends-selected-box'>
-            Friends selected:
+            <b>Friends selected:</b> {<br />}
             {pool.map((friend, index) => (
               <span>
                 {index === pool.length - 1 ? friend.name : friend.name + ', '}
@@ -309,7 +309,7 @@ const EditReceipt = () => {
               setOpenSelect(false);
             }}
             aria-labelledby='Select Friend(s)'
-            aria-describedby='Select your friends to add'
+            aria-describedby='Select your friends to add to this receipt'
             label='Click to select friends...'
           >
             <FriendList updatePool={setPool} selected={pool} />
