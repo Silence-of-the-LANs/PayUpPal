@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { UserContext } from '../Store';
 import { makeStyles } from '@material-ui/core/styles';
+import ImageCarousel from './ImageCarousel';
 import {
   Card,
   CardActionArea,
@@ -14,25 +15,6 @@ import {
   Link,
   Typography,
 } from '@material-ui/core';
-import Paper from '@material-ui/core/Paper';
-import backgroundImage from '../../public/bg.jpeg';
-import scanReceiptImage from '../../public/assets/scan-receipts.jpeg';
-
-function Copyright() {
-  return (
-    <Typography variant='body2' color='textSecondary' align='center'>
-      {'Copyright © '}
-      <Link
-        color='inherit'
-        href='https://github.com/Silence-of-the-LANs/billsplitter'
-      >
-        PayUpPal
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -70,7 +52,11 @@ export default function Home() {
   const classes = useStyles();
   const [user, setUser] = useContext(UserContext);
 
-  return (
+  return !user ? (
+    <Container maxWidth='lg'>
+      <ImageCarousel />
+    </Container>
+  ) : (
     <React.Fragment>
       <CssBaseline />
       <main>
@@ -82,8 +68,7 @@ export default function Home() {
                   <CardMedia
                     className={classes.cardMedia}
                     image='https://payuppal-site-images.s3.amazonaws.com/scan-manage-receipts-resized.jpeg'
-                    title='Image title'
-                    // style={{ height: '300px' }}
+                    title='Manage receipts'
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='h2'>
@@ -100,7 +85,7 @@ export default function Home() {
                   <CardMedia
                     className={classes.cardMedia}
                     image='https://payuppal-site-images.s3.amazonaws.com/manage-friends.jpeg'
-                    title='Image title'
+                    title='Manage friends'
                     // style={{ height: '300px' }}
                   />
                   <CardContent className={classes.cardContent}>
@@ -118,7 +103,7 @@ export default function Home() {
                   <CardMedia
                     className={classes.cardMedia}
                     image='https://payuppal-site-images.s3.amazonaws.com/manage-money-owed-resized.jpg'
-                    title='Image title'
+                    title='Manage debts'
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='h2'>
@@ -135,7 +120,7 @@ export default function Home() {
                   <CardMedia
                     className={classes.cardMedia}
                     image='https://payuppal-site-images.s3.amazonaws.com/history-resized.jpg'
-                    title='Image title'
+                    title='View history'
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='h2'>
@@ -149,22 +134,6 @@ export default function Home() {
           </Grid>
         </Container>
       </main>
-      {/* Footer */}
-      {/* <footer className={classes.footer}>
-        <Typography variant='h6' align='center' gutterBottom>
-          Footer
-        </Typography>
-        <Typography
-          variant='subtitle1'
-          align='center'
-          color='textSecondary'
-          component='p'
-        >
-          Designed by Jason Liao, Tommy Liu, and Zoran Bajic
-        </Typography>
-        <Copyright />
-      </footer> */}
-      {/* End footer */}
     </React.Fragment>
   );
 }

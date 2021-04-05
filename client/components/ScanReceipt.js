@@ -25,11 +25,11 @@ const ScanReceipt = () => {
       message: `${file[0].name} added to staging area`,
       type: 'success',
       insert: 'bottom',
-      container: 'bottom-left',
+      container: 'top-right',
       animationIn: ['animate__animated', 'animate__fadeIn'],
       animationOut: ['animate__animated', 'animate__fadeOut'],
       dismiss: {
-        duration: 2000,
+        duration: 1500,
         onScreen: true,
       },
     });
@@ -44,11 +44,11 @@ const ScanReceipt = () => {
       message: `${e.target.files[0].name} added to staging area`,
       type: 'success',
       insert: 'bottom',
-      container: 'bottom-left',
+      container: 'top-right',
       animationIn: ['animate__animated', 'animate__fadeIn'],
       animationOut: ['animate__animated', 'animate__fadeOut'],
       dismiss: {
-        duration: 2000,
+        duration: 1500,
         onScreen: true,
       },
     });

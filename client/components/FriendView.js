@@ -99,7 +99,8 @@ const FriendView = (props) => {
         return (
           <Accordion key={info.currentFriend.id}>
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              className='accordion-summary'
+              expandIcon={<ExpandMoreIcon style={{ fill: '#179be0' }} />}
               aria-controls='panel1a-content'
               id='panel1a-header'
             >
@@ -123,6 +124,7 @@ const FriendView = (props) => {
               {info.receipts.map((receipt) => (
                 <Accordion key={receipt.id}>
                   <AccordionSummary
+                    className='accordion-title'
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls='panel1a-content'
                     id='panel1a-header'

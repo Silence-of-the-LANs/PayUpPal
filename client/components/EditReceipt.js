@@ -21,7 +21,11 @@ const EditReceipt = () => {
   // console.log('receipt data is: ', receiptDataState);
 
   useEffect(() => {
-    if (receiptDataState.items && receiptDataState.items[0].debts) {
+    if (
+      receiptDataState.items &&
+      receiptDataState.items[0] &&
+      receiptDataState.items[0].debts
+    ) {
       const { items } = receiptDataState;
       let friendPool = {};
       items.forEach((item) =>
@@ -299,7 +303,7 @@ const EditReceipt = () => {
           </div>
 
           <Modal
-            className='friendlist-modal'
+            id='editreceipt-select-friends'
             open={openSelect}
             onClose={() => {
               setOpenSelect(false);

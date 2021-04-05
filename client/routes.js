@@ -14,12 +14,14 @@ import {
   ReceiptHistory,
   SelectFriends,
   UserInfo,
+  ImageCarousel,
 } from './components';
 
 const Routes = () => {
   return (
     <Switch>
       <Route path='/home' component={Home} />
+      <Route path='/test' component={ImageCarousel} />
       <Route path='/editfriend' component={EditFriend} />
       <Route path='/addfriend' component={AddFriend} />
       <Route path='/selectfriends' component={SelectFriends} />

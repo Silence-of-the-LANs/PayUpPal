@@ -19,4 +19,6 @@ export { default as UserInfo } from './UserInfo';
 export { default as EditFriend } from './EditFriend';
 export { default as RemoveFriendPopup } from './RemoveFriendPopup';
 export { default as Checkboxes } from './Checkboxes';
+export { default as ImageCarousel } from './ImageCarousel';
+export { default as CarouselItem } from './CarouselItem';
 export { default as ReminderCheckboxDialog } from './ReminderCheckboxDialog';
