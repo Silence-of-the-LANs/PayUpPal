@@ -1,9 +1,10 @@
 #scan-receipt-div {
   width: 50vw;
   margin: 3em auto 0 auto;
-  border: 1px solid black;
+  border: 9px solid #179be0;
   border-radius: 20px;
   box-shadow: 4px 4px 12px 4px #000000;
+  background: #179be0;
   background: linear-gradient(
     135deg,
     rgba(23, 155, 224, 1) 0%,
@@ -21,7 +22,7 @@
 }
 
 #scan-receipt-header {
-  border-radius: 20px 20px 0px 0px;
+  border-radius: 7px 10px 0px 0px;
 }
 
 #invisible-input-div {
@@ -109,8 +110,8 @@
 
 @media screen and (max-width: 550px) {
   #scan-receipt-div {
-    width: 98%;
-    margin: 10px 2px 0 2px;
+    width: 95%;
+    margin: 10px 10px 0 10px;
     border: 3px solid #179be0;
     border-radius: 20px;
   }
