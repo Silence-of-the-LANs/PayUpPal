@@ -40,6 +40,7 @@
     "pg-hstore": "^2.3.2",
     "react": "^16.14.0",
     "react-dom": "^16.8.6",
+    "react-material-ui-carousel": "^2.2.2",
     "react-modal": "^3.12.1",
     "react-notifications-component": "^3.1.0",
     "react-router-dom": "^5.0.0",

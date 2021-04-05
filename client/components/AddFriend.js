@@ -9,14 +9,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
     top: '20%',
-    left: '45%',
     display: 'flex',
     backgroundColor: 'ghostwhite',
     width: 'fit-content',
     height: 'fit-content',
     padding: '1rem',
-    border: '1px solid #CCCCCC',
-    borderRadius: '4px',
   },
   button: {
     marginTop: '5px',
