@@ -122,6 +122,7 @@ router.get('/displayDebts/person', async (req, res, next) => {
               include: [{ model: Item, order: [['id', 'ASC']] }],
             },
           ],
+          order: [['eventName', 'ASC']],
         });
 
         // combine the friend's info and receipt info into an object and push add it to our response
