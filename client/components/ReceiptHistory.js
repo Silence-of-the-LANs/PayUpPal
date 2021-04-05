@@ -256,8 +256,8 @@ const ReceiptHistory = () => {
                         >
                           <Typography>
                             {item.quantity} {item.description} - $
-                            {(item.pricePerItem / 100).toFixed(2)} each (SEE
-                            FRIENDS)
+                            {(item.pricePerItem / 100).toFixed(2)} each (Click
+                            for details)
                           </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
