@@ -222,7 +222,7 @@ const ReceiptView = (props) => {
                           color='primary'
                           onClick={async () => {
                             await markReceiptUnpaid(receipt.id, friend.id);
-                            setTotalOwed(0);
+                            setTotalOwed(Math.random() * 1);
                             fetchNewdata();
                           }}
                           size='small'
@@ -237,7 +237,7 @@ const ReceiptView = (props) => {
                           color='primary'
                           onClick={async () => {
                             await markReceiptPaid(receipt.id, friend.id);
-                            setTotalOwed(0);
+                            setTotalOwed(Math.random() * 1);
                             fetchNewdata();
                           }}
                           size='small'
