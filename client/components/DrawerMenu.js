@@ -58,7 +58,15 @@ export default function DrawerMenu() {
     >
       {!user ? (
         <div>
-          <div>Welcome</div>
+          <div
+            style={{
+              color: 'white',
+              backgroundColor: '#179be0',
+              padding: '25px 25px 10px 25px',
+            }}
+          >
+            Welcome
+          </div>
           <Divider />
           <List>
             <NavLink

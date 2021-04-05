@@ -54,7 +54,12 @@ export default function Navbar() {
         <Toolbar>
           <DrawerMenu />
           <Typography variant='h6' className={classes.title}>
-            <Link color='inherit' component={RouterLink} to={'/'}>
+            <Link
+              className='links'
+              color='inherit'
+              component={RouterLink}
+              to={'/'}
+            >
               PayUpPal
             </Link>
           </Typography>

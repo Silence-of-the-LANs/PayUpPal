@@ -630,3 +630,9 @@
     opacity: 0%;
   }
 }
+
+.links,
+.links:hover {
+  color: white;
+  text-decoration: none;
+}
