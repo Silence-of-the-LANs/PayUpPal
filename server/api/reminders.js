@@ -39,6 +39,7 @@ router.put('/send', async (req, res, next) => {
       );
     }
     if (checkboxes.textMessage) {
+      console.log('It got to text message');
       sendTextMessage(userName, total, eventName, paypalLink, requesteePhone);
     }
     res.send();

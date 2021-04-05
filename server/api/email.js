@@ -39,9 +39,7 @@ const sendInitialEmail = (
                                         align="right"
                                       >
                                         ${(
-                                          (currentItem.item.pricePerItem *
-                                            currentItem.item.quantity) /
-                                            100 +
+                                          currentItem.balance / 100 +
                                           currentItem.proratedTip / 100 +
                                           currentItem.proratedTax / 100
                                         ).toFixed(2)}
@@ -63,9 +61,7 @@ const sendInitialEmail = (
                                         align="right"
                                       >
                                         ${(
-                                          (currentItem.pricePerItem *
-                                            currentItem.quantity) /
-                                            100 +
+                                          currentItem.debts[0].balance / 100 +
                                           currentItem.debts[0].proratedTip /
                                             100 +
                                           currentItem.debts[0].proratedTax / 100
