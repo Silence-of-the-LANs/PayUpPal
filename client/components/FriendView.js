@@ -177,7 +177,7 @@ const FriendView = (props) => {
                               receipt.id,
                               receipt.debts[0].friendId
                             );
-                            setTotalOwed(0);
+                            setTotalOwed(Math.random() * 1);
                           }}
                           size='small'
                           name={'mark-as-unpaid'}
@@ -194,7 +194,7 @@ const FriendView = (props) => {
                               receipt.id,
                               receipt.debts[0].friendId
                             );
-                            setTotalOwed(0);
+                            setTotalOwed(Math.random() * 1);
                           }}
                           size='small'
                           name={'mark-as-paid'}
