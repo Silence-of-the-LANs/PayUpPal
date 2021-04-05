@@ -398,7 +398,7 @@
 .grid-item-allocate,
 .grid-header-allocate {
   display: grid;
-  grid-template-columns: 0.15fr 0.8fr 1.8fr 0.7fr 0.8fr 1fr;
+  grid-template-columns: 0.1fr 0.4fr 1.4fr 0.6fr 0.6fr 1fr;
 }
 
 .makeStyles-root-16 {
@@ -1050,4 +1050,60 @@ ol span {
     top: 20%;
     left: 25%;
   }
+}
+
+.select-friends-modal {
+  position: absolute;
+  /* top: 20%;
+    left: 0; */
+  /* width: 200; */
+  /* border: inset 5px #179be0;
+    border-radius: 30px;
+    background: linear-gradient(
+      0deg,
+      ghostwhite 0%,
+      rgba(255, 255, 255, 0.4962359943977591) 100%
+    );
+    box-shadow: 1px 1px 1px 1px #000000;
+    background-color: white;
+    opacity: 100%; */
+}
+
+@media screen and (max-width: 551px) {
+  .absolute {
+    top: 25%;
+    position: fixed;
+    width: 1vw;
+    height: 1vh;
+  }
+  .select-friends-modal {
+    position: relative;
+    top: 25%;
+    border-top: inset 5px ghostwhite;
+    border-bottom: inset 5px #179be0;
+    box-shadow: 1px 1px 1px 1px #000000;
+  }
+}
+
+@media screen and (min-width: 551px) {
+  .absolute {
+    top: 25%;
+    left: 50%;
+    position: fixed;
+    width: 1vw;
+    height: 1vh;
+  }
+  .select-friends-modal {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: inset 5px #179be0;
+    border-radius: 30px;
+    box-shadow: 1px 1px 1px 1px #000000;
+  }
+}
+
+.assign-friends {
+  background-color: white;
 }
