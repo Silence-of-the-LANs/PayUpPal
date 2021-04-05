@@ -109,7 +109,7 @@ export default function DrawerMenu() {
               <NavLink
                 style={{
                   textDecoration: 'none',
-                  color: '#179be0;',
+                  color: '#179be0',
                 }}
                 activeStyle={{ fill: 'red' }}
                 key={listItemObj.text}
