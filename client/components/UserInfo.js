@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { UserContext } from '../Store';
-import { FormControl, Input, TextField } from '@material-ui/core';
+import { FormControl, Input, TextField, Button } from '@material-ui/core';
 import axios from 'axios';
 
 const UserInfo = () => {
@@ -37,14 +37,20 @@ const UserInfo = () => {
   };
   return (
     <form
+      id='userinfo-id'
       className='userinfo-form'
       noValidate
       autoComplete='off'
       onSubmit={onSubmit}
     >
-      {' '}
-      <h2>User Information</h2>
-      {noInput && <p style={{ color: 'red' }}>Cannot submit empty inputs</p>}
+      <div id='userinfo-div'>
+        <h2>User Information</h2>
+      </div>
+      {noInput && (
+        <p style={{ color: 'red' }}>
+          Venmo, Paypal and BTC must contain at least one non-empty input
+        </p>
+      )}
       <TextField
         id='standard-full-width'
         label='Name'
@@ -97,9 +103,17 @@ const UserInfo = () => {
           shrink: true,
         }}
       />
-      <button className='button' type='submit'>
-        Submit Info
-      </button>
+      <Button
+        id='userinfo-submit-button'
+        // className={classes.button}
+        variant='contained'
+        color='primary'
+        size='small'
+        // name={'view-by-person'}
+        onClick={onSubmit}
+      >
+        Submit
+      </Button>
     </form>
   );
 };

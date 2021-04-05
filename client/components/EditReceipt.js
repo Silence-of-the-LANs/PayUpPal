@@ -303,7 +303,7 @@ const EditReceipt = () => {
           </div>
 
           <Modal
-            className='friendlist-modal'
+            id='editreceipt-select-friends'
             open={openSelect}
             onClose={() => {
               setOpenSelect(false);
