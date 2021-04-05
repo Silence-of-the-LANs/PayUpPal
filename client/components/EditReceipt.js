@@ -162,7 +162,15 @@ const EditReceipt = () => {
           >
             <div className='preview-image-div'>
               <img className='preview-image' src={receiptDataState.imageUrl} />
-              <button onClick={() => setIsOpen(false)}>Close</button>
+              <Button
+                variant='contained'
+                onClick={() => setIsOpen(false)}
+                color='secondary'
+                size='small'
+                name={'preview'}
+              >
+                CLOSE
+              </Button>
             </div>
           </ReactModal>
         </div>
@@ -198,23 +206,23 @@ const EditReceipt = () => {
             </div>
             <div id='add-item-div'>
               <Button
-                variant='contained'
-                color='primary'
-                onClick={() => setIsOpen(true)}
-                size='medium'
-                name={'preview-image'}
-              >
-                Preview image
-              </Button>
-              <Button
                 className='edit-receipt-friend-buttons'
-                variant='outlined'
+                variant='contained'
                 color='primary'
                 onClick={addItem}
                 size='medium'
                 name={'add-item'}
               >
                 Add Item
+              </Button>
+              <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => setIsOpen(true)}
+                size='medium'
+                name={'preview-image'}
+              >
+                Preview image
               </Button>
             </div>
           </div>
@@ -294,7 +302,7 @@ const EditReceipt = () => {
             </Button>
           </div>
           <div id='friends-selected-box'>
-            Friends selected:
+            <b>Friends selected:</b> {<br />}
             {pool.map((friend, index) => (
               <span>
                 {index === pool.length - 1 ? friend.name : friend.name + ', '}
@@ -309,7 +317,7 @@ const EditReceipt = () => {
               setOpenSelect(false);
             }}
             aria-labelledby='Select Friend(s)'
-            aria-describedby='Select your friends to add'
+            aria-describedby='Select your friends to add to this receipt'
             label='Click to select friends...'
           >
             <FriendList updatePool={setPool} selected={pool} />

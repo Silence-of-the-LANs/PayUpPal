@@ -8,12 +8,12 @@ import Typography from '@material-ui/core/Typography';
 import ImageCarousel from './ImageCarousel';
 
 const useStyles = makeStyles((theme) => ({
-  // root: {
-  //   flexGrow: 1,
-  // },
-  // centerColumn: {
-  //   height: 750,
-  // },
+  root: {
+    flexGrow: 1,
+  },
+  centerColumn: {
+    height: 750,
+  },
 }));
 
 const Home = () => {

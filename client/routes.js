@@ -20,11 +20,10 @@ import {
 const Routes = () => {
   return (
     <Switch>
-      <Route path='/home' component={Home} />
-      <Route path='/test' component={ImageCarousel} />
-      <Route path='/editfriend' component={EditFriend} />
+      {/* <Route path='/home' component={Home} /> */}
+      {/* <Route path='/editfriend' component={EditFriend} />
       <Route path='/addfriend' component={AddFriend} />
-      <Route path='/selectfriends' component={SelectFriends} />
+      <Route path='/selectfriends' component={SelectFriends} /> */}
       <Route exact path='/scanreceipt' component={ScanReceipt} />
       <Route exact path='/editreceipt' component={EditReceipt} />
       <Route path='/signup' component={Signup} />

@@ -13,6 +13,8 @@ const checkedIcon = <CheckBoxIcon fontSize='medium' />;
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'white',
+    opacity: '100%',
+    width: '100px',
   },
   checkedIcon: {
     backgroundColor: '#137cbd',
@@ -78,35 +80,38 @@ const SelectFriends = (props) => {
   };
 
   return (
-    <Autocomplete
-      className={classes.root}
-      noOptionsText='Please add some friends...'
-      multiple
-      onChange={handleChange}
-      id='autocomplete'
-      options={friends}
-      disableCloseOnSelect
-      getOptionLabel={(option) => option.name}
-      renderOption={(option, state) => (
-        <React.Fragment>
-          <Checkbox
-            checkedIcon={<span className={classes.checkedIcon} />}
-            icon={<span className={classes.icon} />}
-            checked={selected.some((friend) => friend.id === option.id)}
+    <div className='absolute'>
+      <Autocomplete
+        className={`${classes.root} select-friends-modal`}
+        noOptionsText='Please add some friends...'
+        multiple
+        onChange={handleChange}
+        id='autocomplete'
+        options={friends}
+        classes={{ paper: classes.paper }}
+        disableCloseOnSelect
+        getOptionLabel={(option) => option.name}
+        renderOption={(option, state) => (
+          <React.Fragment>
+            <Checkbox
+              checkedIcon={<span className={classes.checkedIcon} />}
+              icon={<span className={classes.icon} />}
+              checked={selected.some((friend) => friend.id === option.id)}
+            />
+            {option.name}
+          </React.Fragment>
+        )}
+        style={{ width: 500 }}
+        renderInput={(params) => (
+          <TextField
+            {...params}
+            variant='outlined'
+            label='Select friends'
+            placeholder='Select friends...'
           />
-          {option.name}
-        </React.Fragment>
-      )}
-      style={{ width: 500 }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          variant='outlined'
-          label='Friends List'
-          placeholder='Select friends...'
-        />
-      )}
-    />
+        )}
+      />
+    </div>
   );
 };
 
