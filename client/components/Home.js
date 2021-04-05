@@ -60,7 +60,7 @@ export default function Home() {
     <React.Fragment>
       <CssBaseline />
       <main>
-        <Container className={classes.cardGrid} maxWidth='false'>
+        <Container className={classes.cardGrid} maxWidth={false}>
           <Grid container spacing={4}>
             <Grid item xs={12} md={3}>
               <CardActionArea component={RouterLink} to={'/scanreceipt'}>
