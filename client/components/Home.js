@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
 import backgroundImage from '../../public/bg.jpeg';
+import scanReceiptImage from '../../public/assets/scan-receipts.jpeg';
 
 function Copyright() {
   return (
@@ -81,14 +82,15 @@ export default function Home() {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image='https://source.unsplash.com/random'
+                    image='https://payuppal-site-images.s3.amazonaws.com/scan-manage-receipts-resized.jpeg'
                     title='Image title'
+                    // style={{ height: '300px' }}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='h2'>
                       Scan Receipt
                     </Typography>
-                    <Typography>Scan a receipt</Typography>
+                    <Typography>Scan and upload a new receipt</Typography>
                   </CardContent>
                 </Card>
               </CardActionArea>
@@ -98,8 +100,9 @@ export default function Home() {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image='https://source.unsplash.com/random'
+                    image='https://payuppal-site-images.s3.amazonaws.com/manage-friends.jpeg'
                     title='Image title'
+                    // style={{ height: '300px' }}
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='h2'>
@@ -115,14 +118,14 @@ export default function Home() {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image='https://source.unsplash.com/random'
+                    image='https://payuppal-site-images.s3.amazonaws.com/manage-money-owed-resized.jpg'
                     title='Image title'
                   />
                   <CardContent className={classes.cardContent}>
                     <Typography gutterBottom variant='h5' component='h2'>
                       Debts
                     </Typography>
-                    <Typography>Manage your debts</Typography>
+                    <Typography>Manage payments owed to you</Typography>
                   </CardContent>
                 </Card>
               </CardActionArea>
@@ -132,7 +135,7 @@ export default function Home() {
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image='https://source.unsplash.com/random'
+                    image='https://payuppal-site-images.s3.amazonaws.com/history-resized.jpg'
                     title='Image title'
                   />
                   <CardContent className={classes.cardContent}>
