@@ -44,7 +44,6 @@ const upload = multer({ storage }).single('file');
 // changed sameLine checker from absolute value to proportion
 const textSameLine = (text, targetLine, pictureWidth) => {
   const parameters = pictureWidth > 2000 ? 0.045 : 0.025;
-  // console.log(parameters);
   if (
     // Math.abs(text.minY - targetLine.minY < 10) &&
     // Math.abs(text.maxY - targetLine.maxY < 10)
@@ -142,7 +141,6 @@ router.post('/upload', upload, async (req, res, next) => {
     };
     // uploads the image onto S3 bucket
     const data = await s3.upload(params).promise();
-    console.log(data);
     const [result] = await client.textDetection(data.Location);
     const detections = result.textAnnotations;
     // create simplied data object
@@ -208,9 +206,7 @@ router.post('/upload', upload, async (req, res, next) => {
         .join(' ');
       return joinLines;
     });
-    console.log(textByLines);
     const itemList = checkIfItem(textByLines);
-    // console.log(itemList);
     res.send({ ...itemList, imageUrl: data.Location, imageName: data.key });
   } catch (err) {
     console.log(err);
@@ -222,10 +218,10 @@ router.put('/submit', async (req, res, next) => {
     const {
       id,
       items,
-      miscItems,
+      // miscItems,
       date,
       imageUrl,
-      imageName,
+      // imageName,
       eventName,
       tax,
       tip,
@@ -233,7 +229,9 @@ router.put('/submit', async (req, res, next) => {
       pool,
       splitEvenly,
     } = req.body;
+
     await Receipt.destroy({ where: { id } });
+
     const user = await User.findByPk(req.user.id);
 
     const newReceipt = await Receipt.create({
@@ -244,7 +242,6 @@ router.put('/submit', async (req, res, next) => {
       tax: parseInt(tax * 100),
       tip: parseInt(tip * 100),
       total: parseInt(total * 100),
-      // date,
     });
 
     await user.addReceipt(newReceipt);
@@ -297,6 +294,7 @@ router.put('/submit', async (req, res, next) => {
         return newItem;
       })
     );
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }
@@ -379,6 +377,8 @@ router.post('/submit', async (req, res, next) => {
         return newItem;
       })
     );
+
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }
