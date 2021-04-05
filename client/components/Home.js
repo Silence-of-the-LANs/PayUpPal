@@ -74,10 +74,9 @@ export default function Home() {
     <React.Fragment>
       <CssBaseline />
       <main>
-        <Container className={classes.cardGrid} maxWidth='md'>
-          {/* End hero unit */}
-          <Grid container spacing={10}>
-            <Grid item xs={12} md={6}>
+        <Container className={classes.cardGrid} maxWidth='false'>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={3}>
               <CardActionArea component={RouterLink} to={'/scanreceipt'}>
                 <Card className={classes.card}>
                   <CardMedia
@@ -95,7 +94,7 @@ export default function Home() {
                 </Card>
               </CardActionArea>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={3}>
               <CardActionArea component={RouterLink} to={'/managefriends'}>
                 <Card className={classes.card}>
                   <CardMedia
@@ -108,12 +107,12 @@ export default function Home() {
                     <Typography gutterBottom variant='h5' component='h2'>
                       Friends
                     </Typography>
-                    <Typography>Mange your friends</Typography>
+                    <Typography>Add friends or edit their details</Typography>
                   </CardContent>
                 </Card>
               </CardActionArea>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={3}>
               <CardActionArea component={RouterLink} to={'/managedebts'}>
                 <Card className={classes.card}>
                   <CardMedia
@@ -130,7 +129,7 @@ export default function Home() {
                 </Card>
               </CardActionArea>
             </Grid>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={3}>
               <CardActionArea component={RouterLink} to={'/receipthistory'}>
                 <Card className={classes.card}>
                   <CardMedia
@@ -142,9 +141,7 @@ export default function Home() {
                     <Typography gutterBottom variant='h5' component='h2'>
                       View History
                     </Typography>
-                    <Typography>
-                      View your previously entered receipts
-                    </Typography>
+                    <Typography>View previously entered receipts</Typography>
                   </CardContent>
                 </Card>
               </CardActionArea>
@@ -153,7 +150,7 @@ export default function Home() {
         </Container>
       </main>
       {/* Footer */}
-      <footer className={classes.footer}>
+      {/* <footer className={classes.footer}>
         <Typography variant='h6' align='center' gutterBottom>
           Footer
         </Typography>
@@ -166,7 +163,7 @@ export default function Home() {
           Designed by Jason Liao, Tommy Liu, and Zoran Bajic
         </Typography>
         <Copyright />
-      </footer>
+      </footer> */}
       {/* End footer */}
     </React.Fragment>
   );
