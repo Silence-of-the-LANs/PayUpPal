@@ -198,23 +198,23 @@ const EditReceipt = () => {
             </div>
             <div id='add-item-div'>
               <Button
-                variant='contained'
-                color='primary'
-                onClick={() => setIsOpen(true)}
-                size='medium'
-                name={'preview-image'}
-              >
-                Preview image
-              </Button>
-              <Button
                 className='edit-receipt-friend-buttons'
-                variant='outlined'
+                variant='contained'
                 color='primary'
                 onClick={addItem}
                 size='medium'
                 name={'add-item'}
               >
                 Add Item
+              </Button>
+              <Button
+                variant='outlined'
+                color='primary'
+                onClick={() => setIsOpen(true)}
+                size='medium'
+                name={'preview-image'}
+              >
+                Preview image
               </Button>
             </div>
           </div>
