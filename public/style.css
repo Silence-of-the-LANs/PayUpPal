@@ -606,6 +606,12 @@
   border: none;
 }
 
+.bgImage {
+  /* background-color:#c00303 */
+  background-image: url('bg.jpeg');
+  height: 500px;
+}
+
 .carousel-text {
   width: 50%;
   height: 100%;
@@ -631,6 +637,12 @@
     height: 0%;
     opacity: 0%;
   }
+}
+
+.links,
+.links:hover {
+  color: white;
+  text-decoration: none;
 }
 
 #receipt-header-div {

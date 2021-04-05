@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import bootstrap from 'bootstrap';
 import axios from 'axios';
 import { AddFriend, EditFriend, RemoveFriendPopup } from './index';
 import {

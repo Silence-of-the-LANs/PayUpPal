@@ -11,7 +11,8 @@ const items = [
     color: '#179BE0',
     header: 'white',
     descColor: 'white',
-    imgUrl: '',
+    imgUrl:
+      'https://payuppal-site-images.s3.amazonaws.com/payuppal-resized.jpg',
   },
   {
     name: 'Scan Receipts',
@@ -20,7 +21,8 @@ const items = [
     color: '#7D85B1',
     header: 'white',
     descColor: 'white',
-    imgUrl: '',
+    imgUrl:
+      'https://payuppal-site-images.s3.amazonaws.com/scan--receipts-logged-out.jpeg',
   },
   {
     name: 'Differently Splitting Options',
@@ -29,7 +31,8 @@ const items = [
     color: '#fff79c',
     header: 'black',
     descColor: 'black',
-    imgUrl: '',
+    imgUrl:
+      'https://payuppal-site-images.s3.amazonaws.com/split-bill-resized.jpg',
   },
   {
     name: 'Track Your Money',

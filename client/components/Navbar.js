@@ -47,11 +47,19 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position='static'>
+      <AppBar
+        position='static'
+        // style={{ background: 'black', boxShadow: 'none' }}
+      >
         <Toolbar>
-          <DrawerMenu className='hamburger' />
+          <DrawerMenu />
           <Typography variant='h6' className={classes.title}>
-            <Link color='inherit' component={RouterLink} to={'/'}>
+            <Link
+              className='links'
+              color='inherit'
+              component={RouterLink}
+              to={'/'}
+            >
               PayUpPal
             </Link>
           </Typography>
