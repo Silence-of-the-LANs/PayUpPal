@@ -1038,37 +1038,15 @@ ol span {
   }
 }
 
-.add-friend-form {
-  position: absolute;
-  top: 20%;
-  left: 40%;
-  width: fit-content;
-  height: fit-content;
-}
-
-@media screen and (max-width: 550px) {
-  .add-friend-form {
-    position: absolute;
-    top: 20%;
-    left: 25%;
+@media screen and (min-width: 551px) {
+  .add-friends-absolute {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    width: 225px;
+    height: 253px;
   }
-}
-
-.select-friends-modal {
-  position: absolute;
-  /* top: 20%;
-    left: 0; */
-  /* width: 200; */
-  /* border: inset 5px #179be0;
-    border-radius: 30px;
-    background: linear-gradient(
-      0deg,
-      ghostwhite 0%,
-      rgba(255, 255, 255, 0.4962359943977591) 100%
-    );
-    box-shadow: 1px 1px 1px 1px #000000;
-    background-color: white;
-    opacity: 100%; */
 }
 
 @media screen and (max-width: 551px) {
@@ -1078,6 +1056,7 @@ ol span {
     width: 1vw;
     height: 1vh;
   }
+
   .select-friends-modal {
     position: relative;
     top: 25%;
@@ -1095,6 +1074,7 @@ ol span {
     width: 1vw;
     height: 1vh;
   }
+
   .select-friends-modal {
     position: relative;
     top: 50%;

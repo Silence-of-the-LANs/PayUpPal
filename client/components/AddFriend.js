@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import bootstrap from 'bootstrap';
 import { makeStyles } from '@material-ui/core/styles';
 import { store } from 'react-notifications-component';
 import { Button } from '@material-ui/core';
@@ -9,9 +8,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     backgroundColor: 'ghostwhite',
+    padding: '1rem',
     width: 'fit-content',
     height: 'fit-content',
-    padding: '1rem',
   },
   button: {
     marginTop: '5px',
@@ -51,7 +50,7 @@ const AddFriend = (props) => {
           message: `Successfully added to your friend list!`,
           type: 'success',
           insert: 'top',
-          container: 'top-left',
+          container: 'top-right',
           animationIn: ['animate__animated', 'animate__fadeIn'],
           animationOut: ['animate__animated', 'animate__fadeOut'],
           dismiss: {
@@ -72,7 +71,7 @@ const AddFriend = (props) => {
   };
 
   return (
-    <div className=''>
+    <div className='add-friends-absolute'>
       <div className={`${classes.root} add-friend-form`}>
         <form
           className='form-inline'

@@ -162,7 +162,15 @@ const EditReceipt = () => {
           >
             <div className='preview-image-div'>
               <img className='preview-image' src={receiptDataState.imageUrl} />
-              <button onClick={() => setIsOpen(false)}>Close</button>
+              <Button
+                variant='contained'
+                onClick={() => setIsOpen(false)}
+                color='secondary'
+                size='small'
+                name={'preview'}
+              >
+                CLOSE
+              </Button>
             </div>
           </ReactModal>
         </div>
