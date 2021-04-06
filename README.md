@@ -10,6 +10,8 @@ A progressive web app utilizing machine learning that allows users to track shar
 
 ![Screenshot](https://payuppal-site-images.s3.amazonaws.com/payuppal-resizedforgit.jpg)
 
+![ScanningReceipt](https://payuppal-site-images.s3.amazonaws.com/mobileforgit.gif)
+
 ## Video Demo
 
 <a href=''> Youtube Video </a>
