@@ -6,6 +6,10 @@ A progressive web app utilizing machine learning that allows users to track shar
 
 <a href="https://payuppal.herokuapp.com"> PayUpPal </a>
 
+## Screenshots
+
+![Screenshot](https://payuppal-site-images.s3.amazonaws.com/payuppal-resizedforgit.jpg)
+
 ## Video Demo
 
 <a href=''> Youtube Video </a>
