@@ -77,7 +77,7 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
   
   ## Installation
 
-* To install all dependencies: `npm run install`
+* To install all the dependencies: `npm run install`
 * To create the database and seed: `createdb payuppal`
 * To seed the database with products and accounts: `npm run seed`
 * To run the app: `npm run start-dev`
