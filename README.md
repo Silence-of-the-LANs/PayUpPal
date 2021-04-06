@@ -43,7 +43,7 @@ PayUpPal
              <tr>
               <td></td>
               <td>Sequelize</td>
-              <td></td>
+              <td>Nodemailer?</td>
               <td></td>
             </tr>
       </tbody>
@@ -61,7 +61,7 @@ PayUpPal
       </thead>
       <tbody>
             <tr>
-              <td>Jason Lia</td>
+              <td>Jason Liao</td>
               <td><a href="https://github.com/jlfliao">jlfliao</a></td>
               <td><a href="https://www.linkedin.com/in/jasonliao1/">Jason Liao</a></td>
             </tr>
