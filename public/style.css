@@ -1101,3 +1101,18 @@ ol span {
 .assign-friends {
   background-color: white;
 }
+
+@media screen and (max-width: 550px) {
+  .add-friends-absolute {
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    position: fixed;
+    width: 225px;
+    height: 253px;
+  }
+}

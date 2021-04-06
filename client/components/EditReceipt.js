@@ -53,7 +53,7 @@ const EditReceipt = () => {
   const [dateInput, setDateInput] = useState(receiptDataState.date || '');
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-  const [countdown, setCountdown] = useState(5);
+  const [countdown, setCountdown] = useState(3);
   const [modalIsOpen, setIsOpen] = useState(false);
   useEffect(() => {
     if (successfulSubmit && countdown > 0) {
@@ -302,7 +302,10 @@ const EditReceipt = () => {
             </Button>
           </div>
           <div id='friends-selected-box'>
-            <b>Friends selected:</b> {<br />}
+            <b>Friends selected:</b> {<br />}{' '}
+            {!pool.length && (
+              <p style={{ color: 'red' }}>Select friends to get started!</p>
+            )}
             {pool.map((friend, index) => (
               <span>
                 {index === pool.length - 1 ? friend.name : friend.name + ', '}
