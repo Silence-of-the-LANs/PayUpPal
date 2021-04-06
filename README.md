@@ -1,6 +1,6 @@
 # PayUpPal
 
-A progressive web app utilizing machine learning that allows users to track shared expenses and request payments. Users can upload receipts, which will then be parsed and presented to the user. Users can then edit and indicate which friends to include on the expense. The user can choose to split the expense evenly, or assign friends to various items. To assign friends, users have access to a manageable friends list. In addition, users can view and track their money owed, according to receipt or by friend, and also reminders to their friends. If the user ever loses a receipt, they will have access to a copy in our app via the receipt history feature.
+A progressive web app utilizing machine learning that allows users to track shared expenses and request payments. Users can upload receipts, which will then be parsed and presented to the user. Users can then edit and indicate which friends to include on the expense. The user can choose to split the expense evenly, or assign friends to various items. To assign friends, users have access to a manageable friends list. In addition, users can view and track their money owed - according to receipt or by friend - and also reminders to their friends. If the user ever loses a receipt, they will have access to a copy in our app via the receipt history feature.
 
 ## Deployed App
 
