@@ -41,8 +41,8 @@ PayUpPal
               <td></td>
             </tr>
              <tr>
-              <td>Sequelize</td>
               <td></td>
+              <td>Sequelize</td>
               <td></td>
               <td></td>
             </tr>
@@ -62,7 +62,7 @@ PayUpPal
       <tbody>
             <tr>
               <td>Jason Lia</td>
-              <td><a href="https://github.com/jlfliao"></a>jlfliao</td>
+              <td><a href="https://github.com/jlfliao">jlfliao</a></td>
               <td><a href="https://www.linkedin.com/in/jasonliao1/">Jason Liao</a></td>
             </tr>
             <tr>
@@ -72,7 +72,7 @@ PayUpPal
             </tr>
             <tr>
               <td>Zoran Bajic</td>
-              <td><a href="https://github.com/ZoransFullstack"></a>ZoranFullstack</td>
+              <td><a href="https://github.com/ZoransFullstack">ZoranFullstack</a></td>
               <td><a href="https://www.linkedin.com/in/zoranbajic/">Zoran Bajic<a/></td>
             </tr>
       </tbody>
