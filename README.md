@@ -1,3 +1,3 @@
-# billsplitter
+# PayUpPal
 
 PayUpPal
