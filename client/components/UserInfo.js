@@ -1,9 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import { UserContext } from '../Store';
 import { FormControl, Input, TextField, Button } from '@material-ui/core';
 import axios from 'axios';
+import { store } from 'react-notifications-component';
 
 const UserInfo = () => {
+  const history = useHistory();
   const [user, setUser] = useContext(UserContext);
   const [nameInput, setNameInput] = useState('');
   const [venmoInput, setVenmoInput] = useState('');
@@ -19,6 +22,7 @@ const UserInfo = () => {
     if (!venmoInput && !paypalInput && !BTCInput) {
       setNoInput(true);
     } else {
+      setNoInput(false);
       let userInfo = {
         name: nameInput,
         venmoLink: venmoInput,
@@ -33,6 +37,20 @@ const UserInfo = () => {
       });
       const { data } = await axios.put('/api/users/info', filterUserInfo);
       setUser(data);
+      store.addNotification({
+        title: '',
+        message: `User information has been updated`,
+        type: 'success',
+        insert: 'bottom',
+        container: 'top-right',
+        animationIn: ['animate__animated', 'animate__fadeIn'],
+        animationOut: ['animate__animated', 'animate__fadeOut'],
+        dismiss: {
+          duration: 1500,
+          onScreen: true,
+        },
+      });
+      history.push('/home');
     }
   };
   return (
