@@ -18,7 +18,6 @@ PayUpPal
           <th>Front End</th>
           <th>Back End</th>
           <th>APIs</th>
-          <th>Libraries</th>
         </tr>
       </thead>
       <tbody>
@@ -26,25 +25,21 @@ PayUpPal
               <td>React</td>
               <td>Node.js</td>
               <td>Google Vision</td>
+            </tr>
+            <tr>
               <td>Material UI</td>
+              <td>Express</td>
+              <td>Amazon S3</td>
             </tr>
             <tr>
               <td>HTML & CSS</td>
-              <td>Express</td>
-              <td>Amazon S3</td>
-              <td></td>
-            </tr>
-            <tr>
-              <td></td>
               <td>PostgreSQL</td>
               <td>Twilio</td>
-              <td></td>
             </tr>
              <tr>
               <td></td>
               <td>Sequelize</td>
-              <td>Nodemailer?</td>
-              <td></td>
+              <td>Nodemailer</td>
             </tr>
       </tbody>
   </table>
