@@ -26,6 +26,7 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
           <th>Front End</th>
           <th>Back End</th>
           <th>APIs</th>
+          <th>Libraries</th>
         </tr>
       </thead>
       <tbody>
@@ -33,20 +34,22 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
               <td>React</td>
               <td>Node.js</td>
               <td>Google Vision</td>
+              <td>Material-UI</td>    
             </tr>
             <tr>
-              <td>Material UI</td>
+              <td>HTML & CSS</td>
               <td>Express</td>
               <td>Amazon S3</td>
             </tr>
             <tr>
-              <td>HTML & CSS</td>
+              <td>Amazon S3</td>
               <td>PostgreSQL</td>
               <td>Twilio</td>
             </tr>
              <tr>
               <td></td>
               <td>Sequelize</td>
+              <td></td>
               <td>Nodemailer</td>
             </tr>
       </tbody>
