@@ -40,17 +40,19 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
               <td>HTML & CSS</td>
               <td>Express</td>
               <td>Amazon S3</td>
+              <td>Nodemailer</td>
             </tr>
             <tr>
-              <td>Amazon S3</td>
+              <td></td>
               <td>PostgreSQL</td>
               <td>Twilio</td>
+              <td></td>                  
             </tr>
              <tr>
               <td></td>
               <td>Sequelize</td>
               <td></td>
-              <td>Nodemailer</td>
+              <td></td>
             </tr>
       </tbody>
   </table>
