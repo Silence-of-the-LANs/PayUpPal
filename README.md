@@ -87,3 +87,5 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
 * To create the database and seed: `createdb payuppal`
 * To seed the database with products and accounts: `npm run seed`
 * To run the app: `npm run start-dev`
+
+** Note: You will need to obtain your own API keys. **
