@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import {
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Button,
+} from '@material-ui/core/';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ReminderCheckboxDialog from './ReminderCheckboxDialog';
-import axios from 'axios';
 import { formatTwoDecimals } from './debtHelperFunctions';
 
 const useStyles = makeStyles((theme) => ({
@@ -105,10 +107,8 @@ const FriendView = (props) => {
     }
   };
 
-  console.log('data fetched: ', friendDebts);
-
   return loaded
-    ? // create accordion for each friend
+    ? // create an accordion for each friend
       friendDebts.map((friend) => {
         return (
           <Accordion key={friend.id}>
@@ -116,7 +116,7 @@ const FriendView = (props) => {
               className='accordion-summary'
               expandIcon={<ExpandMoreIcon style={{ fill: '#179be0' }} />}
               aria-controls='panel1a-content'
-              id='panel1a-header'
+              id={friend.id}
             >
               <Typography>
                 <span className='event-labels'>{friend.name}</span>
@@ -129,9 +129,8 @@ const FriendView = (props) => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {/* create an sub-accordion for each receipt */}
+              {/* create a sub-accordion for each receipt */}
               {friend.receipts.map((receipt) => {
-                const { debts } = receipt;
                 const allPaid = receipt.debts.every(
                   (debt) => debt.paid === true
                 );
@@ -139,7 +138,9 @@ const FriendView = (props) => {
                   <Accordion key={receipt.id}>
                     <AccordionSummary
                       className='accordion-title'
-                      expandIcon={<ExpandMoreIcon />}
+                      expandIcon={
+                        <ExpandMoreIcon style={{ fill: '#179be0' }} />
+                      }
                       aria-controls='panel1a-content'
                       id={receipt.id}
                     >
