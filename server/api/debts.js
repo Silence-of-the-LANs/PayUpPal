@@ -44,19 +44,28 @@ const getDebtsByFriend = async (userId) => {
     });
 
     // calculate the friend's total on each receipt and add it into the receipt object
-    receipts.forEach(async (receipt) => {
-      receipt.dataValues.friendTotal = await getFriendTotal(
+
+    for (let j = 0; j < receipts.length; j++) {
+      let currentReceipt = receipts[j];
+      const friendTotal = await getFriendTotal(
         userId,
         currentFriend.id,
-        receipt.id
+        currentReceipt.id
       );
-    });
+
+      currentReceipt.dataValues.friendTotal = friendTotal;
+    }
+
     // combine the friend's info and receipt info into an object and push add it to our response
     resArray.push({
       ...currentFriend.dataValues,
       total,
       receipts,
     });
+
+    if (currentFriend.id == 58 || currentFriend.id == 57) {
+      console.log(resArray[resArray.length - 1].receipts[0].dataValues);
+    }
   }
 
   return resArray;
@@ -68,6 +77,10 @@ const getFriendTotal = async (userId, friendId, receiptId = null) => {
     paid: false,
     friendId: friendId,
   };
+
+  if (receiptId) {
+    whereCondition.receiptId = receiptId;
+  }
 
   if (receiptId) {
     whereCondition.receiptId = receiptId;
@@ -191,6 +204,7 @@ router.get('/displayDebts/friend', async (req, res, next) => {
     } else {
       const userId = req.session.passport.user;
       const responseArray = await getDebtsByFriend(userId);
+
       res.send(responseArray);
     }
   } catch (err) {
@@ -235,9 +249,7 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
       const receiptId = parseInt(req.params.receiptId);
 
       const debts = await Debt.update(
-        {
-          paid: true,
-        },
+        { paid: true },
         {
           where: {
             receiptId: receiptId,
@@ -288,7 +300,6 @@ router.put(
         const userId = req.session.passport.user;
         const friendId = parseInt(req.params.friendId);
         const receiptId = parseInt(req.params.receiptId);
-
         const debts = await Debt.update(
           {
             paid: false,
