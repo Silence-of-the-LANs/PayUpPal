@@ -28,7 +28,19 @@ const useStyles = makeStyles((theme) => ({
 const FriendView = (props) => {
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
+  const [grandTotal, setGrandTotal] = useState(0);
   const [friendDebts, setFriendDebts] = useState([]);
+
+  useEffect(() => {
+    // initial fetch of debts
+    const fetchTotal = async () => {
+      let { data } = await axios.get('api/debts/total');
+      setGrandTotal(data);
+    };
+
+    fetchTotal();
+    console.log(grandTotal);
+  }, [grandTotal]);
 
   useEffect(() => {
     // initial fetch of debts
