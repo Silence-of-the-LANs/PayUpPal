@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import FriendView from './FriendView';
 import ReceiptView from './ReceiptView';
 import { Button } from '@material-ui/core';
+import { formatTwoDecimals } from './debtHelperFunctions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +23,6 @@ const useStyles = makeStyles((theme) => ({
 const ManageDebts = () => {
   const [view, setView] = useState('receipt');
   const [totalOwed, setTotalOwed] = useState(0);
-
   const classes = useStyles();
 
   useEffect(() => {
@@ -33,16 +33,20 @@ const ManageDebts = () => {
     };
 
     fetchDebts();
-  }, [view, totalOwed]);
+  }, [totalOwed]);
 
   const changeView = async (viewSetting) => {
     setView(viewSetting);
   };
 
+  const updateGrandTotal = () => {
+    setTotalOwed();
+  };
+
   return (
     <div className={classes.root}>
-      {/* <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2> */}
-      {/* <br /> */}
+      <h2>You are owed a grand total of: {formatTwoDecimals(totalOwed)}</h2>
+      <br />
       <div id='debt-parent-wrapper'>
         <h2 className='debt-header'>
           {view === 'receipt' ? 'Receipt View' : 'Friend View'}
@@ -70,7 +74,11 @@ const ManageDebts = () => {
               View by Receipt
             </Button>
           </div>
-          {view === 'receipt' ? <ReceiptView /> : <FriendView />}
+          {view === 'receipt' ? (
+            <ReceiptView updateGrandTotal={updateGrandTotal} />
+          ) : (
+            <FriendView updateGrandTotal={updateGrandTotal} />
+          )}
         </div>
       </div>
     </div>

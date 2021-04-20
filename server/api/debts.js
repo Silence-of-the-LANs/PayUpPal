@@ -19,6 +19,8 @@ const getDebtsByFriend = async (userId) => {
   // and for each friend they have...
   for (let i = 0; i < listOfFriends.length; i++) {
     let currentFriend = listOfFriends[i];
+
+    // get the total owed by that friend
     let total = await getTotal(userId, currentFriend.id);
 
     // find all the receipts which they are part of...
@@ -69,13 +71,19 @@ const getDebtsByFriend = async (userId) => {
 };
 
 const getTotal = async (userId, friendId = null, receiptId = null) => {
+  const friendIdOfUser = await Friend.findOne({
+    attributes: ['id'],
+    where: { userId: userId, name: 'Myself' },
+  });
+
   // this is a helper function to calculate the total outstanding debts owed to the user based on what information we provide to it
   let whereCondition = {
     userId: userId,
     paid: false,
+    friendId: { [Op.notIn]: [friendIdOfUser.id] },
   };
 
-  // if a receipt is passed in, we can add it to our where clause and calculate the total for that specific receipt as well
+  // if a receiptId/friendId is passed in, we can add it to our where clause and narrow our results
   if (friendId) {
     whereCondition.friendId = friendId;
   }
@@ -242,8 +250,6 @@ router.put('/markReceiptPaid/:receiptId/:friendId', async (req, res, next) => {
           },
         }
       );
-
-      console.log('im hit');
 
       res.sendStatus(200);
     }

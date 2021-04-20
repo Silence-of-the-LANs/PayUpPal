@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ReceiptView = (props) => {
+  const { updateGrandTotal } = props;
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
   const [receiptDebts, setReceiptDebts] = useState([]);
@@ -89,6 +90,7 @@ const ReceiptView = (props) => {
     }
   };
 
+  // onClick handler for marking a debt as paid/unpaid by receipt
   const updateADebtByReceipt = async (paidStatus, receiptId, friendId) => {
     try {
       // if we are changing a debt to paid, then this route will mark the debt as paid and fetch the updated data
@@ -130,6 +132,7 @@ const ReceiptView = (props) => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
+              {/* list out each friend on the receipt.. */}
               {receipt.friends.map((friend) => {
                 const { id, name, items, friendUnpaidTotal } = friend;
                 return (
@@ -188,6 +191,7 @@ const ReceiptView = (props) => {
                                 receipt.id,
                                 friend.id
                               );
+                              updateGrandTotal();
                             }}
                             size='small'
                             name={'mark-as-unpaid'}
@@ -201,6 +205,7 @@ const ReceiptView = (props) => {
                             color='primary'
                             onClick={() => {
                               updateADebtByReceipt(true, receipt.id, friend.id);
+                              updateGrandTotal();
                             }}
                             size='small'
                             name={'mark-as-unpaid'}
@@ -211,6 +216,7 @@ const ReceiptView = (props) => {
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
+                      {/* for each friend on the receipt.. map our the items they bought */}
                       {items.map((item) => {
                         const { id, description } = item;
                         const {

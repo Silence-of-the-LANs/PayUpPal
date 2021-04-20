@@ -26,21 +26,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FriendView = (props) => {
+  const { updateGrandTotal } = props;
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
-  const [grandTotal, setGrandTotal] = useState(0);
   const [friendDebts, setFriendDebts] = useState([]);
-
-  useEffect(() => {
-    // initial fetch of debts
-    const fetchTotal = async () => {
-      let { data } = await axios.get('api/debts/total');
-      setGrandTotal(data);
-    };
-
-    fetchTotal();
-    console.log(grandTotal);
-  }, [grandTotal]);
 
   useEffect(() => {
     // initial fetch of debts
@@ -99,6 +88,7 @@ const FriendView = (props) => {
     }
   };
 
+  // onClick handler for marking a debt as paid/unpaid by friend
   const updateADebtByFriend = async (paidStatus, receiptId, friendId) => {
     try {
       // if we are changing a debt to paid, then this route will mark the debt as paid and return the updated data
@@ -139,7 +129,7 @@ const FriendView = (props) => {
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {/* create a sub-accordion for each receipt */}
+              {/* for each friend, create a sub-accordion for each of their receipts */}
               {friend.receipts.map((receipt) => {
                 const allPaid = receipt.debts.every(
                   (debt) => debt.paid === true
@@ -198,6 +188,7 @@ const FriendView = (props) => {
                                 receipt.id,
                                 receipt.debts[0].friendId
                               );
+                              updateGrandTotal();
                             }}
                             size='small'
                             name={'mark-as-unpaid'}
@@ -215,6 +206,7 @@ const FriendView = (props) => {
                                 receipt.id,
                                 receipt.debts[0].friendId
                               );
+                              updateGrandTotal();
                             }}
                             size='small'
                             name={'mark-as-paid'}
@@ -225,7 +217,7 @@ const FriendView = (props) => {
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      {/* list out all the items on that receipt */}
+                      {/* list out all the items on each receipt receipt */}
                       {receipt.debts.map((owedItem) => {
                         const {
                           balance,
