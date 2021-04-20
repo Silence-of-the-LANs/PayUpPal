@@ -1116,3 +1116,7 @@ ol span {
     height: 253px;
   }
 }
+
+.paid-up {
+  color: lightgray;
+}
