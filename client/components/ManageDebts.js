@@ -10,28 +10,6 @@ const markPaid = async (debtId) => {
   return data;
 };
 
-const markReceiptPaid = async (receiptId, friendId) => {
-  try {
-    const { data } = await axios.put(
-      `api/debts/markReceiptPaid/${receiptId}/${friendId}`
-    );
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-const markReceiptUnpaid = async (receiptId, friendId) => {
-  try {
-    const { data } = await axios.put(
-      `api/debts/markReceiptUnpaid/${receiptId}/${friendId}`
-    );
-    return data;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '5vw',
@@ -59,8 +37,7 @@ const calcTotalOwed = (balances) => {
 };
 
 const ManageDebts = () => {
-  const [debts, setDebts] = useState([]);
-  const [view, setView] = useState('person');
+  const [view, setView] = useState('friend');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -68,10 +45,7 @@ const ManageDebts = () => {
   useEffect(() => {
     // initial data fetch of debts
     const fetchDebts = async () => {
-      let { data } = await axios.get(`api/debts/displayDebts/${view}`);
       let total = await axios.get('api/debts/total');
-
-      setDebts(data);
       setTotalOwed(total.data);
     };
 
@@ -79,36 +53,33 @@ const ManageDebts = () => {
   }, [view, totalOwed]);
 
   // get a unique list of borrowers
-  let listOfGroups = debts;
-  let listOfGroupIds = [];
+  // let listOfGroups = debts;
 
   const changeView = async (viewSetting) => {
-    const { data } = await axios.get(`api/debts/displayDebts/${viewSetting}`);
+    //   const { data } = await axios.get(`api/debts/displayDebts/${viewSetting}`);
     setView(viewSetting);
-    setDebts(data);
+    //   setDebts(data);
   };
 
   return (
     <div className={classes.root}>
-      <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2>
-      <br />
+      {/* <h2>You are owed a grand total of: ${(totalOwed / 100).toFixed(2)}</h2> */}
+      {/* <br /> */}
       <div id='debt-parent-wrapper'>
-        {view === 'receipt' ? (
-          <h2 className='debt-header'>Receipt View</h2>
-        ) : (
-          <h2 className='debt-header'>Friend View</h2>
-        )}
+        <h2 className='debt-header'>
+          {view === 'receipt' ? 'Receipt View' : 'Friend View'}
+        </h2>
         <div id='debt-info-container'>
           <div id='view-by-buttons'>
             <Button
               className={classes.button}
-              variant={view === 'person' ? 'contained' : 'outlined'}
+              variant={view === 'friend' ? 'contained' : 'outlined'}
               color='primary'
-              onClick={() => changeView('person')}
+              onClick={() => changeView('friend')}
               size='large'
-              name={'view-by-person'}
+              name={'view-by-friend'}
             >
-              View by Person
+              View by Friend
             </Button>
             <Button
               className={classes.button}
@@ -116,35 +87,24 @@ const ManageDebts = () => {
               color='primary'
               onClick={() => changeView('receipt')}
               size='large'
-              name={'view-by-person'}
+              name={'view-by-receipt'}
             >
               View by Receipt
             </Button>
           </div>
           {view === 'receipt' ? (
             <ReceiptView
-              calcTotalOwed={calcTotalOwed}
-              setTotalOwed={setTotalOwed}
-              markPaid={markPaid}
-              markReceiptPaid={markReceiptPaid}
-              markReceiptUnpaid={markReceiptUnpaid}
-              total={totalOwed}
-              listOfGroups={listOfGroups}
-              setDebts={setDebts}
+            // calcTotalOwed={calcTotalOwed}
+            // setTotalOwed={setTotalOwed}
+            // markPaid={markPaid}
+            // markReceiptPaid={markReceiptPaid}
+            // markReceiptUnpaid={markReceiptUnpaid}
+            // total={totalOwed}
+            // listOfGroups={listOfGroups}
+            // setDebts={setDebts}
             />
           ) : (
-            <FriendView
-              calcTotalOwed={calcTotalOwed}
-              listOfGroups={listOfGroups}
-              debts={debts}
-              total={totalOwed}
-              setTotalOwed={setTotalOwed}
-              markPaid={markPaid}
-              markReceiptPaid={markReceiptPaid}
-              markReceiptUnpaid={markReceiptUnpaid}
-              setDebts={setDebts}
-              debts={debts}
-            />
+            <FriendView />
           )}
         </div>
       </div>

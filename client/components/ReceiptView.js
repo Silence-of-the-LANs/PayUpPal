@@ -43,6 +43,7 @@ const calcEventTotal = (receipt) => {
 const ReceiptView = (props) => {
   const classes = useStyles();
   const [loaded, setLoaded] = useState(false);
+  const [receiptDebts, setReceiptDebts] = useState([]);
   const {
     listOfGroups,
     calcTotalOwed,
@@ -59,7 +60,7 @@ const ReceiptView = (props) => {
     // initial data fetch of debts
     const fetchData = async () => {
       let { data } = await axios.get('api/debts/displayDebts/receipt');
-      setDebts(data);
+      setReceiptDebts(data);
     };
     setLoaded(true);
     fetchData();
@@ -123,156 +124,159 @@ const ReceiptView = (props) => {
     }
   };
 
+  console.log('listOfGroups: ', listOfGroups);
+
   return loaded
-    ? listOfGroups.map((receipt) => {
-        return (
-          <Accordion key={receipt.id}>
-            <AccordionSummary
-              className={`test-content ${classes.content}`}
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls='panel1a-content'
-              id='panel1a-header'
-            >
-              <Typography className={classes.heading}>
-                <span className='event-labels'>
-                  {receipt.eventName} - {receipt.date}
-                </span>
-              </Typography>
-              <Typography className={classes.heading}>
-                <span className='total-labels'>Total Owed:</span>{' '}
-                <span className='dollar-labels'>
-                  ${calcEventTotal(receipt).toFixed(2)}
-                </span>
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              {receipt.friends.map((friend) => (
-                <Accordion key={friend.id}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls='panel1a-content'
-                    id='panel1a-header'
-                  >
-                    <Typography className={classes.heading}>
-                      <span className='inner-labels'>
-                        {friend.name}
-                        {<br />}
-                      </span>
-                      <span className='gray-text'>
-                        Total: $
-                        {(
-                          friend.items.reduce((total, item) => {
-                            if (!item.debts[0].paid) {
-                              total =
-                                total +
-                                item.debts[0].balance +
-                                item.debts[0].proratedTip +
-                                item.debts[0].proratedTax;
-                              return total;
-                            } else {
-                              return total;
-                            }
-                          }, 0) / 100
-                        ).toFixed(2)}{' '}
-                      </span>
+    ? 'loaded'
+    : // ? listOfGroups.map((receipt) => {
+      //     return (
+      //       <Accordion key={receipt.id}>
+      //         <AccordionSummary
+      //           className={`test-content ${classes.content}`}
+      //           expandIcon={<ExpandMoreIcon />}
+      //           aria-controls='panel1a-content'
+      //           id='panel1a-header'
+      //         >
+      //           <Typography className={classes.heading}>
+      //             <span className='event-labels'>
+      //               {receipt.eventName} - {receipt.date}
+      //             </span>
+      //           </Typography>
+      //           <Typography className={classes.heading}>
+      //             <span className='total-labels'>Total Owed:</span>{' '}
+      //             <span className='dollar-labels'>
+      //               ${calcEventTotal(receipt).toFixed(2)}
+      //             </span>
+      //           </Typography>
+      //         </AccordionSummary>
+      //         <AccordionDetails>
+      //           {receipt.friends.map((friend) => (
+      //             <Accordion key={friend.id}>
+      //               <AccordionSummary
+      //                 expandIcon={<ExpandMoreIcon />}
+      //                 aria-controls='panel1a-content'
+      //                 id='panel1a-header'
+      //               >
+      //                 <Typography className={classes.heading}>
+      //                   <span className='inner-labels'>
+      //                     {friend.name}
+      //                     {<br />}
+      //                   </span>
+      //                   <span className='gray-text'>
+      //                     Total: $
+      //                     {(
+      //                       friend.items.reduce((total, item) => {
+      //                         if (!item.debts[0].paid) {
+      //                           total =
+      //                             total +
+      //                             item.debts[0].balance +
+      //                             item.debts[0].proratedTip +
+      //                             item.debts[0].proratedTax;
+      //                           return total;
+      //                         } else {
+      //                           return total;
+      //                         }
+      //                       }, 0) / 100
+      //                     ).toFixed(2)}{' '}
+      //                   </span>
 
-                      {<br />}
-                      {<br />}
-                      <Button
-                        variant='outlined'
-                        color='primary'
-                        onClick={() => {
-                          handleClickOpen(
-                            (
-                              friend.items.reduce((total, item) => {
-                                if (!item.debts[0].paid) {
-                                  total =
-                                    total +
-                                    item.debts[0].balance +
-                                    item.debts[0].proratedTip +
-                                    item.debts[0].proratedTax;
-                                  return total;
-                                } else {
-                                  return total;
-                                }
-                              }, 0) / 100
-                            ).toFixed(2),
+      //                   {<br />}
+      //                   {<br />}
+      //                   <Button
+      //                     variant='outlined'
+      //                     color='primary'
+      //                     onClick={() => {
+      //                       handleClickOpen(
+      //                         (
+      //                           friend.items.reduce((total, item) => {
+      //                             if (!item.debts[0].paid) {
+      //                               total =
+      //                                 total +
+      //                                 item.debts[0].balance +
+      //                                 item.debts[0].proratedTip +
+      //                                 item.debts[0].proratedTax;
+      //                               return total;
+      //                             } else {
+      //                               return total;
+      //                             }
+      //                           }, 0) / 100
+      //                         ).toFixed(2),
 
-                            receipt,
-                            friend
-                          );
-                        }}
-                        size='small'
-                        name={friend.name}
-                      >
-                        Remind
-                      </Button>
-                      <ReminderCheckboxDialog
-                        open={open}
-                        onClose={handleClose}
-                        selectedValue={selectedValue}
-                        requesteePhoneNumber={!friend.phone}
-                      />
-                      {friend.items.every((item) =>
-                        item.debts.every((debt) => debt.paid === true)
-                      ) ? (
-                        <Button
-                          className={classes.button}
-                          variant='contained'
-                          color='primary'
-                          onClick={async () => {
-                            await markReceiptUnpaid(receipt.id, friend.id);
-                            setTotalOwed(Math.random() * 1);
-                            fetchNewdata();
-                          }}
-                          size='small'
-                          name={'mark-as-unpaid'}
-                        >
-                          Mark Unpaid
-                        </Button>
-                      ) : (
-                        <Button
-                          className={classes.button}
-                          variant='contained'
-                          color='primary'
-                          onClick={async () => {
-                            await markReceiptPaid(receipt.id, friend.id);
-                            setTotalOwed(Math.random() * 1);
-                            fetchNewdata();
-                          }}
-                          size='small'
-                          name={'mark-as-unpaid'}
-                        >
-                          Mark as Paid
-                        </Button>
-                      )}
-                    </Typography>
-                  </AccordionSummary>
-                  <AccordionDetails>
-                    {friend.items.map((item) => (
-                      <span
-                        key={item.id}
-                        className={`indented listed-item ${
-                          item.debts[0].paid ? 'paid' : ''
-                        }`}
-                      >
-                        {item.description} - $
-                        {(
-                          (item.debts[0].balance +
-                            item.debts[0].proratedTip +
-                            item.debts[0].proratedTax) /
-                          100
-                        ).toFixed(2)}
-                      </span>
-                    ))}
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </AccordionDetails>
-          </Accordion>
-        );
-      })
-    : 'Loading...';
+      //                         receipt,
+      //                         friend
+      //                       );
+      //                     }}
+      //                     size='small'
+      //                     name={friend.name}
+      //                   >
+      //                     Remind
+      //                   </Button>
+      //                   <ReminderCheckboxDialog
+      //                     open={open}
+      //                     onClose={handleClose}
+      //                     selectedValue={selectedValue}
+      //                     requesteePhoneNumber={!friend.phone}
+      //                   />
+      //                   {friend.items.every((item) =>
+      //                     item.debts.every((debt) => debt.paid === true)
+      //                   ) ? (
+      //                     <Button
+      //                       className={classes.button}
+      //                       variant='contained'
+      //                       color='primary'
+      //                       onClick={async () => {
+      //                         await markReceiptUnpaid(receipt.id, friend.id);
+      //                         setTotalOwed(Math.random() * 1);
+      //                         fetchNewdata();
+      //                       }}
+      //                       size='small'
+      //                       name={'mark-as-unpaid'}
+      //                     >
+      //                       Mark Unpaid
+      //                     </Button>
+      //                   ) : (
+      //                     <Button
+      //                       className={classes.button}
+      //                       variant='contained'
+      //                       color='primary'
+      //                       onClick={async () => {
+      //                         await markReceiptPaid(receipt.id, friend.id);
+      //                         setTotalOwed(Math.random() * 1);
+      //                         fetchNewdata();
+      //                       }}
+      //                       size='small'
+      //                       name={'mark-as-unpaid'}
+      //                     >
+      //                       Mark as Paid
+      //                     </Button>
+      //                   )}
+      //                 </Typography>
+      //               </AccordionSummary>
+      //               <AccordionDetails>
+      //                 {friend.items.map((item) => (
+      //                   <span
+      //                     key={item.id}
+      //                     className={`indented listed-item ${
+      //                       item.debts[0].paid ? 'paid' : ''
+      //                     }`}
+      //                   >
+      //                     {item.description} - $
+      //                     {(
+      //                       (item.debts[0].balance +
+      //                         item.debts[0].proratedTip +
+      //                         item.debts[0].proratedTax) /
+      //                       100
+      //                     ).toFixed(2)}
+      //                   </span>
+      //                 ))}
+      //               </AccordionDetails>
+      //             </Accordion>
+      //           ))}
+      //         </AccordionDetails>
+      //       </Accordion>
+      //     );
+      //   })
+      'Loading...';
 };
 
 export default ReceiptView;
