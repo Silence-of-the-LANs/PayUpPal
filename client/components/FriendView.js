@@ -87,19 +87,17 @@ const FriendView = (props) => {
     }
   };
 
-  const updateADebt = async (paidStatus, receiptId, friendId) => {
+  const updateADebtByFriend = async (paidStatus, receiptId, friendId) => {
     try {
       // if we are changing a debt to paid, then this route will mark the debt as paid and return the updated data
       if (paidStatus) {
-        const { data } = await axios.put(
-          `api/debts/markReceiptPaid/${receiptId}/${friendId}`
-        );
+        await axios.put(`api/debts/markReceiptPaid/${receiptId}/${friendId}`);
+        const { data } = await axios.get('api/debts/displayDebts/friend');
         setFriendDebts(data);
       } else {
         // if we are changing a debt to unpaid, then this route will mark the debt as unpaid and return the updated data
-        const { data } = await axios.put(
-          `api/debts/markReceiptUnpaid/${receiptId}/${friendId}`
-        );
+        await axios.put(`api/debts/markReceiptUnpaid/${receiptId}/${friendId}`);
+        const { data } = await axios.get('api/debts/displayDebts/friend');
         setFriendDebts(data);
       }
     } catch (err) {
@@ -185,7 +183,7 @@ const FriendView = (props) => {
                             variant='contained'
                             color='primary'
                             onClick={() => {
-                              updateADebt(
+                              updateADebtByFriend(
                                 false,
                                 receipt.id,
                                 receipt.debts[0].friendId
@@ -202,7 +200,7 @@ const FriendView = (props) => {
                             variant='contained'
                             color='primary'
                             onClick={() => {
-                              updateADebt(
+                              updateADebtByFriend(
                                 true,
                                 receipt.id,
                                 receipt.debts[0].friendId

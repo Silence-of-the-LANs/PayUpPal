@@ -5,11 +5,6 @@ import FriendView from './FriendView';
 import ReceiptView from './ReceiptView';
 import { Button } from '@material-ui/core';
 
-const markPaid = async (debtId) => {
-  const { data } = await axios.put(`api/debts/markPaid/${debtId}`);
-  return data;
-};
-
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: '5vw',
@@ -24,20 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const calcTotalOwed = (balances) => {
-  return balances.reduce((total, balance) => {
-    if (!balance.paid) {
-      total =
-        total + balance.balance + balance.proratedTax + balance.proratedTip;
-      return total;
-    } else {
-      return total;
-    }
-  }, 0);
-};
-
 const ManageDebts = () => {
-  const [view, setView] = useState('friend');
+  const [view, setView] = useState('receipt');
   const [totalOwed, setTotalOwed] = useState(0);
 
   const classes = useStyles();
@@ -52,13 +35,8 @@ const ManageDebts = () => {
     fetchDebts();
   }, [view, totalOwed]);
 
-  // get a unique list of borrowers
-  // let listOfGroups = debts;
-
   const changeView = async (viewSetting) => {
-    //   const { data } = await axios.get(`api/debts/displayDebts/${viewSetting}`);
     setView(viewSetting);
-    //   setDebts(data);
   };
 
   return (
@@ -92,20 +70,7 @@ const ManageDebts = () => {
               View by Receipt
             </Button>
           </div>
-          {view === 'receipt' ? (
-            <ReceiptView
-            // calcTotalOwed={calcTotalOwed}
-            // setTotalOwed={setTotalOwed}
-            // markPaid={markPaid}
-            // markReceiptPaid={markReceiptPaid}
-            // markReceiptUnpaid={markReceiptUnpaid}
-            // total={totalOwed}
-            // listOfGroups={listOfGroups}
-            // setDebts={setDebts}
-            />
-          ) : (
-            <FriendView />
-          )}
+          {view === 'receipt' ? <ReceiptView /> : <FriendView />}
         </div>
       </div>
     </div>
