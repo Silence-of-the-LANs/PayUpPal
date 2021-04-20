@@ -140,7 +140,11 @@ const ReceiptView = (props) => {
                       id={id}
                     >
                       <Typography className={classes.heading}>
-                        <span className='inner-labels'>
+                        <span
+                          className={`inner-labels ${
+                            friendUnpaidTotal === 0 ? 'paid-up' : ''
+                          }`}
+                        >
                           {name}
                           {<br />}
                         </span>

@@ -120,7 +120,7 @@ const FriendView = (props) => {
                 <span className='event-labels'>{friend.name}</span>
               </Typography>
               <Typography>
-                <span className='total-labels'> Total Owed:</span>{' '}
+                <span className='total-labels'> Total Owed: </span>{' '}
                 <span className='dollar-labels'>
                   {formatTwoDecimals(friend.total)}
                 </span>
@@ -144,9 +144,7 @@ const FriendView = (props) => {
                     >
                       <Typography className={classes.heading}>
                         <span
-                          className={`inner-labels ${
-                            allPaid ? 'event-paid-up' : ''
-                          }`}
+                          className={`inner-labels ${allPaid ? 'paid-up' : ''}`}
                         >
                           {receipt.eventName}
                         </span>
