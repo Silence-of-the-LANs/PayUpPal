@@ -26,6 +26,7 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
           <th>Front End</th>
           <th>Back End</th>
           <th>APIs</th>
+          <th>Libraries</th>
         </tr>
       </thead>
       <tbody>
