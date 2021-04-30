@@ -34,13 +34,13 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
               <td>React</td>
               <td>Node.js</td>
               <td>Google Vision</td>
-              <td>Material-UI</td>    
+              <td>Nodemailer</td>    
             </tr>
             <tr>
               <td>Material-UI</td>
               <td>Express</td>
               <td>Amazon S3</td>
-              <td>Nodemailer</td>
+              <td></td>
             </tr>
             <tr>
               <td>HTML & CSS</td>
