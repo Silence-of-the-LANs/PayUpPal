@@ -49,7 +49,7 @@ The front-end is built using React, Material-UI, JavaScript, HTML and CSS. The b
               <td></td>                  
             </tr>
             <tr>
-              <td>/td>
+              <td></td>
               <td>Sequelize</td>
               <td></td>
               <td></td>                  
